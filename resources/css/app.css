@@ -1,0 +1,391 @@
+@import './fonts.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    scrollbar-gutter: stable;
+}
+
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* ==========================
+   NAVBAR – SHADCN STYLE
+   ========================== */
+
+/* ---------- DESKTOP NAV LINK ---------- */
+.nav-link {
+    @apply relative inline-flex items-center
+           px-2 py-2
+           rounded-md
+           text-sm font-medium
+           text-zinc-700
+           hover:bg-zinc-100
+           transition
+           focus-visible:outline-none
+           focus-visible:ring-2
+           focus-visible:ring-zinc-300;
+}
+
+/* animated underline */
+.nav-link::after {
+    content: '';
+    @apply absolute left-2 right-2 bottom-1
+           h-px bg-zinc-900
+           scale-x-0 origin-left
+           transition-transform duration-200;
+}
+
+.nav-link:hover::after {
+    @apply scale-x-100;
+}
+
+/* ACTIVE DESKTOP */
+.nav-link-active {
+    @apply bg-zinc-100
+           text-zinc-900
+           ring-1 ring-zinc-200;
+}
+
+.nav-link-active::after {
+    @apply scale-x-100;
+}
+
+/* ---------- DROPDOWN ---------- */
+.dropdown-link {
+    @apply flex items-center justify-between
+           rounded-lg px-3 py-2 text-sm
+           text-zinc-700
+           hover:bg-zinc-100
+           transition
+           focus-visible:outline-none
+           focus-visible:ring-2
+           focus-visible:ring-zinc-300;
+}
+
+.dropdown-link.active {
+    @apply bg-zinc-100
+           text-zinc-900
+           ring-1 ring-zinc-200;
+}
+
+/* ---------- MOBILE MENU ---------- */
+.mobile-card-link {
+    @apply flex items-center justify-between
+           px-4 py-3 text-sm font-medium
+           text-zinc-700
+           hover:bg-zinc-100
+           transition
+           focus-visible:outline-none
+           focus-visible:ring-2
+           focus-visible:ring-zinc-300;
+}
+
+.mobile-card-link.active {
+    @apply bg-zinc-100
+           text-zinc-900;
+}
+
+/* ---------- LEGACY SUPPORT (AMAN DIHAPUS JIKA MAU) ---------- */
+.mobile-link {
+    @apply block px-3 py-2 rounded-md text-sm
+           hover:bg-zinc-100;
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .nav-link::after {
+        transition: none;
+    }
+}
+
+
+/* ❌ JANGAN pakai transform di navbar */
+
+/* Toast */
+@keyframes slide-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-out {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(20px); }
+}
+.animate-slide-in { animation: slide-in 0.3s ease-out; }
+.animate-slide-out { animation: slide-out 0.3s ease-in; }
+
+/* Toast scale */
+@keyframes toast-enter {
+    from { opacity: 0; transform: translateY(20px) scale(.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes toast-exit {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(20px) scale(.95); }
+}
+
+.toast-enter {
+    animation: toast-enter 0.35s cubic-bezier(.21, .9, .32, 1.2);
+}
+
+.toast-exit {
+    animation: toast-exit 0.35s cubic-bezier(.21, .9, .32, 1.2);
+}
+
+/* =========================
+   HERO ANIMATION
+   ========================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out forwards;
+}
+
+
+/* =========================
+   HERO ANIMATION
+   ========================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out forwards;
+}
+
+/* =========================
+   SWIPER HERO CUSTOM STYLE
+   ========================= */
+
+/* Sembunyikan arrow default dari Swiper */
+.heroSwiper .swiper-button-next,
+.heroSwiper .swiper-button-prev {
+    display: none !important;
+}
+
+/* Custom pagination bullets */
+.heroSwiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: #d4d4d8; /* zinc-300 */
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.heroSwiper .swiper-pagination-bullet-active {
+    background: #18181b; /* zinc-900 */
+    opacity: 1;
+    transform: scale(1.25);
+}
+
+/* Dark mode pagination */
+/* Removed - dark mode disabled */
+
+/* =========================
+   POINTER EVENTS FIX (YANG BENAR & TANPA KONFLIK)
+   ========================= */
+
+/* Matikan pointer events untuk semua konten di dalam slide agar klik "tembus" ke navigation */
+.heroSwiper .swiper-slide,
+.heroSwiper .swiper-slide * {
+    pointer-events: none;
+}
+
+/* Aktifkan kembali hanya pada elemen yang HARUS bisa diklik */
+.heroSwiper .swiper-slide a,                    /* CTA button (<a>) */
+.heroSwiper .hero-prev,                        /* Custom prev button */
+.heroSwiper .hero-next,                        /* Custom next button */
+.heroSwiper .swiper-pagination,                /* Container pagination */
+.heroSwiper .swiper-pagination * {             /* Semua bullet/dot */
+    pointer-events: auto;
+}
+
+/* Pastikan navigation buttons dan pagination berada di lapisan atas */
+.heroSwiper .hero-prev,
+.heroSwiper .hero-next,
+.heroSwiper .swiper-pagination {
+    z-index: 50;
+}
+
+/*WhatsApp Floating Button*/
+/* ======================
+   WHATSAPP FLOAT (IMG)
+   ====================== */
+.wa-float-img {
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    object-fit: contain;
+
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.25));
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+@media (min-width: 768px) {
+    .wa-float-img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.wa-float-img:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.35));
+}
+
+
+@keyframes wa-float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+.wa-float-close {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 9999px;
+    background: white;
+    border: 1px solid #e5e7eb;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wa-float-close:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+
+/* emd */
+
+
+/* our partner*/
+@keyframes partner-marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-partner-marquee {
+    animation: partner-marquee 30s linear infinite;
+}
+
+.animate-partner-marquee:hover {
+    animation-play-state: paused;
+}
+
+/* Shadcn glow effect */
+.partner-card {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.partner-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    background: radial-gradient(
+        120px circle at var(--x, var(--y)),
+        rgba(238, 183, 87, 0.15),
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.partner-card:hover::before {
+    opacity: 1;
+}
+
+/* ==========================
+   PROSE LEGAL - DOCUMENT STYLES
+   ========================== */
+.prose-legal {
+    @apply text-zinc-600 leading-relaxed break-words;
+}
+
+.prose-legal h1 {
+    @apply text-2xl font-bold text-zinc-900 mb-6 mt-2;
+}
+
+.prose-legal h2 {
+    @apply text-xl font-semibold text-zinc-900 mb-4 mt-8 pt-4 border-t border-zinc-100;
+}
+
+.prose-legal h3 {
+    @apply text-lg font-semibold text-zinc-900 mb-3 mt-6;
+}
+
+.prose-legal p {
+    @apply mb-5;
+}
+
+.prose-legal ul {
+    @apply list-disc list-outside mb-6 space-y-2 ml-6;
+}
+
+.prose-legal ol {
+    @apply list-decimal list-outside mb-6 space-y-2 ml-6;
+}
+
+.prose-legal li {
+    @apply pl-1;
+}
+
+.prose-legal strong {
+    @apply font-bold text-zinc-900;
+}
+
+.prose-legal a {
+    @apply text-zinc-900 font-medium underline underline-offset-4 hover:opacity-80 transition-opacity;
+}
+
+.prose-legal blockquote {
+    @apply border-l-4 border-zinc-200 pl-4 py-1 italic text-zinc-500 mb-6;
+}
+
+.prose-legal hr {
+    @apply my-10 border-zinc-200;
+}
+

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: her_web_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+      - ./storage:/var/www/html/storage
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=her_db
+      - DB_USERNAME=her_user
+      - DB_PASSWORD=her_password
+    depends_on:
+      - mysql
+    networks:
+      - her_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: her_web_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: her_db
+      MYSQL_USER: her_user
+      MYSQL_PASSWORD: her_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - her_network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: her_web_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root_password
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - her_network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  her_network:
+    driver: bridge
