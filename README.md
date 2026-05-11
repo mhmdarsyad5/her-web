@@ -128,47 +128,6 @@ Visit: `http://localhost:8000`
 
 ---
 
-## Docker Setup
-
-### Prerequisites
-- Docker Desktop installed
-- Docker Compose installed
-
-### Quick Start with Docker
-
-```bash
-# Build and start containers
-docker-compose up -d
-
-# Run migrations
-docker-compose exec app php artisan migrate
-
-# Create storage link
-docker-compose exec app php artisan storage:link
-```
-
-**Access:**
-- Web: `http://localhost:8000`
-- Admin: `http://localhost:8000/admin`
-- MySQL: `localhost:3306`
-
-### Docker Commands
-
-```bash
-# Stop containers
-docker-compose down
-
-# View logs
-docker-compose logs -f
-
-# Rebuild containers
-docker-compose up -d --build
-
-# Access container shell
-docker-compose exec app bash
-```
-
----
 
 ## Project Structure
 her_web/
@@ -199,8 +158,6 @@ her_web/
 │   └── build/                 # Compiled assets
 ├── storage/
 │   └── app/public/            # User uploads
-├── docker-compose.yml         # Docker configuration
-├── Dockerfile                 # Docker image definition
 └── .env.example               # Environment template
 ```
 
