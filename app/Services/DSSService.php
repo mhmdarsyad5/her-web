@@ -122,9 +122,9 @@ class DSSService
             'image' => $product ? asset('storage/' . $product->thumbnail) : null,
             'type' => $rule->model ?? ($rule->category_name ?? 'Equipment'),
             'category' => $rule->category_name,
-            'capacity' => $displaySpecs['capacity'] ?? '0kg',
-            'mast_height' => $displaySpecs['mast_height'] ?? '-',
-            'battery' => $displaySpecs['battery'] ?? ($displaySpecs['engine'] ?? '-'),
+            'capacity' => $product && $product->load_capacity ? $product->load_capacity : ($displaySpecs['capacity'] ?? '0kg'),
+            'mast_height' => $product && $product->lift_height ? $product->lift_height : ($displaySpecs['mast_height'] ?? '-'),
+            'battery' => $product && $product->energy_type ? $product->energy_type : ($displaySpecs['battery'] ?? ($displaySpecs['engine'] ?? '-')),
             'energy' => $conditions['energy'] ?? 'electric',
             'match_score' => $rule->getMatchScore($this->userInput),
         ];
