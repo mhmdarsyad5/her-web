@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // =====================================================
     // GLOBAL AJAX SEARCH (PAGES + PRODUCTS)
     // =====================================================
     const searchInput = document.getElementById('searchInput');
@@ -62,6 +61,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeCategorySlug = this.getAttribute('data-slug');
                 
                 // Trigger search manually
+                clearTimeout(timer);
+                triggerAjaxSearch();
+            });
+        });
+    }
+
+    // Product Segment buttons logic
+    const segmentBtns = document.querySelectorAll('.segment-btn');
+    let activeSegment = 'all';
+
+    const activeClasses = ['text-white', 'font-bold', 'bg-gradient-to-r', 'from-zinc-950', 'via-primary-900', 'to-zinc-900', 'shadow-md', 'shadow-primary-900/10', 'scale-105', 'border-transparent'];
+    const inactiveClasses = ['border-zinc-200', 'text-zinc-700', 'bg-white', 'hover:border-zinc-300', 'hover:text-zinc-900'];
+
+    function updateSegmentButtonClasses() {
+        if (segmentBtns.length === 0) return;
+        segmentBtns.forEach(btn => {
+            const isActive = btn.classList.contains('active');
+            if (isActive) {
+                activeClasses.forEach(c => btn.classList.add(c));
+                inactiveClasses.forEach(c => btn.classList.remove(c));
+            } else {
+                inactiveClasses.forEach(c => btn.classList.add(c));
+                activeClasses.forEach(c => btn.classList.remove(c));
+            }
+        });
+    }
+
+    // Run once on load to style the default active button
+    updateSegmentButtonClasses();
+
+    if (segmentBtns.length > 0) {
+        segmentBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                segmentBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeSegment = this.getAttribute('data-segment');
+                updateSegmentButtonClasses();
+
+                // Trigger search
                 clearTimeout(timer);
                 triggerAjaxSearch();
             });
@@ -123,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (paginationWrapper) paginationWrapper.innerHTML = '';
                 });
 
-            fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}`)
+            fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}&segment=${encodeURIComponent(activeSegment)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.html?.trim()) {
