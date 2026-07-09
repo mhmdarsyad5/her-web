@@ -43,7 +43,7 @@
         </a>
 
         <p class="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-500 line-clamp-3 mb-3">
-            {{ $page->excerpt ? Str::limit($page->excerpt, 100) : Str::limit(strip_tags($page->content), 100) }}
+            {{ $page->excerpt ? $page->excerpt : Str::limit(strip_tags($page->content), 120) }}
         </p>
         
         <div class="mt-auto pt-3 border-t border-zinc-100 flex flex-col gap-3">
