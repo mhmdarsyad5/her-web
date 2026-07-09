@@ -7,6 +7,17 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 
 @section('content')
 
+<style>
+    .segment-btn.active {
+        background-color: var(--primary-color, #F5A21C) !important;
+        color: #ffffff !important;
+        border-color: var(--primary-color, #F5A21C) !important;
+        box-shadow: 0 4px 14px 0 rgba(245, 162, 28, 0.3) !important;
+        transform: scale(1.05);
+        font-weight: 700;
+    }
+</style>
+
 @include('frontend.components.breadcrumb')
 
 <section class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
