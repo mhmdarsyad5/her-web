@@ -94,6 +94,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const skeletonHtml = Array.from({ length: 6 }, () => `
+        <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-white animate-pulse">
+            <div class="h-52 bg-zinc-200"></div>
+            <div class="p-5 sm:p-6 space-y-3">
+                <div class="h-4 w-3/4 rounded bg-zinc-200"></div>
+                <div class="h-3 w-full rounded bg-zinc-200"></div>
+                <div class="h-3 w-5/6 rounded bg-zinc-200"></div>
+            </div>
+        </div>
+    `).join('');
+
     function triggerAjaxSearch() {
         const keyword = searchInput ? searchInput.value.trim() : '';
 
@@ -103,12 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
          * ==========================
          */
         if (pagesGrid) {
-            fetch('/cari/artikel/skeleton')
-                .then(res => res.text())
-                .then(html => {
-                    pagesGrid.innerHTML = html;
-                    if (paginationWrapper) paginationWrapper.innerHTML = '';
-                });
+            pagesGrid.innerHTML = skeletonHtml;
+            if (paginationWrapper) paginationWrapper.innerHTML = '';
 
             fetch(`/cari/artikel?keyword=${encodeURIComponent(keyword)}&category=${encodeURIComponent(activeCategorySlug)}`)
                 .then(res => res.json())
@@ -132,13 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
          * ==========================
          */
         if (productGrid) {
-
-            fetch('/cari/produk/skeleton')
-                .then(res => res.text())
-                .then(html => {
-                    productGrid.innerHTML = html;
-                    if (paginationWrapper) paginationWrapper.innerHTML = '';
-                });
+            productGrid.innerHTML = skeletonHtml;
+            if (paginationWrapper) paginationWrapper.innerHTML = '';
 
             fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}&segment=${encodeURIComponent(activeSegment)}`)
                 .then(res => res.json())
