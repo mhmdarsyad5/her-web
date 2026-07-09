@@ -7,7 +7,7 @@
     <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20 relative z-10">
 
         {{-- ================= HEADER ================= --}}
-        <div class="mb-12 lg:mb-16">
+        <div class="mb-6 sm:mb-12 lg:mb-16">
 
             {{-- BADGE --}}
             @if(setting('product_badge'))
