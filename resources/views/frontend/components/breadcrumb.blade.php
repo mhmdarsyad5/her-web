@@ -61,7 +61,7 @@ $breadcrumbs[] = [
             </span>
             @else
             <a href="{{ $crumb['url'] }}"
-                class="hover:text-neutral-900 transition">
+                class="font-medium hover:text-neutral-900 transition">
                 {{ $crumb['label'] }}
             </a>
             @endif

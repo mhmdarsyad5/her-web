@@ -4,170 +4,216 @@
 
 @section('content')
 
-{{-- Breadcrumb --}}
-@include('frontend.components.breadcrumb')
+    {{-- Breadcrumb --}}
+    @include('frontend.components.breadcrumb')
 
-{{-- ================= ABOUT HERO ================= --}}
-<div class="bg-gradient-to-br from-zinc-50 to-zinc-100 border-b border-zinc-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    {{-- ================= SECTION 1: INTRODUCTION & VISION MISSION ================= --}}
+    <section class="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-slide opacity-0 translate-y-4">
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-955">INTRODUCTION</h2>
+            <p class="text-xs sm:text-sm font-bold tracking-wider text-primary-900 uppercase mt-1">Tentang Kami</p>
 
-        {{-- Logo --}}
-        <div class="fade-slide opacity-0 translate-y-4 flex justify-center mb-6">
-            <img
-                src="{{ setting_url('logo_light') }}"
-                alt="{{ strip_tags($siteName ?? 'Website') }} Logo"
-                class="h-12 sm:h-16 lg:h-20 w-auto"
-                fetchpriority="high">
+            <div class="mt-8 space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed">
+                <p>
+                    PT Herro Equipment Rentals adalah penyedia layanan material handling yang berfokus secara eksklusif pada
+                    solusi sewa forklift tahunan untuk kebutuhan skala industri dan pergudangan di Indonesia. Kami
+                    mendedikasikan diri untuk mendukung kelancaran mobilitas logistik perusahaan Anda melalui penyediaan
+                    armada berkualitas tinggi dari merek global HANGCHA, yang telah teruji ketangguhan serta efisiensi
+                    teknologinya di lapangan.
+                </p>
+                <p>
+                    Melalui skema penyewaan jangka panjang, kami hadir untuk membantu Anda mengoptimalkan efisiensi biaya
+                    operasional tanpa harus membebani pengeluaran aset modal perusahaan. Layanan sewa tahunan kami dirancang
+                    secara komprehensif, tidak hanya menyediakan unit dalam kondisi prima, tetapi juga mencakup jadwal
+                    perawatan rutin, ketersediaan suku cadang, dan dukungan penanganan teknis untuk memastikan seluruh
+                    kegiatan operasional berjalan aman tanpa hambatan.
+                </p>
+            </div>
         </div>
 
-        {{-- Badge --}}
-        <div class="fade-slide opacity-0 translate-y-4 flex justify-center mb-3">
-            <span class="inline-flex items-center rounded-full
-                           bg-primary-900/10
-                           px-4 py-1
-                           text-xs font-semibold tracking-widest uppercase
-                           text-primary-900">
-                {{ strip_tags(setting('about_badge', 'Tentang Kami')) }}
-            </span>
-        </div>
-
-        {{-- Title --}}
-        <div class="fade-slide opacity-0 translate-y-4 text-center mb-5">
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl
-                       font-bold tracking-tight
-                       text-zinc-900">
-                {{ $siteName }}
-            </h1>
-            <div class="mt-2.5 mx-auto w-14 h-0.5 bg-primary-900 rounded-full"></div>
-        </div>
-
-        {{-- About Text --}}
-        <div class="fade-slide opacity-0 translate-y-4 max-w-2xl mx-auto text-center">
-            <p class="text-sm sm:text-base leading-relaxed text-zinc-600">
-                {{ $aboutText }}
-            </p>
-        </div>
-    </div>
-</div>
-
-{{-- ================= HISTORY ================= --}}
-<div class="bg-white py-12 lg:py-14">
-    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="fade-slide opacity-0 translate-y-4
-                    text-sm sm:text-base
-                    text-zinc-600
-                    leading-relaxed
-                    [&_p]:mb-4
-                    [&_strong]:text-zinc-800 [&_strong]:font-semibold
-                    [&_ul]:mb-4 [&_ul]:pl-5 [&_ul]:list-disc
-                    [&_ol]:mb-4 [&_ol]:pl-5 [&_ol]:list-decimal">
-            {!! $historyText !!}
-        </div>
-    </div>
-</div>
-
-{{-- ================= VISION & MISSION ================= --}}
-<div class="bg-zinc-50 py-12 lg:py-14 border-t border-zinc-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        {{-- Section Header --}}
-        <div class="fade-slide opacity-0 translate-y-4 text-center mb-8">
-            <h2 class="text-xl sm:text-2xl font-bold text-zinc-900">Tujuan Kami</h2>
-            <p class="mt-1.5 text-sm text-zinc-400">Visi & Misi Perusahaan</p>
-        </div>
-
-        {{-- Cards Grid --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-
-            {{-- VISION --}}
-            <div class="fade-slide opacity-0 translate-y-4
-                       rounded-2xl border border-zinc-200
-                       bg-white p-6 lg:p-7
-                       shadow-sm">
-
-                {{-- Header --}}
-                <div class="flex items-center gap-2.5 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-primary-900/10 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-3.5 h-3.5 text-primary-900" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-sm font-bold text-zinc-900">Visi</h3>
-                        <p class="text-xs text-zinc-400">Pandangan jangka panjang</p>
-                    </div>
+        {{-- Vision & Mission (Premium Dark Zinc Card) --}}
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div
+                class="relative overflow-hidden rounded-[2rem] bg-zinc-900 text-white p-8 sm:p-12 shadow-2xl border border-zinc-800/80 fade-slide opacity-0 translate-y-4">
+                {{-- Skewed Orange Gradient Overlay --}}
+                <div
+                    class="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-br from-primary-900/10 via-primary-500/10 to-transparent pointer-events-none transform -skew-x-12 translate-x-12 hidden lg:block">
                 </div>
 
-                <div class="h-px bg-zinc-100 mb-4"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10">
+                    <div class="lg:col-span-8 space-y-10">
+                        {{-- VISI --}}
+                        <div class="space-y-3">
+                            <h3 class="text-lg sm:text-xl font-bold tracking-wider text-primary-500 uppercase">VISI</h3>
+                            <div class="space-y-2">
+                                <p class="text-sm sm:text-base leading-relaxed text-zinc-100 font-medium">
+                                    Menjadi penyedia sewa forklift HANGCHA resmi terunggul dan terpercaya se-Indonesia,
+                                    mendukung pertumbuhan industri logistik nasional Indonesia.
+                                </p>
+                                <p
+                                    class="text-xs sm:text-sm text-zinc-400/90 italic font-light tracking-wide leading-relaxed font-sans">
+                                    印尼语愿景成为全印尼顶尖且值得信赖的官方杭州叉车租赁服务商，助力印尼本土物流工业稳步发展。
+                                </p>
+                            </div>
+                        </div>
 
-                <div class="text-xs sm:text-sm text-zinc-600 leading-relaxed
-                            [&_p]:mb-3 [&_p:last-child]:mb-0
-                            [&_strong]:text-zinc-800 [&_strong]:font-semibold">
-                    {!! $visionText !!}
+                        <div class="h-px bg-zinc-800/80"></div>
+
+                        {{-- MISI --}}
+                        <div class="space-y-3">
+                            <h3 class="text-lg sm:text-xl font-bold tracking-wider text-primary-500 uppercase">MISI</h3>
+                            <div class="space-y-2">
+                                <p class="text-sm sm:text-base leading-relaxed text-zinc-100 font-medium">
+                                    Berfokus penuh layanan sewa forklift merek HANGCHA asli, menawarkan solusi sewa
+                                    fleksibel, perawatan cepat dan layanan purna pakai profesional, membantu pelaku usaha
+                                    lokal menghemat biaya operasional serta meningkatkan efisiensi kerja lapangan.
+                                </p>
+                                <p
+                                    class="text-xs sm:text-sm text-zinc-400/90 italic font-light tracking-wide leading-relaxed font-sans">
+                                    印尼语使命专注正品杭州叉车租赁服务，提供灵活租赁方案、极速维保与专业售后，助力本土企业节省运营开支、提升现场作业效率。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            {{-- MISSION --}}
-            <div class="fade-slide opacity-0 translate-y-4
-                       rounded-2xl border border-zinc-200
-                       bg-white p-6 lg:p-7
-                       shadow-sm">
+    {{-- ================= SECTION 2: WHY US ================= --}}
+    <section class="py-16 sm:py-20 bg-zinc-50 border-t border-zinc-200/80">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                {{-- Header --}}
-                <div class="flex items-center gap-2.5 mb-4">
-                    <div class="w-8 h-8 rounded-full bg-primary-900/10 flex items-center justify-center flex-shrink-0">
-                        <svg class="w-3.5 h-3.5 text-primary-900" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" />
-                        </svg>
+            {{-- Title --}}
+            <div class="mb-10 fade-slide opacity-0 translate-y-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-955">WHY US?</h2>
+            </div>
+
+            {{-- Image Banner with Skewed Geometric Corners --}}
+            <div
+                class="relative overflow-hidden rounded-[2rem] border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-xl fade-slide opacity-0 translate-y-4 mb-10">
+                {{-- Top Left Orange/Grey Triangle Shapes --}}
+                <div
+                    class="absolute left-0 top-0 w-36 h-28 bg-gradient-to-br from-primary-600 via-primary-500 to-transparent pointer-events-none transform -skew-y-12 -translate-y-8 -translate-x-4 z-10">
+                </div>
+                <div
+                    class="absolute left-0 top-0 w-36 h-28 bg-zinc-800 pointer-events-none transform -skew-y-12 -translate-y-12 -translate-x-12 z-0">
+                </div>
+
+                {{-- Right Diagonal Orange Shape --}}
+                <div
+                    class="absolute right-0 bottom-0 w-44 h-44 bg-gradient-to-tr from-primary-500 to-primary-600 pointer-events-none transform skew-x-12 translate-x-12 translate-y-12 z-10">
+                </div>
+
+                <img src="{{ asset('assets-default/pages/pabrik_hangcha.png') }}" alt="Hangcha Factory"
+                    class="w-full h-56 sm:h-80 lg:h-96 object-cover rounded-2xl relative z-0">
+            </div>
+
+            {{-- Text Columns --}}
+            <div class="space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed fade-slide opacity-0 translate-y-4">
+                <p>
+                    Memilih PT Herro Equipment Rental (PT HER) sebagai mitra berarti Anda mengamankan efisiensi operasional
+                    jangka panjang tanpa terbebani pengeluaran modal besar untuk pembelian dan penyusutan aset. Kami secara
+                    khusus menghadirkan armada HANGCHA yang telah terbukti ketangguhannya, dipadukan dengan layanan
+                    konsultasi awal untuk memastikan setiap unit yang disewa benar-benar sesuai dengan kondisi medan kerja
+                    dan kebutuhan logistik di fasilitas Anda.
+                </p>
+                <p>
+                    Layanan sewa tahunan kami juga dirancang agar Anda terbebas dari segala kerepotan manajemen perawatan
+                    armada. Seluruh jadwal pemeliharaan rutin, perbaikan teknis, hingga jaminan ketersediaan suku cadang
+                    sepenuhnya menjadi tanggung jawab kami. Ditambah dengan dukungan tim mekanik yang responsif dan siap
+                    memberikan penanganan cepat di lokasi kerja, PT HER menjamin setiap kendala dapat segera teratasi
+                    sehingga operasional bisnis utama Anda tetap berjalan lancar dan optimal.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    {{-- ================= SECTION 3: WHO WE ARE ================= --}}
+    <section class="py-16 sm:py-20 bg-white border-t border-zinc-200/80">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            {{-- Header --}}
+            <div class="mb-8 fade-slide opacity-0 translate-y-4">
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-955">WHO WE ARE</h2>
+                <p class="text-sm sm:text-base font-bold text-zinc-800 mt-2">Spesialisasi Unit HANGCHA</p>
+                <p class="mt-4 max-w-3xl text-sm sm:text-base leading-relaxed text-zinc-600">
+                    Kami fokus pada penyediaan armada HANGCHA yang telah terbukti tangguh, andal, dan memiliki efisiensi
+                    tinggi untuk mendukung berbagai skala operasional industri dan pergudangan.
+                </p>
+            </div>
+
+            {{-- Indonesia Grid Map Container --}}
+            <div
+                class="relative overflow-hidden rounded-[2rem] border border-zinc-200/80 bg-amber-500 shadow-xl fade-slide opacity-0 translate-y-4 mb-12 aspect-[2.1/1] sm:aspect-[2.3/1]">
+                <img src="{{ asset('assets-default/pages/peta_indonesia_grid.png') }}"
+                    alt="Peta Jangkauan HANGCHA Indonesia" class="w-full h-full object-cover select-none">
+            </div>
+
+            {{-- List Features --}}
+            <div class="space-y-6 fade-slide opacity-0 translate-y-4">
+
+                {{-- Item 1 --}}
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-900">
+                        <span class="h-2 w-2 rounded-full bg-white"></span>
                     </div>
                     <div>
-                        <h3 class="text-sm font-bold text-zinc-900">Misi</h3>
-                        <p class="text-xs text-zinc-400">Langkah nyata kami</p>
+                        <h4 class="text-base sm:text-lg font-bold text-zinc-955">Sewa Forklift Tahunan</h4>
+                        <p class="mt-1 text-sm text-zinc-600 leading-relaxed">
+                            Kami menyediakan kontrak penyewaan forklift HANGCHA jangka panjang untuk memastikan stabilitas
+                            dan efisiensi biaya operasional perusahaan Anda.
+                        </p>
                     </div>
                 </div>
 
-                <div class="h-px bg-zinc-100 mb-4"></div>
+                {{-- Item 2 --}}
+                <div class="flex gap-4 border-t border-zinc-100 pt-6">
+                    <div class="flex-shrink-0 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-900">
+                        <span class="h-2 w-2 rounded-full bg-white"></span>
+                    </div>
+                    <div>
+                        <h4 class="text-base sm:text-lg font-bold text-zinc-955">Penyediaan Unit Terkini</h4>
+                        <p class="mt-1 text-sm text-zinc-600 leading-relaxed">
+                            Kami menghadirkan unit forklift HANGCHA dalam kondisi prima yang dilengkapi teknologi terbaru
+                            untuk mendukung produktivitas material handling.
+                        </p>
+                    </div>
+                </div>
 
-                <style>
-                    .mission-list ol { counter-reset: mission-item; list-style: none; padding: 0; margin: 0; }
-                    .mission-list ol > li { counter-increment: mission-item; display: flex; align-items: flex-start; gap: 0.625rem; margin-bottom: 0.5rem; }
-                    .mission-list ol > li::before {
-                        content: counter(mission-item);
-                        display: inline-flex;
-                        align-items: center; justify-content: center;
-                        min-width: 1.375rem; height: 1.375rem;
-                        border-radius: 9999px;
-                        border: 1.5px solid #d4d4d8;
-                        color: #52525b;
-                        font-size: 0.625rem; font-weight: 700;
-                        flex-shrink: 0; margin-top: 0.0625rem;
+                {{-- Item 3 --}}
+                <div class="flex gap-4 border-t border-zinc-100 pt-6">
+                    <div class="flex-shrink-0 mt-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary-900">
+                        <span class="h-2 w-2 rounded-full bg-white"></span>
+                    </div>
+                    <div>
+                        <h4 class="text-base sm:text-lg font-bold text-zinc-955">Pemeliharaan dan Servis Rutin</h4>
+                        <p class="mt-1 text-sm text-zinc-600 leading-relaxed">
+                            Seluruh biaya dan jadwal perawatan berkala sudah termasuk dalam paket sewa, memastikan unit
+                            selalu beroperasi pada performa maksimal.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- ================= ANIMATION ================= --}}
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const elements = document.querySelectorAll(".fade-slide");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.remove("opacity-0", "translate-y-4");
+                        entry.target.classList.add("opacity-100", "translate-y-0");
+                        entry.target.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
                     }
-                    .mission-list ol > li:last-child { margin-bottom: 0; }
-                </style>
-                <div class="mission-list text-xs sm:text-sm text-zinc-600 leading-relaxed">
-                    {!! $missionText !!}
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-{{-- ================= ANIMATION ================= --}}
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const elements = document.querySelectorAll(".fade-slide");
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.remove("opacity-0", "translate-y-4");
-                    entry.target.classList.add("opacity-100", "translate-y-0");
-                    entry.target.style.transition = "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)";
-                }
-            });
-        }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
-        elements.forEach(el => observer.observe(el));
-    });
-</script>
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+            elements.forEach(el => observer.observe(el));
+        });
+    </script>
 
 @endsection

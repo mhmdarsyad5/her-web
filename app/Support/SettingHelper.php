@@ -62,11 +62,11 @@ if (! function_exists('setting')) {
         if (is_string($value)) {
             $decoded = json_decode($value, true);
 
-            if (
-                json_last_error() === JSON_ERROR_NONE
-                && is_array($decoded)
-            ) {
-                return resolveSettingArray($decoded, $default);
+            if (json_last_error() === JSON_ERROR_NONE) {
+                if (is_array($decoded)) {
+                    return resolveSettingArray($decoded, $default);
+                }
+                return $decoded;
             }
 
             // Plain string
@@ -88,11 +88,38 @@ if (! function_exists('resolveSettingArray')) {
     {
         /*
          * =========================
+         * ACTIVE TOGGLE CHECK
+         * =========================
+         */
+        if (array_key_exists('is_active', $value) && ! $value['is_active']) {
+            return null;
+        }
+
+        /*
+         * =========================
+         * BOOLEAN / TOGGLE VALUE
+         * =========================
+         */
+        if (array_key_exists('boolean_value', $value)) {
+            return (bool) $value['boolean_value'];
+        }
+
+        /*
+         * =========================
          * FILE UPLOAD (Filament)
          * =========================
          */
         if (! empty($value['path'])) {
             return $value['path'];
+        }
+
+        /*
+         * =========================
+         * COLOR VALUE
+         * =========================
+         */
+        if (! empty($value['color'])) {
+            return $value['color'];
         }
 
         /*

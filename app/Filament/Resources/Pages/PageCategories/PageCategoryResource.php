@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 class PageCategoryResource extends Resource
 {
     protected static ?string $model = PageCategory::class;
+    protected static ?string $slug = 'kategori-artikel';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -99,5 +100,10 @@ class PageCategoryResource extends Resource
         return [
             'index' => ManagePageCategories::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

@@ -12,7 +12,7 @@ strip_tags(setting('gallery_title', 'Galeri'))
 {{-- ================= BREADCRUMB ================= --}}
 @include('frontend.components.breadcrumb')
 
-<section class="py-16 sm:py-20 bg-white">
+<section class="pt-6 pb-12 sm:pt-8 sm:pb-16 bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}

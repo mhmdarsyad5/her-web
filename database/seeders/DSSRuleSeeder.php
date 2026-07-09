@@ -3,100 +3,133 @@
 namespace Database\Seeders;
 
 use App\Models\DSSRule;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DSSRuleSeeder extends Seeder
 {
     /**
-     * Run the database seeds - PURE STANDALONE
+     * Run the database seeds.
      */
     public function run(): void
     {
-        // Clear existing rules to prevent duplicates
-        DSSRule::query()->delete();
+        // Clear existing rules to prevent duplicates and clean old data
+        DSSRule::truncate();
+
+        // Find products by slug to set up actual product_id
+        $xeForkliftSmall = Product::where('slug', 'xe-series-forklift-elektrik-15-38t')->first();
+        $xeForkliftLarge = Product::where('slug', 'xe-series-forklift-elektrik-4-5t')->first();
+        $a2DieselForklift = Product::where('slug', 'a2-series-forklift-diesel')->first();
+        $aReachTruck = Product::where('slug', 'a-series-reach-truck')->first();
+        $aPalletStacker = Product::where('slug', 'a-series-stand-on-pallet-stacker-with-reach-fork')->first();
 
         $rules = [
             [
-                'product_name' => 'Electric Pallet Truck HELI CBD20J-Li2',
-                'category_name' => 'Electric Stacker',
-                'brand' => 'HELI',
-                'model' => 'CBD20J-Li2',
-                'name' => 'Solusi Ringan untuk Retail & Pergudangan',
+                'product_id' => $xeForkliftSmall?->id,
+                'product_name' => 'XE Series Forklift Elektrik 1.5-3.8t',
+                'category_name' => 'Forklift Elektrik',
+                'brand' => 'HANGCHA',
+                'model' => 'XE Series (1.5-3.8 Ton)',
+                'name' => 'Solusi forklift elektrik cepat charge & efisiensi tinggi',
                 'conditions' => [
-                    'location' => ['indoor'],
-                    'industry' => 'retail',
-                    'weight' => ['1to2t'],
-                    'height' => ['le0.125m'],
+                    'industry' => ['retail', 'food_pharma', 'logistics', 'factory'],
+                    'product_type' => ['forklift'],
                     'energy' => 'lithium',
+                    'weight' => ['1to2t', '2to3.5t'],
+                    'height' => ['2to5.5m', '5.5to7m'],
                 ],
                 'display_specifications' => [
-                    'capacity' => '2000kg',
-                    'mast_height' => '200mm',
-                    'battery' => 'Lithium 48V/20Ah',
+                    'capacity' => '1.5 - 3.8 Ton',
+                    'mast_height' => '2.0 - 5.5 Meter',
+                    'battery' => 'Lithium-Ion Technology',
                 ],
                 'priority' => 100,
                 'relevance_score' => 100,
             ],
             [
-                'product_name' => 'Reach Truck HELI CQD16-GB2S (G-Series)',
-                'category_name' => 'Reach Truck',
-                'brand' => 'HELI',
-                'model' => 'CQD16-GB2S',
-                'name' => 'Ideal untuk Lorong Sempit & High Racking',
+                'product_id' => $xeForkliftLarge?->id,
+                'product_name' => 'XE Series Forklift Elektrik 4-5t',
+                'category_name' => 'Forklift Elektrik',
+                'brand' => 'HANGCHA',
+                'model' => 'XE Series (4-5 Ton)',
+                'name' => 'Forklift elektrik ramah lingkungan untuk beban berat',
                 'conditions' => [
-                    'location' => ['indoor', 'cold'],
-                    'industry' => 'logistics',
-                    'weight' => ['1to2t'],
-                    'height' => ['7to10m', '10to15.2m'],
-                    'aisle' => 'narrow',
-                    'energy' => 'electric',
+                    'industry' => ['logistics', 'factory', 'chemical_energy'],
+                    'product_type' => ['forklift'],
+                    'energy' => 'lithium',
+                    'weight' => ['3.5to5t', '5to10t'],
+                    'height' => ['2to5.5m', '5.5to7m'],
                 ],
                 'display_specifications' => [
-                    'capacity' => '1600kg',
-                    'mast_height' => '9500mm',
-                    'min_aisle' => '2700mm',
+                    'capacity' => '4.0 - 5.0 Ton',
+                    'mast_height' => '2.0 - 5.5 Meter',
+                    'battery' => 'Lithium-Ion Heavy Duty',
                 ],
                 'priority' => 90,
                 'relevance_score' => 100,
             ],
             [
-                'product_name' => 'Diesel Forklift CPCD35-G3',
-                'category_name' => 'IC Forklift',
-                'brand' => 'HELI',
-                'model' => 'CPCD35-G3',
-                'name' => 'Performa Tangguh untuk Pabrik & Outdoor',
+                'product_id' => $a2DieselForklift?->id,
+                'product_name' => 'A2 Series Forklift Diesel',
+                'category_name' => 'Forklift IC/Diesel',
+                'brand' => 'HANGCHA',
+                'model' => 'A2 Series Diesel',
+                'name' => 'Forklift diesel tangguh untuk area outdoor',
                 'conditions' => [
-                    'location' => ['outdoor', 'rough'],
-                    'industry' => 'factory',
-                    'weight' => ['2to3.5t', '3.5to5t'],
-                    'height' => ['2to5.5m'],
+                    'industry' => ['factory', 'chemical_energy'],
+                    'product_type' => ['forklift'],
                     'energy' => 'diesel',
+                    'weight' => ['2to3.5t', '3.5to5t', '5to10t'],
+                    'height' => ['2to5.5m', '5.5to7m'],
                 ],
                 'display_specifications' => [
-                    'capacity' => '3500kg',
-                    'mast_height' => '4700mm',
-                    'engine' => 'Isuzu/Powerful Diesel',
+                    'capacity' => '2.0 - 10.0 Ton',
+                    'mast_height' => '2.0 - 6.0 Meter',
+                    'engine' => 'Powerful Japanese Diesel Engine',
                 ],
                 'priority' => 80,
                 'relevance_score' => 100,
             ],
             [
-                'product_name' => 'Electric Stacker CDD15J-Li',
-                'category_name' => 'Electric Stacker',
-                'brand' => 'HELI',
-                'model' => 'CDD15J-Li',
-                'name' => 'Sangat Hemat untuk Logistik & Farmasi',
+                'product_id' => $aReachTruck?->id,
+                'product_name' => 'A Series Reach Truck',
+                'category_name' => 'Reach Truck',
+                'brand' => 'HANGCHA',
+                'model' => 'A Series Reach Truck',
+                'name' => 'Reach truck andal untuk racking tinggi & lorong sempit',
                 'conditions' => [
-                    'location' => ['indoor'],
-                    'industry' => 'food_pharma',
-                    'weight' => ['le1t', '1to2t'],
-                    'height' => ['2to5.5m'],
-                    'energy' => 'lithium',
+                    'industry' => ['retail', 'food_pharma', 'logistics'],
+                    'product_type' => ['reach_truck'],
+                    'energy' => 'electric',
+                    'weight' => ['1to2t', '2to3.5t'],
+                    'height' => ['5.5to7m', '7to10m', 'gt10m'],
                 ],
                 'display_specifications' => [
-                    'capacity' => '1500kg',
-                    'mast_height' => '3000mm',
-                    'battery' => 'Lithium-ion',
+                    'capacity' => '1.5 - 3.5 Ton',
+                    'mast_height' => '3.0 - 12.5 Meter',
+                    'min_aisle' => 'Narrow Aisle Compatible',
+                ],
+                'priority' => 95,
+                'relevance_score' => 100,
+            ],
+            [
+                'product_id' => $aPalletStacker?->id,
+                'product_name' => 'A Series Stand-On Pallet Stacker with Reach Fork',
+                'category_name' => 'Electric Stacker',
+                'brand' => 'HANGCHA',
+                'model' => 'A Series Stacker',
+                'name' => 'Stacker elektrik andal untuk penumpukan palet di gudang',
+                'conditions' => [
+                    'industry' => ['retail', 'food_pharma', 'logistics'],
+                    'product_type' => ['electric_stacker', 'pallet_truck'],
+                    'energy' => 'electric',
+                    'weight' => ['le1t', '1to2t'],
+                    'height' => ['2to5.5m', '5.5to7m'],
+                ],
+                'display_specifications' => [
+                    'capacity' => '1.0 - 2.0 Ton',
+                    'mast_height' => '2.0 - 5.5 Meter',
+                    'battery' => 'Lead-Acid Maintenance Free',
                 ],
                 'priority' => 85,
                 'relevance_score' => 100,
@@ -107,6 +140,6 @@ class DSSRuleSeeder extends Seeder
             DSSRule::create(array_merge($ruleData, ['is_active' => true]));
         }
 
-        $this->command->info("DSS Standalone Rules seeded successfully with " . count($rules) . " sample cases.");
+        $this->command->info("DSS Rules seeded successfully and mapped to real Products catalog!");
     }
 }

@@ -8,6 +8,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Str;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
@@ -33,6 +34,14 @@ class PageForm
                         $set('slug', Str::slug($state));
                     })
                     ->columnSpanFull(),
+
+                Textarea::make('excerpt')
+                    ->label('Ringkasan / Excerpt / Meta Description')
+                    ->placeholder('Tulis deskripsi singkat halaman ini untuk tampilan kartu dan SEO...')
+                    ->rows(3)
+                    ->maxLength(255)
+                    ->columnSpanFull()
+                    ->helperText('Jika dikosongkan, deskripsi akan diambil otomatis dari konten halaman.'),
 
                 RichEditor::make('content')
                     ->label('Konten Halaman')

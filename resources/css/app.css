@@ -5,6 +5,7 @@
 
 html {
     scrollbar-gutter: stable;
+    scroll-behavior: smooth;
 }
 
 
@@ -203,8 +204,22 @@ html {
     transform: scale(1.25);
 }
 
-/* Dark mode pagination */
-/* Removed - dark mode disabled */
+/* Ken Burns (zoom-in) keyframes effect for active slide */
+@keyframes kenburns {
+    0% {
+        transform: scale(1.0);
+    }
+    100% {
+        transform: scale(1.12);
+    }
+}
+.heroSwiper .swiper-slide img {
+    transform: scale(1.0);
+    transition: none !important;
+}
+.heroSwiper .swiper-slide-active img {
+    animation: kenburns 6.8s ease-out forwards !important;
+}
 
 /* =========================
    POINTER EVENTS FIX (YANG BENAR & TANPA KONFLIK)

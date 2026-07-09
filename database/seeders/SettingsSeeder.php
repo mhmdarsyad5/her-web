@@ -24,8 +24,6 @@ class SettingsSeeder extends Seeder
             ['key' => 'google_maps_link', 'value' => json_encode(['id' => 'https://maps.google.com/?q=-6.123,107.123']), 'type' => 'text', 'category' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'latitude', 'value' => json_encode(['id' => '-6.123456']), 'type' => 'text', 'category' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'longitude', 'value' => json_encode(['id' => '107.123456']), 'type' => 'text', 'category' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['key' => 'open_hours_weekday', 'value' => json_encode(['id' => '09:00 - 21:00']), 'type' => 'text', 'category' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['key' => 'open_hours_weekend', 'value' => json_encode(['id' => '10:00 - 22:00']), 'type' => 'text', 'category' => 'general', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'logo', 'value' => json_encode(['path' => 'settings/notion.svg']), 'type' => 'image', 'category' => 'branding', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'primary_color', 'value' => json_encode(['id' => '#2196F3']), 'type' => 'text', 'category' => 'theme', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'secondary_color', 'value' => json_encode(['id' => '#FFC107']), 'type' => 'text', 'category' => 'theme', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
@@ -60,6 +58,19 @@ class SettingsSeeder extends Seeder
             ['key' => 'branch_3_whatsapp', 'value' => json_encode(['id' => '+62 813-4567-8901']), 'type' => 'text', 'category' => 'contact', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'branch_3_email', 'value' => json_encode(['id' => 'bandung@herro.id']), 'type' => 'text', 'category' => 'contact', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
             ['key' => 'branch_3_map_url', 'value' => json_encode(['id' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.4!2d107.6!3d-6.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398255c5c5%3A0x5c5c5c5c5c5c5c5!2sBandung%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1705548787679!5m2!1sen%2sid']), 'type' => 'text', 'category' => 'contact', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            // =====================
+            // DSS / SPK RECOMMENDATION
+            // =====================
+            ['key' => 'dss_badge', 'value' => json_encode(['id' => '<p>Rekomendasi Alat</p>', 'is_active' => true]), 'type' => 'text', 'category' => 'sections', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['key' => 'dss_title', 'value' => json_encode(['id' => '<p>Temukan Unit yang Tepat</p>', 'is_active' => true]), 'type' => 'text', 'category' => 'sections', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['key' => 'dss_subtitle', 'value' => json_encode(['id' => '<p>Gunakan asisten rekomendasi kami untuk menemukan unit forklift atau reach truck yang ideal sesuai kebutuhan operasional Anda.</p>', 'is_active' => true]), 'type' => 'text', 'category' => 'sections', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+
+            // =====================
+            // HOMEPAGE SERVICES SECTION VISIBILITY TOGGLES
+            // =====================
+            ['key' => 'service_show_image', 'value' => json_encode(['boolean_value' => true, 'is_active' => true]), 'type' => 'text', 'category' => 'sections', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['key' => 'service_show_desc', 'value' => json_encode(['boolean_value' => true, 'is_active' => true]), 'type' => 'text', 'category' => 'sections', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

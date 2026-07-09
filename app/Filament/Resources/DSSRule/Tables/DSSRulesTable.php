@@ -15,6 +15,12 @@ class DSSRulesTable
     {
         return $table
             ->columns([
+                TextColumn::make('product_name')
+                    ->label('Rekomendasi Produk')
+                    ->searchable()
+                    ->sortable()
+                    ->limit(40),
+
                 TextColumn::make('name')
                     ->label('Nama Rule')
                     ->searchable()

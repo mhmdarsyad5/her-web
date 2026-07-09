@@ -43,47 +43,9 @@
                     {{ strip_tags(setting('nav_product', 'Produk')) }}
                 </a>
 
-                {{-- DROPDOWN PAGES --}}
-                <div x-data="{ open: false }" class="relative">
-                    <button @click="open = !open"
-                        class="nav-link {{ $pagesActive ? 'nav-link-active' : '' }} inline-flex items-center gap-1">
-                        {{ strip_tags(setting('nav_pages', 'News')) }}
-                        <x-heroicon-o-chevron-down class="w-4 h-4 shrink-0 transition-transform duration-200"
-                            x-bind:class="{ 'rotate-180': open }" />
-                    </button>
-
-                    <div x-show="open" @click.outside="open = false" x-transition class="absolute left-0 mt-2 w-48 rounded-xl
-               border border-zinc-200
-               bg-white
-               shadow-lg p-1">
-
-                        <a href="{{ route('pages.index') }}"
-                            class="dropdown-link {{ request()->routeIs('pages.index', 'pages.show') ? 'active' : '' }}">
-                            {{ strip_tags(setting('nav_blog', 'Blog')) }}
-                        </a>
-
-                        <a href="{{ route('faq.index') }}"
-                            class="dropdown-link {{ request()->routeIs('faq.index') ? 'active' : '' }}">
-                            {{ strip_tags(setting('nav_faq', 'Pertanyaan Umum')) }}
-                        </a>
-
-                        <!-- <a href="{{ route('terms-conditions.index') }}"
-                            class="dropdown-link {{ request()->routeIs('terms-conditions.index') ? 'active' : '' }}">
-                            {{ strip_tags(setting('nav_terms', 'Syarat & Ketentuan')) }}
-                        </a>
-
-                        <a href="{{ route('privacy-policy.index') }}"
-                            class="dropdown-link {{ request()->routeIs('privacy-policy.index') ? 'active' : '' }}">
-                            {{ strip_tags(setting('nav_privacy', 'Kebijakan Privasi')) }}
-                        </a> -->
-
-
-
-                    </div>
-                </div>
-                <a href="{{ route('galleries.index') }}"
-                    class="nav-link {{ request()->routeIs('galleries.index', 'galleries.show') ? 'nav-link-active' : '' }}">
-                    {{ strip_tags(setting('nav_gallery', 'Galeri')) }}
+                <a href="{{ route('pages.index') }}"
+                    class="nav-link {{ request()->routeIs('pages.index', 'pages.show') ? 'nav-link-active' : '' }}">
+                    {{ strip_tags(setting('nav_blog', 'Blog')) }}
                 </a>
 
                 <a href="{{ route('contacts.index') }}"
@@ -148,10 +110,7 @@
                         {{ strip_tags(setting('nav_blog', 'Blog')) }}
                     </a>
 
-                    <a href="{{ route('galleries.index') }}"
-                        class="mobile-card-link {{ request()->routeIs('galleries.*') ? 'active' : '' }}">
-                        {{ strip_tags(setting('nav_gallery', 'Galeri')) }}
-                    </a>
+
 
                     <a href="{{ route('contacts.index') }}"
                         class="mobile-card-link {{ request()->routeIs('contacts.index') ? 'active' : '' }}">

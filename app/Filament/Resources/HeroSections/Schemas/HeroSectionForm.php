@@ -25,8 +25,9 @@ class HeroSectionForm
                     ->label('Button Text'),
 
                 FileUpload::make('image')
-                    ->label('Hero Image')
+                    ->label('Hero Images')
                     ->image()
+                    ->multiple()
                     ->disk('public')
                     ->directory('hero')
                     ->preserveFilenames()

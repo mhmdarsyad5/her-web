@@ -13,6 +13,14 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/storage/app/*
+!/storage/app/.gitkeep
+/storage/framework/*
+!/storage/framework/.gitkeep
+!/storage/framework/cache/.gitkeep
+!/storage/framework/sessions/.gitkeep
+!/storage/framework/testing/.gitkeep
+!/storage/framework/views/.gitkeep
 /bootstrap/cache/*
 !/bootstrap/cache/.gitkeep
 

@@ -33,6 +33,30 @@ class ProductForm
                     ->placeholder('Tuliskan deskripsi produk...')
                     ->columnSpanFull(),
 
+                TextInput::make('tagline')
+                    ->label('Tagline Singkat')
+                    ->placeholder('Contoh: Cocok untuk logistik gudang kecil dengan koridor sempit')
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+
+                TextInput::make('energy_type')
+                    ->label('Tipe Energi')
+                    ->placeholder('Contoh: Lithium-Ion / Diesel / Gasoline / -')
+                    ->maxLength(100)
+                    ->columnSpan(1),
+
+                TextInput::make('lift_height')
+                    ->label('Tinggi Angkat')
+                    ->placeholder('Contoh: 3.0 - 6.0 m')
+                    ->maxLength(100)
+                    ->columnSpan(1),
+
+                TextInput::make('load_capacity')
+                    ->label('Kapasitas Beban')
+                    ->placeholder('Contoh: 1.5 - 3.8 ton')
+                    ->maxLength(100)
+                    ->columnSpan(1),
+
                 TextInput::make('slug')
                     ->label('Slug URL')
                     ->placeholder('Akan terisi otomatis dari Nama Produk')

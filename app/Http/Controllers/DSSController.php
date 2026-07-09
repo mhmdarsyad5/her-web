@@ -21,41 +21,31 @@ class DSSController extends Controller
      */
     public function processForm(Request $request): JsonResponse
     {
-        // Validate input structure
+        // Validate simplified inputs
         $validated = $request->validate([
-            'lokasi' => 'nullable|string',
             'industri' => 'nullable|string',
-            'muatan' => 'nullable|array',
-            'muatan.*' => 'string',
+            'product_type' => 'nullable|string',
+            'energi' => 'nullable|string',
             'berat' => 'nullable|string',
             'tinggi' => 'nullable|string',
-            'aisle' => 'nullable|string',
-            'energi' => 'nullable|string',
-            'operator' => 'nullable|string',
-            'unitSekarang' => 'nullable|string',
         ]);
 
         // Map form input to DSS field names
         $userInput = [
-            'location' => $validated['lokasi'] ?? null,
             'industry' => $validated['industri'] ?? null,
-            'cargo_type' => $validated['muatan'] ?? [],
+            'product_type' => $validated['product_type'] ?? null,
+            'energy' => $validated['energi'] ?? null,
             'weight' => $validated['berat'] ?? null,
             'height' => $validated['tinggi'] ?? null,
-            'aisle' => $validated['aisle'] ?? null,
-            'energy' => $validated['energi'] ?? null,
-            'operator' => $validated['operator'] ?? null,
-            'unit' => $validated['unitSekarang'] ?? null,
         ];
 
         // Remove null and empty values
         $userInput = array_filter($userInput, function ($value) {
             if ($value === null || $value === '') return false;
-            if (is_array($value) && count($value) === 0) return false;  // Remove empty arrays
             return true;
         });
 
-        // Get recommendations
+        // Get recommendations (1 Utama & 1 Alternatif)
         $results = $this->dssService->getFormattedResults($userInput);
 
         return response()->json($results);

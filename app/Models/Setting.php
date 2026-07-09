@@ -131,6 +131,10 @@ class Setting extends Model
     {
         $value = static::get($key, []);
 
+        if (is_string($value)) {
+            return $value;
+        }
+
         return is_array($value)
             ? ($value['color'] ?? $default)
             : $default;

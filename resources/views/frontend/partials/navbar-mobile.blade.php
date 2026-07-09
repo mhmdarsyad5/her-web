@@ -48,25 +48,25 @@ $menus = [
 
     @foreach ($menus as $item)
     <a href="{{ route($item['route']) }}"
-        class="relative flex flex-col items-center gap-1.5 py-2 px-3 rounded-2xl transition-all duration-300
+        class="relative flex-1 min-w-0 flex flex-col items-center gap-1 py-1.5 px-1 rounded-xl transition-all duration-300
               {{ $item['active']
                   ? 'text-primary-700 bg-primary-100/50'
-                  : 'text-zinc-600 hover:text-primary-700 hover:bg-primary-100/30' }}">
+                  : 'text-zinc-600 hover:text-primary-700' }}">
 
         {{-- ICON --}}
         <x-dynamic-component
             :component="$item['icon']"
-            class="h-6 w-6 transition-all duration-300
+            class="h-5 w-5 transition-all duration-300
                    {{ $item['active'] ? '' : 'group-hover:scale-110' }}" />
 
         {{-- LABEL --}}
-        <span class="text-[11px] font-medium transition-all duration-300">
+        <span class="text-[10px] font-medium transition-all duration-300 truncate w-full text-center">
             {{ $item['name'] }}
         </span>
 
         {{-- ACTIVE INDICATOR (optional subtle dot) --}}
         @if($item['active'])
-        <span class="absolute -top-1 w-2 h-2 rounded-full bg-primary-600"></span>
+        <span class="absolute -top-1 w-1.5 h-1.5 rounded-full bg-primary-600"></span>
         @endif
     </a>
     @endforeach

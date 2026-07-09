@@ -20,6 +20,7 @@ use Filament\Tables\Table;
 class PageTagResource extends Resource
 {
     protected static ?string $model = PageTag::class;
+    protected static ?string $slug = 'tag-artikel';
 
     protected static ?string $recordTitleAttribute = 'name';
 
@@ -99,5 +100,10 @@ class PageTagResource extends Resource
         return [
             'index' => ManagePageTags::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
 }

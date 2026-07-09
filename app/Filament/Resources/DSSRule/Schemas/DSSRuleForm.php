@@ -16,22 +16,31 @@ class DSSRuleForm
     {
         return $schema->components([
             Section::make('Informasi Produk')
-                ->description('Detail produk yang akan ditampilkan jika kriteria cocok.')
+                ->description('Detail produk yang terelasi dengan katalog dan informasi display.')
                 ->schema([
                     Grid::make(2)->schema([
+                        Select::make('product_id')
+                            ->label('Relasi Produk Utama')
+                            ->relationship('product', 'name_id')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
                         TextInput::make('product_name')
-                            ->label('Nama Produk')
+                            ->label('Nama Produk (Display)')
                             ->required()
                             ->maxLength(255),
+                    ]),
+                    Grid::make(2)->schema([
                         TextInput::make('category_name')
                             ->label('Kategori')
                             ->required()
                             ->maxLength(255),
-                    ]),
-                    Grid::make(3)->schema([
                         TextInput::make('brand')
                             ->label('Brand')
+                            ->default('HANGCHA')
                             ->placeholder('HANGCHA'),
+                    ]),
+                    Grid::make(2)->schema([
                         TextInput::make('model')
                             ->label('Model / Tipe'),
                         TextInput::make('name')
@@ -40,55 +49,43 @@ class DSSRuleForm
                     ]),
                 ]),
 
-            Section::make('Kriteria Pencocokan (Logika Yes/No)')
-                ->description('Pilih kriteria yang harus dipenuhi agar produk ini muncul.')
+            Section::make('Kriteria Pencocokan (Form SPK 3 Step)')
+                ->description('Pilih kriteria yang harus dipenuhi agar produk ini muncul sebagai rekomendasi.')
                 ->schema([
                     Grid::make(2)->schema([
-                        Select::make('conditions.location')
-                            ->label('Lokasi Operasional')
-                            ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'location')->pluck('name', 'code'))
-                            ->searchable(),
-                        
-                        Select::make('conditions.weight')
-                            ->label('Kapasitas Berat')
-                            ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'weight')->pluck('name', 'code'))
-                            ->searchable(),
-                        
-                        Select::make('conditions.height')
-                            ->label('Ketinggian Angkat')
-                            ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'height')->pluck('name', 'code'))
-                            ->searchable(),
-
-                        Select::make('conditions.aisle')
-                            ->label('Lebar Lorong (Aisle)')
-                            ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'aisle')->pluck('name', 'code'))
-                            ->searchable(),
-
-                        Select::make('conditions.energy')
-                            ->label('Sumber Energi')
-                            ->options(fn() => DSSCriteria::where('field_type', 'energy')->pluck('name', 'code'))
-                            ->searchable(),
-
-                        Select::make('conditions.operator')
-                            ->label('Jenis Operator')
-                            ->options(fn() => DSSCriteria::where('field_type', 'operator')->pluck('name', 'code'))
-                            ->searchable(),
-                        
-                        Select::make('conditions.cargo_type')
-                            ->label('Jenis Muatan')
-                            ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'cargo_type')->pluck('name', 'code'))
-                            ->searchable(),
-                        
                         Select::make('conditions.industry')
-                            ->label('Jenis Industri')
+                            ->label('Jenis Industri (Form 1)')
                             ->multiple()
                             ->options(fn() => DSSCriteria::where('field_type', 'industry')->pluck('name', 'code'))
-                            ->searchable(),
+                            ->searchable()
+                            ->required(),
+                        
+                        Select::make('conditions.product_type')
+                            ->label('Jenis Unit Produk (Form 1)')
+                            ->multiple()
+                            ->options(fn() => DSSCriteria::where('field_type', 'product_type')->pluck('name', 'code'))
+                            ->searchable()
+                            ->required(),
+
+                        Select::make('conditions.energy')
+                            ->label('Sumber Energi / Drive Type (Form 2)')
+                            ->options(fn() => DSSCriteria::where('field_type', 'energy')->pluck('name', 'code'))
+                            ->searchable()
+                            ->required(),
+
+                        Select::make('conditions.weight')
+                            ->label('Kapasitas Berat / Load Capacity (Form 2)')
+                            ->multiple()
+                            ->options(fn() => DSSCriteria::where('field_type', 'weight')->pluck('name', 'code'))
+                            ->searchable()
+                            ->required(),
+                        
+                        Select::make('conditions.height')
+                            ->label('Ketinggian Angkat / Lift Height (Form 2)')
+                            ->multiple()
+                            ->options(fn() => DSSCriteria::where('field_type', 'height')->pluck('name', 'code'))
+                            ->searchable()
+                            ->required(),
                     ]),
                 ]),
 

@@ -20,6 +20,7 @@ class PageResource extends Resource
 {
     use HasShieldAccess;
     protected static ?string $model = Page::class;
+    protected static ?string $slug = 'artikel-blog';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';

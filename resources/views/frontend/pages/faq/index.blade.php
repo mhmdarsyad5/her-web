@@ -9,7 +9,7 @@
 'title' => $title
 ])
 
-<section class="py-16 sm:py-20 bg-white">
+<section class="pt-6 pb-12 sm:pt-8 sm:pb-16 bg-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}

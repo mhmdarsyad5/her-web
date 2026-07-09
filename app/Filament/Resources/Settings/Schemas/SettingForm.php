@@ -49,34 +49,27 @@ class SettingForm
                 ->required()
                 ->reactive(),
 
+            \Filament\Forms\Components\Toggle::make('value.is_active')
+                ->label('Tampilkan / Aktifkan')
+                ->default(true)
+                ->helperText('Jika dinonaktifkan, elemen ini tidak akan ditampilkan di website.')
+                ->visible(fn($get) => !in_array($get('key'), ['service_show_image', 'service_show_desc']))
+                ->columnSpanFull(),
+
+            /**
+             * ========= BOOLEAN / TOGGLE (Kondisional Key) =========
+             */
+            \Filament\Forms\Components\Toggle::make('value.boolean_value')
+                ->label('Status Aktif (On / Off)')
+                ->visible(fn($get) => in_array($get('key'), ['service_show_image', 'service_show_desc']))
+                ->default(true)
+                ->columnSpanFull(),
+
             /**
              * ========= COLOR =========
              */
-            Select::make('value.color')
+            \Filament\Forms\Components\ColorPicker::make('value.color')
                 ->label('Color')
-                ->options([
-                    'red' => 'Red',
-                    'orange' => 'Orange',
-                    'amber' => 'Amber',
-                    'yellow' => 'Yellow',
-                    'lime' => 'Lime',
-                    'green' => 'Green',
-                    'emerald' => 'Emerald',
-                    'teal' => 'Teal',
-                    'cyan' => 'Cyan',
-                    'sky' => 'Sky',
-                    'blue' => 'Blue',
-                    'indigo' => 'Indigo',
-                    'violet' => 'Violet',
-                    'purple' => 'Purple',
-                    'fuchsia' => 'Fuchsia',
-                    'pink' => 'Pink',
-                    'rose' => 'Rose',
-                    'gray' => 'Gray',
-                    'zinc' => 'Zinc',
-                    'neutral' => 'Neutral',
-                    'stone' => 'Stone',
-                ])
                 ->visible(fn($get) => $get('type') === 'color')
                 ->required(),
 
@@ -85,7 +78,7 @@ class SettingForm
              */
             RichEditor::make('value.id')
                 ->label('Content / Value')
-                ->visible(fn($get) => $get('type') === 'text')
+                ->visible(fn($get) => $get('type') === 'text' && !in_array($get('key'), ['service_show_image', 'service_show_desc']))
                 ->required()
                 ->columnSpanFull(),
 

@@ -21,10 +21,6 @@
                         width="160"
                         height="40"
                         fetchpriority="high">
-
-                    <span class="text-xl font-semibold text-neutral-900">
-                        {!! setting('site_name', 'Website') !!}
-                    </span>
                 </div>
 
                 <p class="max-w-sm text-sm leading-relaxed text-neutral-600">

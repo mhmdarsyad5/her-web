@@ -1,30 +1,36 @@
-<section class="py-16 sm:py-20 lg:py-24 bg-white">
-    <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20">
+<section class="py-8 sm:py-10 lg:py-12 bg-gradient-to-b from-white via-zinc-50/20 to-white relative overflow-hidden border-b border-zinc-200/80">
+
+    {{-- Glowing side light --}}
+    <div class="absolute bottom-1/3 left-0 w-80 h-80 bg-primary-900/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20 relative z-10">
 
         {{-- ================= HEADER ================= --}}
-        <div class="mb-12 lg:mb-16">
+        <div class="mb-10">
 
             {{-- BADGE --}}
-            <div class="mb-6">
-                <span class="inline-flex items-center rounded-full
-                               bg-primary-100
-                               px-3 py-1.5
-                               text-xs font-medium tracking-wide
-                               text-primary-800">
-                    {{ strip_tags(setting('blog_badge', 'Blog')) }}
-                </span>
-            </div>
+            @if(setting('blog_badge'))
+                <div class="mb-6">
+                    <span class="inline-flex items-center rounded-full
+                                   bg-zinc-100 border border-zinc-200/40
+                                   px-3.5 py-1
+                                   text-xs font-semibold tracking-wide
+                                   text-zinc-900">
+                        {{ strip_tags(setting('blog_badge')) }}
+                    </span>
+                </div>
+            @endif
 
             {{-- TITLE + CTA --}}
             <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                 <div class="max-w-2xl">
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl
-                               font-semibold tracking-tight leading-tight
-                               text-zinc-900">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl
+                               font-extrabold tracking-tight leading-tight
+                               text-zinc-950">
                         {{ strip_tags(setting('blog_title', 'Blog Terbaru')) }}
                     </h2>
 
-                    <p class="mt-4 text-sm sm:text-base
+                    <p class="mt-4 text-sm sm:text-base lg:text-lg
                                leading-relaxed
                                text-zinc-600">
                         {{ strip_tags(
@@ -37,63 +43,65 @@
                 </div>
 
                 <a href="{{ route('pages.index') }}"
-                    class="inline-flex items-center gap-2
-                          text-sm sm:text-base font-medium
-                          text-primary-700
-                          hover:text-primary-900
+                    class="group inline-flex items-center gap-1.5
+                          text-sm sm:text-base font-bold
+                          text-primary-900
+                          hover:text-primary-800
                           transition-colors">
                     {{ strip_tags(setting('blog_cta', 'Lihat semua')) }}
-                    <span aria-hidden="true">→</span>
+                    <x-heroicon-m-arrow-right class="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </a>
             </div>
         </div>
 
         {{-- ================= ARTICLES ================= --}}
         <div class="flex gap-6 overflow-x-auto pb-6
-                     snap-x snap-mandatory
-                     sm:grid sm:grid-cols-2
-                     lg:grid-cols-3
-                     sm:gap-8
-                     sm:overflow-visible">
+                      snap-x snap-mandatory
+                      sm:grid sm:grid-cols-2
+                      lg:grid-cols-3
+                      sm:gap-8
+                      sm:overflow-visible">
 
             @forelse ($pages as $page)
             @php
             $excerpt = \Illuminate\Support\Str::limit(
-            strip_tags($page->content),
-            140
+                strip_tags($page->content),
+                140
             );
             @endphp
 
             <article class="group snap-center shrink-0 w-[85%] sm:w-auto
                             rounded-2xl border
-                            border-zinc-200
+                            border-zinc-200/70
                             bg-white
                             overflow-hidden
                             transition-all duration-300
-                            hover:border-primary-300
-                            hover:shadow-lg hover:-translate-y-1">
+                            hover:border-primary-400/50
+                            hover:shadow-xl hover:shadow-primary-900/5 hover:-translate-y-1.5">
 
                 {{-- THUMBNAIL --}}
-                <div class="aspect-video bg-zinc-100 overflow-hidden">
+                <div class="aspect-video bg-zinc-100 overflow-hidden relative">
                     <img
                         src="{{ asset('storage/' . $page->thumbnail) }}"
                         onerror="this.src='{{ asset('assets-default/placeholder.jpg') }}'"
                         alt="{{ $page->title }}"
                         loading="lazy"
                         class="h-full w-full object-cover
-                               transition-transform duration-500 ease-out
-                               group-hover:scale-110">
+                               transition-transform duration-700 ease-out
+                               group-hover:scale-105">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </div>
 
                 {{-- CONTENT --}}
-                <div class="p-6 sm:p-7">
+                <div class="p-6 sm:p-7 relative">
                     <a href="{{ route('pages.show', $page->slug) }}" class="block">
                         <h3 class="text-base lg:text-lg
-                                   font-medium tracking-tight
-                                   text-zinc-900
+                                   font-bold tracking-tight
+                                   text-zinc-950
                                    line-clamp-2
                                    transition-colors
-                                   group-hover:text-primary-700">
+                                   group-hover:text-primary-900">
                             {{ $page->title }}
                         </h3>
                     </a>
@@ -103,6 +111,11 @@
                                line-clamp-3">
                         {{ $excerpt }}
                     </p>
+
+                    <a href="{{ route('pages.show', $page->slug) }}" class="mt-6 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs font-semibold text-zinc-400 hover:text-primary-900 group-hover:text-primary-900 transition-colors block">
+                        <span>Baca Selengkapnya</span>
+                        <x-heroicon-o-chevron-right class="h-4 w-4 transform transition-transform group-hover:translate-x-0.5" />
+                    </a>
                 </div>
             </article>
             @empty

@@ -9,15 +9,19 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::where('is_active', true)
-            ->orderBy('sort_order')
-            ->paginate(9);
-
         $title = setting('nav_service', 'Layanan');
+
+        // DSS Criteria for form
+        $industries = \App\Models\DSSCriteria::getByFieldType('industry')->toArray();
+        $productTypes = \App\Models\DSSCriteria::getByFieldType('product_type')->toArray();
+        $energies = \App\Models\DSSCriteria::getByFieldType('energy')->toArray();
+        $weights = \App\Models\DSSCriteria::getByFieldType('weight')->toArray();
+        $heights = \App\Models\DSSCriteria::getByFieldType('height')->toArray();
+        $primaryColor = setting('primary_color', '#ff7f00');
 
         return view(
             'frontend.pages.services.index',
-            compact('services', 'title')
+            compact('title', 'industries', 'productTypes', 'energies', 'weights', 'heights', 'primaryColor')
         );
     }
 

@@ -14,6 +14,16 @@ class EditSetting extends EditRecord
 
     protected static string $resource = SettingResource::class;
 
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        if (($data['type'] ?? null) === 'color' && is_string($data['value'] ?? null)) {
+            $data['value'] = [
+                'color' => $data['value'],
+            ];
+        }
+        return $data;
+    }
+
     protected function getHeaderActions(): array
     {
         return [

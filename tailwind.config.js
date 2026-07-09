@@ -28,7 +28,7 @@ module.exports = {
           600: '#52525b',
           700: '#3f3f46',
           800: '#27272a',
-          900: '#ff7f00', // main accent (light mode)
+          900: '#F5A21C', // main accent (light mode)
           950: '#09090b',
         },
       },

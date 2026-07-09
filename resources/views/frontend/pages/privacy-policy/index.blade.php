@@ -7,7 +7,7 @@
 {{-- Breadcrumb --}}
 @include('frontend.components.breadcrumb')
 
-<div class="relative overflow-hidden bg-zinc-50 pt-16 pb-24 sm:pt-20 sm:pb-32">
+<div class="relative overflow-hidden bg-zinc-50 pt-6 pb-12 sm:pt-8 sm:pb-16">
     {{-- Decorative Background Glows --}}
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 pointer-events-none">
         <div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-primary-900/5 blur-[120px]"></div>

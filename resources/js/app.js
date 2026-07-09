@@ -3,6 +3,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 import './hero-swiper';
+import './product-swiper';
 import './contact-form';
 import copyBadge from './copy-badge';
 import './partners'; // 👈 TAMBAHKAN INI
@@ -53,12 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
             pill.addEventListener('click', function() {
                 // Return to inactive state for all pills
                 categoryPills.forEach(p => {
-                    p.classList.remove('bg-primary-500', 'text-white', 'border-primary-500', 'shadow-md');
-                    p.classList.add('bg-white', 'text-zinc-600', 'border-zinc-200');
+                    p.classList.remove('active');
                 });
                 // Set active state for clicked pill
-                this.classList.remove('bg-white', 'text-zinc-600', 'border-zinc-200');
-                this.classList.add('bg-primary-500', 'text-white', 'border-primary-500', 'shadow-md');
+                this.classList.add('active');
 
                 activeCategorySlug = this.getAttribute('data-slug');
                 
@@ -87,14 +86,14 @@ document.addEventListener('DOMContentLoaded', () => {
          * ==========================
          */
         if (pagesGrid) {
-            fetch('/search/skeleton')
+            fetch('/cari/artikel/skeleton')
                 .then(res => res.text())
                 .then(html => {
                     pagesGrid.innerHTML = html;
                     if (paginationWrapper) paginationWrapper.innerHTML = '';
                 });
 
-            fetch(`/search/pages?keyword=${encodeURIComponent(keyword)}&category=${encodeURIComponent(activeCategorySlug)}`)
+            fetch(`/cari/artikel?keyword=${encodeURIComponent(keyword)}&category=${encodeURIComponent(activeCategorySlug)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.html?.trim()) {
@@ -117,14 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
          */
         if (productGrid) {
 
-            fetch('/search/products/skeleton')
+            fetch('/cari/produk/skeleton')
                 .then(res => res.text())
                 .then(html => {
                     productGrid.innerHTML = html;
                     if (paginationWrapper) paginationWrapper.innerHTML = '';
                 });
 
-            fetch(`/search/products?keyword=${encodeURIComponent(keyword)}`)
+            fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.html?.trim()) {

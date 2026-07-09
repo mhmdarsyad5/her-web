@@ -27,57 +27,57 @@ use App\Http\Controllers\DSSController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Contacts
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+Route::get('/kontak', [ContactController::class, 'index'])->name('contacts.index');
 
 // Contact Messages
 Route::post('/', [HomeController::class, 'storeContact'])
     ->middleware('throttle.contact')
     ->name('contact.store');
 Route::get('/contact/messages', [ContactMessageController::class, 'index'])->name('contact.messages');
-Route::get('/kontak', [ContactMessageController::class, 'create'])->name('contact.form');
+Route::get('/kontak/form', [ContactMessageController::class, 'create'])->name('contact.form');
 
 // Pages
-Route::get('/pages/{slug}', [PageController::class, 'show'])->name('pages.show');
-Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
-Route::get('/search/pages', [PageController::class, 'search'])->name('pages.search');
-Route::get('/search/skeleton', function () {
+Route::get('/artikel/{slug}', [PageController::class, 'show'])->name('pages.show');
+Route::get('/artikel', [PageController::class, 'index'])->name('pages.index');
+Route::get('/cari/artikel', [PageController::class, 'search'])->name('pages.search');
+Route::get('/cari/artikel/skeleton', function () {
     return view('frontend.pages.pages.partials.skeleton')->render();
 })->name('search.skeleton');
 
 // FAQ
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/tanya-jawab', [FaqController::class, 'index'])->name('faq.index');
 
 // Galleries
-Route::get('/galleries', [GalleryController::class, 'index'])->name('galleries.index');
-Route::get('/galleries/{id}', [GalleryController::class, 'show'])->name('galleries.show');
-Route::get('/search/galleries', [GalleryController::class, 'search'])->name('galleries.search');
-Route::get('/search/galleries/skeleton', function () {
+Route::get('/galeri', [GalleryController::class, 'index'])->name('galleries.index');
+Route::get('/galeri/{id}', [GalleryController::class, 'show'])->name('galleries.show');
+Route::get('/cari/galeri', [GalleryController::class, 'search'])->name('galleries.search');
+Route::get('/cari/galeri/skeleton', function () {
     return view('frontend.pages.gallery.partials.skeleton')->render();
 })->name('galleries.search.skeleton');
 
 // Abouts
-Route::get('/abouts', [AboutController::class, 'index'])->name('abouts.index');
+Route::get('/tentang-kami', [AboutController::class, 'index'])->name('abouts.index');
 
 // Term & Privacy
-Route::get('/terms-conditions', [TermConditionController::class, 'index'])->name('terms-conditions.index');
-Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
+Route::get('/syarat-ketentuan', [TermConditionController::class, 'index'])->name('terms-conditions.index');
+Route::get('/kebijakan-privasi', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
 
 // Services
-Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/layanan', [ServiceController::class, 'index'])->name('services.index');
 
 // Products
-Route::get('/products', [ProductController::class, 'index'])
+Route::get('/produk', [ProductController::class, 'index'])
     ->name('products.index');
 
-Route::get('/search/products', [ProductController::class, 'search'])
+Route::get('/cari/produk', [ProductController::class, 'search'])
     ->name('products.search');
 
-Route::get('/search/products/skeleton', function () {
+Route::get('/cari/produk/skeleton', function () {
     return view('frontend.pages.products.partials.skeleton')->render();
 })->name('products.search.skeleton');
 
 // ⚠️ SELALU TERAKHIR
-Route::get('/products/{slug}', [ProductController::class, 'show'])
+Route::get('/produk/{slug}', [ProductController::class, 'show'])
     ->name('products.show');
 
 // DSS (Decision Support System) Routes
@@ -86,6 +86,66 @@ Route::post('/dss/process', [DSSController::class, 'processForm'])
     ->name('dss.process');
 Route::get('/dss/criteria/{fieldType}', [DSSController::class, 'getCriteria'])->name('dss.criteria');
 
+
+// Dynamic XML Sitemap for Google SEO
+Route::get('/sitemap.xml', function () {
+    $pages = \App\Models\Page::where('is_published', true)->get();
+    $products = \App\Models\Product::all();
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+
+    // Home Page
+    $xml .= '<url>';
+    $xml .= '<loc>' . url('/') . '</loc>';
+    $xml .= '<priority>1.0</priority>';
+    $xml .= '</url>';
+
+    // Blog Listings Page
+    $xml .= '<url>';
+    $xml .= '<loc>' . route('pages.index') . '</loc>';
+    $xml .= '<priority>0.8</priority>';
+    $xml .= '</url>';
+
+    // Blog/Articles Detail Pages
+    foreach ($pages as $page) {
+        $xml .= '<url>';
+        $xml .= '<loc>' . route('pages.show', $page->slug) . '</loc>';
+        $xml .= '<lastmod>' . $page->updated_at->toAtomString() . '</lastmod>';
+        $xml .= '<priority>0.7</priority>';
+        $xml .= '</url>';
+    }
+
+    // Products Listings Page
+    $xml .= '<url>';
+    $xml .= '<loc>' . route('products.index') . '</loc>';
+    $xml .= '<priority>0.8</priority>';
+    $xml .= '</url>';
+
+    // Products Detail Pages
+    foreach ($products as $product) {
+        $xml .= '<url>';
+        $xml .= '<loc>' . route('products.show', $product->slug) . '</loc>';
+        $xml .= '<lastmod>' . $product->updated_at->toAtomString() . '</lastmod>';
+        $xml .= '<priority>0.7</priority>';
+        $xml .= '</url>';
+    }
+
+    // Other static pages
+    $staticPages = ['contacts.index', 'faq.index', 'galleries.index', 'abouts.index', 'terms-conditions.index', 'privacy-policy.index', 'services.index'];
+    foreach ($staticPages as $route) {
+        if (Route::has($route)) {
+            $xml .= '<url>';
+            $xml .= '<loc>' . route($route) . '</loc>';
+            $xml .= '<priority>0.5</priority>';
+            $xml .= '</url>';
+        }
+    }
+
+    $xml .= '</urlset>';
+
+    return response($xml, 200, ['Content-Type' => 'application/xml']);
+})->name('sitemap');
 
 // PWA Manifest
 Route::get('/manifest.json', function () {

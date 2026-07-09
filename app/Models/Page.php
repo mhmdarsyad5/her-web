@@ -12,6 +12,7 @@ class Page extends Model
         'title',
         'slug',
         'thumbnail',
+        'excerpt',
         'content',
         'category_id',
         'is_published',

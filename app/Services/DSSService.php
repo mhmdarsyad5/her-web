@@ -16,16 +16,17 @@ class DSSService
     {
         $this->userInput = $userInput;
 
-        $rules = DSSRule::where('is_active', true)->get();
+        // Eager load product relation
+        $rules = DSSRule::where('is_active', true)->with('product')->get();
 
-        // Tier 1: Strict Match ALL
+        // Tier 1: Strict Match ALL input fields
         $tier1 = $rules->filter(fn($rule) => $rule->matchesInput($userInput));
         if ($tier1->isNotEmpty()) {
             return $tier1->sortByDesc('priority')->values();
         }
 
-        // Tier 2: Core + Important Match
-        $coreFields = ['location', 'weight', 'cargo_type', 'height', 'aisle'];
+        // Tier 2: Core fields Match (product_type, energy, weight)
+        $coreFields = ['product_type', 'energy', 'weight'];
         $coreInput = array_intersect_key($userInput, array_flip($coreFields));
         
         if (!empty($coreInput)) {
@@ -35,8 +36,8 @@ class DSSService
             }
         }
 
-        // Tier 3: Crucial Match Only
-        $crucialFields = ['location', 'weight'];
+        // Tier 3: Crucial fields Match (product_type, weight)
+        $crucialFields = ['product_type', 'weight'];
         $crucialInput = array_intersect_key($userInput, array_flip($crucialFields));
 
         if (!empty($crucialInput)) {
@@ -62,11 +63,6 @@ class DSSService
         return true;
     }
 
-    public function getTopRecommendations(array $userInput, int $limit = 3): Collection
-    {
-        return $this->filterByUserInputs($userInput)->take($limit);
-    }
-
     public function validateInput(array $userInput = null): array
     {
         $errors = [];
@@ -77,13 +73,16 @@ class DSSService
         });
 
         if (empty($filledFields)) {
-            $errors[] = 'Silakan isi setidaknya satu kriteria';
+            $errors[] = 'Silakan isi setidaknya satu kriteria pencarian';
         }
 
         return ['valid' => empty($errors), 'errors' => $errors];
     }
 
-    public function getFormattedResults(array $userInput, int $topLimit = 3): array
+    /**
+     * Get Formatted Results: 1 Utama & 1 Alternatif
+     */
+    public function getFormattedResults(array $userInput): array
     {
         $this->userInput = $userInput;
         $validation = $this->validateInput($userInput);
@@ -93,15 +92,15 @@ class DSSService
         }
 
         $allRules = $this->filterByUserInputs($userInput);
-        $topRecommendations = $allRules->take($topLimit);
-        $otherRecommendations = $allRules->slice($topLimit);
+        $utama = $allRules->first();
+        $alternatif = $allRules->slice(1)->first();
 
         return [
             'success' => true,
             'results' => [
+                'utama' => $utama ? $this->formatRuleResponse($utama) : null,
+                'alternatif' => $alternatif ? $this->formatRuleResponse($alternatif) : null,
                 'total_found' => $allRules->count(),
-                'top_recommendations' => $topRecommendations->map(fn ($rule) => $this->formatRuleResponse($rule))->values(),
-                'other_recommendations' => $otherRecommendations->map(fn ($rule) => $this->formatRuleResponse($rule))->values(),
             ],
         ];
     }
@@ -113,28 +112,21 @@ class DSSService
     {
         $conditions = $rule->conditions ?? [];
         $displaySpecs = $rule->display_specifications ?? [];
+        
+        $product = $rule->product;
 
         return [
             'id' => $rule->id,
-            'name' => $rule->product_name,
+            'name' => $product ? $product->name : $rule->product_name,
+            'slug' => $product ? $product->slug : null,
+            'image' => $product ? asset('storage/' . $product->thumbnail) : null,
             'type' => $rule->model ?? ($rule->category_name ?? 'Equipment'),
             'category' => $rule->category_name,
-            'capacity' => [
-                'display' => $displaySpecs['capacity'] ?? '0kg',
-                'min' => 0,
-                'max' => $this->extractNumberFromCode($conditions['weight'][0] ?? ''),
-            ],
+            'capacity' => $displaySpecs['capacity'] ?? '0kg',
+            'mast_height' => $displaySpecs['mast_height'] ?? '-',
+            'battery' => $displaySpecs['battery'] ?? ($displaySpecs['engine'] ?? '-'),
             'energy' => $conditions['energy'] ?? 'electric',
-            'locations' => $conditions['location'] ?? [],
-            'operator_type' => $conditions['operator'] ?? 'seated',
             'match_score' => $rule->getMatchScore($this->userInput),
-            'spec_details' => $displaySpecs,
         ];
-    }
-
-    protected function extractNumberFromCode(string $code): int
-    {
-        preg_match('/\d+/', $code, $matches);
-        return isset($matches[0]) ? (int) $matches[0] * 1000 : 0;
     }
 }

@@ -17,10 +17,11 @@ class HeroSectionsTable
             ->columns([
                 // IMAGE
                 ImageColumn::make('image')
-                    ->label('Image')
+                    ->label('Images')
                     ->disk('public')
                     ->height(56)
-                    ->circular(),
+                    ->circular()
+                    ->stacked(),
 
                 // TITLE
                 TextColumn::make('title')

@@ -10,33 +10,34 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'mulaidigital.com')
 {{-- Breadcrumb --}}
 @include('frontend.components.breadcrumb')
 
-<section class="py-16 sm:py-20 bg-white">
+<section class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}
-        <div class="mb-14 text-center max-w-2xl mx-auto fade-slide opacity-0 translate-y-4">
+        <div class="mb-6 text-center max-w-2xl mx-auto fade-slide opacity-0 translate-y-4">
 
             {{-- BADGE --}}
-            <span class="inline-flex items-center rounded-full
-                           bg-primary-100
-                           px-3 py-1
-                           text-xs font-medium tracking-wide
-                           text-primary-800">
-                {!! setting('blog_badge', 'Blog') !!}
-            </span>
+            @if(setting('blog_badge'))
+                <span class="inline-flex items-center rounded-full
+                               bg-zinc-150 border border-zinc-200/40
+                               px-3.5 py-1
+                               text-xs font-semibold tracking-wide
+                               text-zinc-900">
+                    {{ strip_tags(setting('blog_badge')) }}
+                </span>
+            @endif
 
-            {{-- TITLE --}}
-            <h1 class="mt-4
-                       text-2xl sm:text-3xl lg:text-3xl
-                       font-bold tracking-tight
+            <h1 class="mt-3
+                       text-3xl sm:text-4xl
+                       font-extrabold tracking-tight
                        text-zinc-900">
                 {!! setting('blog_title', 'Blog Terbaru') !!}
             </h1>
 
             {{-- SUBTITLE --}}
-            <p class="mt-3
+            <p class="mt-2.5
                        text-sm sm:text-base
-                       text-zinc-600">
+                       text-zinc-650">
                 {!! setting(
                 'blog_subtitle',
                 'Update terbaru tentang teknologi, inovasi digital, dan perjalanan startup.'
@@ -46,14 +47,14 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'mulaidigital.com')
 
         {{-- ================= CATEGORY PILLS ================= --}}
         @if($categories->count() > 0)
-        <div class="mb-8 flex justify-center fade-slide opacity-0 translate-y-4">
-            <div class="flex items-center gap-2 overflow-x-auto pb-4 w-full max-w-4xl px-4 no-scrollbar" style="scrollbar-width: none;">
-                <button type="button" class="category-pill active flex-shrink-0 px-6 py-2 rounded-full text-sm font-medium border border-primary-500 bg-primary-500 text-white shadow-md transition whitespace-nowrap" data-slug="all">
+        <div class="mb-6 flex justify-center fade-slide opacity-0 translate-y-4">
+            <div class="flex items-center gap-2 overflow-x-auto pb-3 w-full max-w-4xl px-4 no-scrollbar" style="scrollbar-width: none;">
+                <button type="button" class="category-pill active flex-shrink-0 px-5 py-1.5 rounded-full text-xs font-semibold border whitespace-nowrap transition-colors" data-slug="all">
                     Semua Artikel
                 </button>
                 @foreach($categories as $cat)
-                <button type="button" class="category-pill flex-shrink-0 px-6 py-2 rounded-full text-sm font-medium border border-zinc-200 bg-white text-zinc-600 hover:border-primary-300 hover:text-primary-600 transition whitespace-nowrap lg:px-5" data-slug="{{ $cat->slug }}">
-                    {{ $cat->name }} <span class="ml-1 opacity-70 text-xs">({{ $cat->pages_count }})</span>
+                <button type="button" class="category-pill flex-shrink-0 px-5 py-1.5 rounded-full text-xs font-semibold border whitespace-nowrap transition-colors" data-slug="{{ $cat->slug }}">
+                    {{ $cat->name }} <span class="ml-1 opacity-70">({{ $cat->pages_count }})</span>
                 </button>
                 @endforeach
             </div>
@@ -63,11 +64,27 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'mulaidigital.com')
             .no-scrollbar::-webkit-scrollbar {
                 display: none;
             }
+            .category-pill {
+                background-color: #ffffff;
+                color: #52525b;
+                border-color: #e4e4e7;
+            }
+            .category-pill:hover {
+                background-color: #f4f4f5;
+                color: #18181b;
+                border-color: #d4d4d8;
+            }
+            .category-pill.active {
+                background-color: #18181b !important;
+                color: #ffffff !important;
+                border-color: #18181b !important;
+                box-shadow: none !important;
+            }
         </style>
         @endif
 
         {{-- ================= SEARCH ================= --}}
-        <div class="mb-12 flex justify-center fade-slide opacity-0 translate-y-4">
+        <div class="mb-8 flex justify-center fade-slide opacity-0 translate-y-4">
             <div class="relative w-full max-w-md">
                 <input
                     type="text"

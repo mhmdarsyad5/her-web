@@ -10,6 +10,7 @@ class DSSRule extends Model
     protected $table = 'dss_rules';
 
     protected $fillable = [
+        'product_id',
         'product_name',
         'category_name',
         'brand',
@@ -53,6 +54,7 @@ class DSSRule extends Model
         $fieldLabels = [
             'location' => 'Lokasi',
             'industry' => 'Industri',
+            'product_type' => 'Jenis Unit',
             'cargo_type' => 'Barang',
             'weight' => 'Berat',
             'height' => 'Tinggi',
@@ -72,6 +74,14 @@ class DSSRule extends Model
         }
 
         return implode(' | ', $labels) ?: '-';
+    }
+
+    /**
+     * Get the product that this rule recommends
+     */
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 
     /**

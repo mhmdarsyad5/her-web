@@ -29,6 +29,26 @@ class AdminPanelProvider extends PanelProvider
      */
     private function filamentColor(string $value, array $default): array
     {
+        if (str_starts_with($value, '#')) {
+            $hex = strtoupper($value);
+            if ($hex === '#F5A21C') {
+                return [
+                    50 => '#fefaf2',
+                    100 => '#fdf0d5',
+                    200 => '#fadfa8',
+                    300 => '#f8ce7a',
+                    400 => '#f6bd4d',
+                    500 => '#f5a21c',
+                    600 => '#db8a0c',
+                    700 => '#b56d09',
+                    800 => '#8e5107',
+                    900 => '#6b3c05',
+                    950 => '#452202',
+                ];
+            }
+            return Color::hex($value);
+        }
+
         return match ($value) {
             'red'     => Color::Red,
             'orange'  => Color::Orange,
@@ -67,10 +87,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarCollapsibleOnDesktop()
 
             ->colors([
-                'primary' => $this->filamentColor(
-                    Setting::color('primary_color', 'amber'),
-                    Color::Amber
-                ),
+                'primary' => Color::Orange,
 
                 'warning' => $this->filamentColor(
                     Setting::color('warning_color', 'amber'),

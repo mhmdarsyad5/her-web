@@ -14,4 +14,8 @@ class HeroSection extends Model
         'button_url',
     ];
 
+    protected $casts = [
+        'image' => 'array',
+    ];
+
 }
