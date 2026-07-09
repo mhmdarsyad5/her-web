@@ -170,6 +170,29 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
             </div>
         </div>
 
+        {{-- ================= FULL SPECIFICATIONS TABLE ================= --}}
+        @if(!empty($product->specifications) && count($product->specifications) > 0)
+        <div class="mt-12 bg-white rounded-3xl border border-zinc-200/80 p-6 sm:p-8 shadow-sm fade-slide opacity-0 translate-y-4">
+            <h3 class="text-lg font-bold text-zinc-955 mb-6">Spesifikasi Lengkap</h3>
+            <div class="overflow-hidden rounded-2xl border border-zinc-100">
+                <table class="w-full text-sm text-left text-zinc-600">
+                    <tbody class="divide-y divide-zinc-100">
+                        @foreach($product->specifications as $spec)
+                        <tr class="hover:bg-zinc-50/50 transition-colors">
+                            <td class="py-3.5 px-5 font-semibold text-zinc-900 bg-zinc-50/50 w-1/3 border-r border-zinc-100">
+                                {{ $spec['key'] }}
+                            </td>
+                            <td class="py-3.5 px-5 text-zinc-700 font-medium">
+                                {{ $spec['value'] }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @endif
+
         {{-- ================= RELATED PRODUCTS ================= --}}
         @if($relatedProducts->count())
         <section class="mt-20 pt-16 border-t border-zinc-200/80">

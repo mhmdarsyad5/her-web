@@ -26,6 +26,7 @@ class Product extends Model
         'price',
         'sale_price',
         'images',
+        'specifications',
     ];
 
     /**
@@ -36,6 +37,7 @@ class Product extends Model
         'price' => 'decimal:2',
         'sale_price' => 'decimal:2',
         'images' => 'array',
+        'specifications' => 'array',
     ];
 
     /**

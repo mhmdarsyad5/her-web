@@ -6,6 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -90,6 +91,22 @@ class ProductForm
                     ->directory('products')
                     ->helperText('Upload satu atau beberapa gambar produk.')
                     ->columnSpanFull(),
+
+                Repeater::make('specifications')
+                    ->label('Spesifikasi Lengkap')
+                    ->schema([
+                        TextInput::make('key')
+                            ->label('Nama Parameter')
+                            ->placeholder('Contoh: Travel Speed, Turning Radius')
+                            ->required(),
+                        TextInput::make('value')
+                            ->label('Nilai (Value)')
+                            ->placeholder('Contoh: 17km/h, 2200mm, Seated')
+                            ->required(),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull()
+                    ->createItemButtonLabel('Tambah Spesifikasi Baru'),
 
                 Toggle::make('is_active')
                     ->label('Status Produk')

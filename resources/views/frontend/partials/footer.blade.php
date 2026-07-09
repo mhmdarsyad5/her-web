@@ -1,5 +1,4 @@
-<footer
-    class="w-full
+<footer class="w-full
            border-t border-neutral-200
            bg-white">
 
@@ -9,32 +8,25 @@
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-y-12 gap-x-8 mt-12 md:mt-16">
 
             {{-- ================= BRAND ================= --}}
-            <div
-                class="col-span-2 md:col-span-4 lg:col-span-2 flex flex-col items-start
+            <div class="col-span-2 md:col-span-4 lg:col-span-2 flex flex-col items-start
                        text-left space-y-4">
 
                 <div class="flex items-center gap-3">
-                    <img
-                        src="{{ setting_url('logo_light') }}"
-                        alt="{{ strip_tags($siteName ?? 'Website') }} Logo"
-                        class="h-10 w-auto"
-                        width="160"
-                        height="40"
-                        fetchpriority="high">
+                    <img src="{{ setting_url('logo_light') }}" alt="{{ strip_tags($siteName ?? 'Website') }} Logo"
+                        class="h-10 w-auto" width="160" height="40" fetchpriority="high">
                 </div>
 
                 <p class="max-w-sm text-sm leading-relaxed text-neutral-600">
                     {!! setting(
-                    'footer_tagline',
-                    'Solusi digital untuk pertumbuhan bisnis modern.'
-                    ) !!}
+    'footer_tagline',
+    'Solusi digital untuk pertumbuhan bisnis modern.'
+) !!}
                 </p>
             </div>
 
             {{-- ================= NAVIGASI ================= --}}
             <div class="col-span-1 flex flex-col items-start text-left">
-                <h3
-                    class="mb-5 text-sm font-semibold uppercase tracking-wider
+                <h3 class="mb-5 text-sm font-semibold uppercase tracking-wider
                            text-neutral-900">
                     {{ strip_tags(setting('footer_nav_title', 'Navigasi')) }}
                 </h3>
@@ -52,15 +44,14 @@
                     <li><a href="{{ route('pages.index') }}" class="footer-link">
                             {{ strip_tags(setting('nav_blog', 'Blog')) }}
                         </a></li>
-                    <li><a href="{{ route('galleries.index') }}" class="footer-link">
+                    <!-- <li><a href="{{ route('galleries.index') }}" class="footer-link">
                             {{ strip_tags(setting('nav_gallery', 'Galeri')) }}
-                        </a></li>
+                        </a></li> -->
                 </ul>
             </div>
             {{-- ================ BANTUAN ================= --}}
             <div class="col-span-1 flex flex-col items-start text-left">
-                <h3
-                    class="mb-5 text-sm font-semibold uppercase tracking-wider
+                <h3 class="mb-5 text-sm font-semibold uppercase tracking-wider
                            text-neutral-900">
                     {{ strip_tags(setting('footer_help_title', 'Bantuan')) }}
                 </h3>
@@ -82,12 +73,10 @@
             </div>
 
             {{-- ================= KONTAK ================= --}}
-            <div
-                class="col-span-2 md:col-span-2 flex flex-col items-start
+            <div class="col-span-2 md:col-span-2 flex flex-col items-start
                        text-left space-y-5">
 
-                <h3
-                    class="text-sm font-semibold uppercase tracking-wider
+                <h3 class="text-sm font-semibold uppercase tracking-wider
                            text-neutral-900">
                     {{ strip_tags(setting('footer_contact_title', 'Kontak')) }}
                 </h3>
@@ -96,31 +85,24 @@
 
                     {{-- WHATSAPP --}}
                     <li class="flex items-center justify-start gap-3">
-                        <x-heroicon-o-phone-arrow-down-left
-                            class="h-5 w-5 shrink-0 text-neutral-700" />
-                        <a
-                            href="https://wa.me/{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number')) }}"
-                            target="_blank"
-                            class="hover:text-neutral-900 transition">
+                        <x-heroicon-o-phone-arrow-down-left class="h-5 w-5 shrink-0 text-neutral-700" />
+                        <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number')) }}"
+                            target="_blank" class="hover:text-neutral-900 transition">
                             {!! setting('whatsapp_number', '+6282112345678') !!}
                         </a>
                     </li>
 
                     {{-- EMAIL --}}
                     <li class="flex items-center justify-start gap-3">
-                        <x-heroicon-o-at-symbol
-                            class="h-5 w-5 shrink-0 text-neutral-700" />
-                        <a
-                            href="mailto:{{ setting('email') }}"
-                            class="hover:text-neutral-900 transition">
+                        <x-heroicon-o-at-symbol class="h-5 w-5 shrink-0 text-neutral-700" />
+                        <a href="mailto:{{ setting('email') }}" class="hover:text-neutral-900 transition">
                             {{ strip_tags(setting('email', 'email@example.com')) }}
                         </a>
                     </li>
 
                     {{-- ALAMAT --}}
                     <li class="flex items-start justify-start gap-3">
-                        <x-heroicon-o-map-pin
-                            class="mt-0.5 h-5 w-5 shrink-0 text-neutral-700" />
+                        <x-heroicon-o-map-pin class="mt-0.5 h-5 w-5 shrink-0 text-neutral-700" />
                         <span class="leading-relaxed">
                             {!! setting('address', 'Jl. Contoh No. 123, Kota Contoh') !!}
                         </span>
@@ -131,8 +113,7 @@
         </div>
 
         {{-- ================= COPYRIGHT ================= --}}
-        <div
-            class="mt-14 border-t border-neutral-200
+        <div class="mt-14 border-t border-neutral-200
            pt-6 text-center text-sm
            text-neutral-600">
             © {{ date('Y') }}
