@@ -20,15 +20,6 @@ class HeroSectionSeeder extends Seeder
                 'created_at' => Carbon::create(2025, 11, 6, 4, 13, 50),
                 'updated_at' => Carbon::create(2025, 11, 7, 7, 39, 51),
             ],
-            [
-                'title' => 'Bangun Website Profesional Anda',
-                'description' => 'Solusi cepat dan efisien untuk company profile yang modern dan responsif.',
-                'image' => 'hero/hero2.jpg',
-                'button_text' => 'Mulai Sekarang',
-                'button_url' => '#kontak',
-                'created_at' => Carbon::create(2025, 11, 7, 0, 10, 10),
-                'updated_at' => Carbon::create(2025, 11, 7, 0, 10, 10),
-            ],
         ]);
     }
 }

@@ -128,23 +128,7 @@
 
             </div>
 
-            {{-- NAVIGATION CONTROLS (DESKTOP ONLY) --}}
-            <div
-                class="absolute inset-y-0 inset-x-0 z-30 hidden lg:flex items-center justify-between px-8 pointer-events-none">
-                {{-- PREV --}}
-                <button type="button"
-                    class="hero-prev group pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm active:scale-95 transition-all">
-                    <x-heroicon-o-chevron-left
-                        class="h-5 w-5 text-white transition-transform group-hover:-translate-x-0.5" />
-                </button>
 
-                {{-- NEXT --}}
-                <button type="button"
-                    class="hero-next group pointer-events-auto flex h-11 w-11 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-sm active:scale-95 transition-all">
-                    <x-heroicon-o-chevron-right
-                        class="h-5 w-5 text-white transition-transform group-hover:translate-x-0.5" />
-                </button>
-            </div>
 
             {{-- PAGINATION --}}
             <div class="absolute bottom-6 inset-x-0 z-30 flex justify-center pointer-events-none">
