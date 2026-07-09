@@ -698,10 +698,9 @@
 
         let cardHtml = '<div class="flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl transition-all duration-300 hover:shadow-2xl ' + classes + '">';
 
-        // Header Row (Badge + Score)
+        // Header Row (Badge)
         cardHtml += '<div class="flex items-center justify-between mb-4">';
         cardHtml += '<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ' + badgeClass + '">' + badgeTitle + '</span>';
-        cardHtml += '<span class="text-[10px] font-bold text-zinc-400">Skor: ' + eq.match_score + '%</span>';
         cardHtml += '</div>';
 
         // Image representation
