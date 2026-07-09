@@ -7,6 +7,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -38,6 +39,20 @@ class ProductForm
                     ->label('Tagline Singkat')
                     ->placeholder('Contoh: Cocok untuk logistik gudang kecil dengan koridor sempit')
                     ->maxLength(255)
+                    ->columnSpanFull(),
+
+                Select::make('product_type')
+                    ->label('Tipe / Segmen Produk')
+                    ->options([
+                        'lithium' => 'Lithium-Ion Forklift',
+                        'electric' => 'Forklift Elektrik',
+                        'diesel' => 'Forklift Diesel',
+                        'pallet-truck' => 'Pallet Truck',
+                        'pallet-stacker' => 'Pallet Stacker',
+                        'warehouse' => 'Warehouse Equipment & AGV',
+                    ])
+                    ->placeholder('Pilih tipe segmen produk...')
+                    ->required()
                     ->columnSpanFull(),
 
                 TextInput::make('energy_type')

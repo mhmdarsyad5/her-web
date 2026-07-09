@@ -53,20 +53,29 @@ $updated = 0;
 
 $p1 = Product::where('slug', 'xe-series-forklift-elektrik-15-38t')->first();
 if ($p1) {
-    $p1->update(['specifications' => $specsSmall]);
+    $p1->update([
+        'specifications' => $specsSmall,
+        'product_type' => 'lithium'
+    ]);
     $updated++;
 }
 
 $p2 = Product::where('slug', 'xe-series-forklift-elektrik-4-5t')->first();
 if ($p2) {
-    $p2->update(['specifications' => $specsLarge]);
+    $p2->update([
+        'specifications' => $specsLarge,
+        'product_type' => 'electric'
+    ]);
     $updated++;
 }
 
 $p3 = Product::where('slug', 'a2-series-forklift-diesel')->first();
 if ($p3) {
-    $p3->update(['specifications' => $specsDiesel]);
+    $p3->update([
+        'specifications' => $specsDiesel,
+        'product_type' => 'diesel'
+    ]);
     $updated++;
 }
 
-echo "Successfully updated specifications for {$updated} products!\n";
+echo "Successfully updated specifications and product types for {$updated} products!\n";

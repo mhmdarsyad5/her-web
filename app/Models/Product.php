@@ -20,6 +20,7 @@ class Product extends Model
         'name_id',
         'description_id',
         'tagline',
+        'product_type',
         'energy_type',
         'lift_height',
         'load_capacity',
