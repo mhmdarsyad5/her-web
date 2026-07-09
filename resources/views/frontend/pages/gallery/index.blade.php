@@ -4,7 +4,7 @@
 'title',
 strip_tags(setting('gallery_title', 'Galeri'))
 . ' - '
-. strip_tags(setting('site_name', 'mulaidigital.com'))
+. strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
 @section('content')

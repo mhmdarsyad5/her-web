@@ -153,9 +153,9 @@ Route::get('/manifest.json', function () {
     $siteName = setting('site_name', 'Herro Equipment Rentals');
     $primaryColor = setting('primary_color', '#ff7f00');
 
-    return Response::json([
+    return response()->json([
         "name" => $siteName,
-        "short_name" => "Herro Equipment Rentals",
+        "short_name" => "HERRO",
         "start_url" => "/",
         "display" => "standalone",
         "background_color" => "#ffffff",

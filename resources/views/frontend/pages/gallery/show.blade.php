@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Galleries - ' . strip_tags(setting('site_name', 'mulaidigital.com')))
+@section('title', 'Galleries - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals')))
 
 @section('content')
 
