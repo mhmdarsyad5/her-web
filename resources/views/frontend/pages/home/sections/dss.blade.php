@@ -19,7 +19,7 @@
     }
 
     .dss-wrap {
-        padding: 2.5rem 0;
+        padding: 0 0 2.5rem 0;
         max-width: 900px;
         margin: 0 auto;
     }
@@ -395,13 +395,13 @@
         font-weight: 500;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
         .dss-wrap {
-            padding: 1.5rem 0;
+            padding: 0 0 1.5rem 0;
         }
 
         .form-card {
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .field-group {
@@ -412,6 +412,7 @@
         .step-bar {
             padding: 1rem;
             gap: 4px;
+            margin-bottom: 1.5rem;
         }
 
         .step-label {
@@ -448,7 +449,7 @@
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
 
         {{-- HEADER --}}
-        <div class="mx-auto max-w-2xl text-center mb-10 fade-slide opacity-0 translate-y-4">
+        <div class="mx-auto max-w-2xl text-center mb-4 sm:mb-10 fade-slide opacity-0 translate-y-4">
             @if (setting('dss_badge', 'Rekomendasi Alat'))
                 <span class="inline-flex items-center rounded-full
                                    bg-zinc-100 border border-zinc-200/40
