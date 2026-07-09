@@ -17,7 +17,7 @@ $menus = [
 [
 'key' => 'services',
 'name' => strip_tags(setting('nav_services', 'Layanan')),
-'icon' => 'heroicon-o-briefcase',
+'icon' => 'heroicon-o-wrench',
 'route' => 'services.index',
 'active' => request()->routeIs('services.*'),
 ],
@@ -54,10 +54,26 @@ $menus = [
                   : 'text-zinc-600 hover:text-primary-700' }}">
 
         {{-- ICON --}}
-        <x-dynamic-component
-            :component="$item['icon']"
-            class="h-5 w-5 transition-all duration-300
-                   {{ $item['active'] ? '' : 'group-hover:scale-110' }}" />
+        @if($item['key'] === 'products')
+            <svg viewBox="0 0 24 24" class="h-5 w-5 transition-all duration-300 {{ $item['active'] ? 'text-primary-700' : 'text-zinc-600 group-hover:scale-110' }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Mast & Fork -->
+                <path d="M19 5v14M19 14h3M19 18h3" />
+                <!-- Forklift Cabin & Chassis -->
+                <path d="M3 18h3M15 18h4" />
+                <path d="M6 18V11h9v7H6z" />
+                <path d="M9 11V6h3l3 5" />
+                <path d="M9 11v-1.5a1 1 0 011-1h1.5" />
+                <path d="M3 18v-4a2 2 0 012-2h1" />
+                <!-- Wheels -->
+                <circle cx="9" cy="18" r="2" />
+                <circle cx="15" cy="18" r="2" />
+            </svg>
+        @else
+            <x-dynamic-component
+                :component="$item['icon']"
+                class="h-5 w-5 transition-all duration-300
+                       {{ $item['active'] ? '' : 'group-hover:scale-110' }}" />
+        @endif
 
         {{-- LABEL --}}
         <span class="text-[10px] font-medium transition-all duration-300 truncate w-full text-center">
