@@ -64,10 +64,9 @@
 
             @forelse ($pages as $page)
             @php
-            $excerpt = \Illuminate\Support\Str::limit(
-                strip_tags($page->content),
-                140
-            );
+            $excerpt = $page->excerpt
+                ? \Illuminate\Support\Str::limit($page->excerpt, 140)
+                : \Illuminate\Support\Str::limit(strip_tags($page->content), 140);
             @endphp
 
             <article class="group snap-center shrink-0 w-[85%] sm:w-auto
