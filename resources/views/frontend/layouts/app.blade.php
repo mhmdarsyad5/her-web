@@ -56,11 +56,7 @@
     <link rel="icon"             href="{{ setting_url('favicon', 'favicon.svg') }}" />
     <link rel="apple-touch-icon" href="{{ setting_url('logo', 'logo.png') }}" />
 
-    {{-- PWA --}}
-    <link rel="manifest" href="{{ url('/manifest.json') }}" />
-    <meta name="theme-color"                    content="{{ setting('primary_color', '#ffffffff') }}" />
-    <meta name="apple-mobile-web-app-capable"   content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
 
     {{-- Open Graph (WhatsApp, Facebook, LinkedIn preview) --}}
     <meta property="og:type"        content="website" />

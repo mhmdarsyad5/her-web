@@ -12,8 +12,8 @@ class HeroSectionSeeder extends Seeder
     {
         DB::table('hero_sections')->insert([
             [
-                'title' => 'Selamat Datang di Mulai Digital',
-                'description' => 'Kami membantu bisnis Anda tampil profesional dan terpercaya di dunia digital.',
+                'title' => 'Selamat Datang di Herro Equipment Rentals',
+                'description' => 'Solusi persewaan forklift dan alat berat terbaik untuk kebutuhan operasional bisnis Anda.',
                 'image' => 'hero/hero1.jpg',
                 'button_text' => 'Pelajari Lebih Lanjut',
                 'button_url' => '#tentang-kami',

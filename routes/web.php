@@ -147,33 +147,4 @@ Route::get('/sitemap.xml', function () {
     return response($xml, 200, ['Content-Type' => 'application/xml']);
 })->name('sitemap');
 
-// PWA Manifest
-Route::get('/manifest.json', function () {
-    $logo = setting('logo', 'settings/notion.svg');
-    $siteName = setting('site_name', 'Herro Equipment Rentals');
-    $primaryColor = setting('primary_color', '#ff7f00');
 
-    return response()->json([
-        "name" => $siteName,
-        "short_name" => "HERRO",
-        "start_url" => "/",
-        "display" => "standalone",
-        "background_color" => "#ffffff",
-        "theme_color" => $primaryColor,
-        "orientation" => "portrait",
-        "icons" => [
-            [
-                "src" => "/storage/$logo",
-                "sizes" => "192x192",
-                "type" => "image/svg+xml"
-            ],
-            [
-                "src" => "/storage/$logo",
-                "sizes" => "512x512",
-                "type" => "image/svg+xml"
-            ]
-        ]
-    ], 200, [
-        'Content-Type' => 'application/manifest+json'
-    ]);
-});

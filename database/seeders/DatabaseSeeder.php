@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::firstOrCreate(
             ['email' => 'admin@mail.com'],
             [
-                'name' => 'Admin Mulai Digital Offcial',
+                'name' => 'Admin Herro',
                 'password' => bcrypt('admin@mail.com'), // Ganti kalau mau lebih aman
             ]
         );
