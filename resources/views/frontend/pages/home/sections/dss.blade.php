@@ -439,7 +439,7 @@
     $isHome = request()->routeIs('home');
     $dssBgClass = $isHome ? 'bg-zinc-50 border-t border-zinc-200/80' : 'bg-white';
 @endphp
-<section class="py-12 sm:py-16 {{ $dssBgClass }} relative overflow-hidden" id="dssSection">
+<section class="pt-6 pb-12 sm:pt-10 sm:pb-16 {{ $dssBgClass }} relative overflow-hidden" id="dssSection">
 
     {{-- Decorative Background Glows --}}
     <div class="absolute top-1/3 left-0 w-96 h-96 bg-primary-900/5 rounded-full blur-[120px] pointer-events-none"></div>
