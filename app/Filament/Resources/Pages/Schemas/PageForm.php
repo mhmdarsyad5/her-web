@@ -41,7 +41,7 @@ class PageForm
                     ->rows(3)
                     ->maxLength(255)
                     ->columnSpanFull()
-                    ->helperText('Jika dikosongkan, deskripsi akan diambil otomatis dari konten halaman.'),
+                    ->helperText('Maksimal 255 karakter. Rekomendasi SEO: 150-160 karakter untuk deskripsi pencarian Google. Jika dikosongkan, deskripsi diambil otomatis dari konten.'),
 
                 RichEditor::make('content')
                     ->label('Konten Halaman')

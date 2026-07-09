@@ -69,7 +69,7 @@
                 : \Illuminate\Support\Str::limit(strip_tags($page->content), 140);
             @endphp
 
-            <article class="group snap-center shrink-0 w-[85%] sm:w-auto
+            <article class="group flex flex-col snap-center shrink-0 w-[85%] sm:w-auto
                             rounded-2xl border
                             border-zinc-200/70
                             bg-white
@@ -79,7 +79,7 @@
                             hover:shadow-xl hover:shadow-primary-900/5 hover:-translate-y-1.5">
 
                 {{-- THUMBNAIL --}}
-                <div class="aspect-video bg-zinc-100 overflow-hidden relative">
+                <div class="aspect-video bg-zinc-100 overflow-hidden relative flex-shrink-0">
                     <img
                         src="{{ asset('storage/' . $page->thumbnail) }}"
                         onerror="this.src='{{ asset('assets-default/placeholder.jpg') }}'"
@@ -93,28 +93,33 @@
                 </div>
 
                 {{-- CONTENT --}}
-                <div class="p-6 sm:p-7 relative">
+                <div class="flex flex-col flex-1 p-4 sm:p-5 relative">
                     <a href="{{ route('pages.show', $page->slug) }}" class="block">
-                        <h3 class="text-base lg:text-lg
-                                   font-bold tracking-tight
-                                   text-zinc-950
-                                   line-clamp-2
-                                   transition-colors
-                                   group-hover:text-primary-900">
+                        <h3 class="text-base sm:text-lg font-bold leading-snug text-zinc-950 transition-colors group-hover:text-primary-900 line-clamp-2 mb-1.5">
                             {{ $page->title }}
                         </h3>
                     </a>
 
-                    <p class="mt-3 text-sm leading-relaxed
-                               text-zinc-600
-                               line-clamp-3">
+                    <p class="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-500 line-clamp-3 mb-3">
                         {{ $excerpt }}
                     </p>
 
-                    <a href="{{ route('pages.show', $page->slug) }}" class="mt-6 pt-4 border-t border-zinc-100 flex items-center justify-between text-xs font-semibold text-zinc-400 hover:text-primary-900 group-hover:text-primary-900 transition-colors block">
-                        <span>Baca Selengkapnya</span>
-                        <x-heroicon-o-chevron-right class="h-4 w-4 transform transition-transform group-hover:translate-x-0.5" />
-                    </a>
+                    <div class="mt-auto pt-3 border-t border-zinc-100 flex flex-col gap-3">
+                        @if($page->tags->count() > 0)
+                        <div class="flex flex-wrap gap-1.5">
+                            @foreach($page->tags as $tag)
+                            <span class="text-[9px] sm:text-[10px] font-semibold text-zinc-500 bg-zinc-50 px-2 py-0.5 rounded border border-zinc-200/40">
+                                #{{ $tag->name }}
+                            </span>
+                            @endforeach
+                        </div>
+                        @endif
+
+                        <a href="{{ route('pages.show', $page->slug) }}" class="flex items-center justify-between text-[11px] sm:text-xs font-bold text-zinc-400 hover:text-primary-900 group-hover:text-primary-900 transition-colors pt-2.5 border-t border-zinc-100/60">
+                            <span>Baca Selengkapnya</span>
+                            <x-heroicon-o-chevron-right class="h-3.5 w-3.5 transform transition-transform group-hover:translate-x-0.5" />
+                        </a>
+                    </div>
                 </div>
             </article>
             @empty
