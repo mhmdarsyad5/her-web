@@ -92,19 +92,6 @@
             {{-- Image Banner with Skewed Geometric Corners --}}
             <div
                 class="relative overflow-hidden rounded-[2rem] border border-zinc-200/80 bg-white p-3 sm:p-4 shadow-xl fade-slide opacity-0 translate-y-4 mb-10">
-                {{-- Top Left Orange/Grey Triangle Shapes --}}
-                <div
-                    class="absolute left-0 top-0 w-36 h-28 bg-gradient-to-br from-primary-600 via-primary-500 to-transparent pointer-events-none transform -skew-y-12 -translate-y-8 -translate-x-4 z-10">
-                </div>
-                <div
-                    class="absolute left-0 top-0 w-36 h-28 bg-zinc-800 pointer-events-none transform -skew-y-12 -translate-y-12 -translate-x-12 z-0">
-                </div>
-
-                {{-- Right Diagonal Orange Shape --}}
-                <div
-                    class="absolute right-0 bottom-0 w-44 h-44 bg-gradient-to-tr from-primary-500 to-primary-600 pointer-events-none transform skew-x-12 translate-x-12 translate-y-12 z-10">
-                </div>
-
                 <img src="{{ asset('assets-default/pages/pabrik_hangcha.png') }}" alt="Hangcha Factory"
                     class="w-full h-56 sm:h-80 lg:h-96 object-cover rounded-2xl relative z-0">
             </div>
