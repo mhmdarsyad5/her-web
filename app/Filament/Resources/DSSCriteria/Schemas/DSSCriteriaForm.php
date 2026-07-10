@@ -40,6 +40,18 @@ class DSSCriteriaForm
                 ->numeric()
                 ->default(0),
 
+            Select::make('equipment_map')
+                ->label('Tipe Unit yang Diizinkan')
+                ->helperText('Tentukan unit mana saja yang boleh memilih kriteria ini di form SPK/DSS (kosongkan jika bisa dipilih semua unit).')
+                ->multiple()
+                ->options([
+                    'forklift' => 'Forklift (Counterbalance)',
+                    'reach_truck' => 'Reach Truck',
+                    'electric_stacker' => 'Electric Stacker',
+                    'pallet_truck' => 'Electric Pallet Truck',
+                ])
+                ->columnSpanFull(),
+
             Toggle::make('is_active')
                 ->label('Aktif')
                 ->default(true),

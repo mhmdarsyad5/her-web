@@ -585,6 +585,70 @@
 <script>
     let currentStep = 1;
 
+    // Load criteria lists from PHP with equipment_map values
+    const rawEnergies = @json($energies);
+    const rawWeights = @json($weights);
+    const rawHeights = @json($heights);
+
+    // Dynamic dropdown filtering
+    function filterDssDropdown(fieldId, criteriaList, selectedUnitType) {
+        const selectEl = document.getElementById(fieldId);
+        if (!selectEl) return;
+
+        const currentValue = selectEl.value;
+        selectEl.innerHTML = '';
+
+        // Add default placeholder option
+        const placeholderOpt = document.createElement('option');
+        placeholderOpt.value = '';
+        if (fieldId === 'energi') {
+            placeholderOpt.textContent = '-- Pilih Tipe Energi --';
+        } else if (fieldId === 'berat') {
+            placeholderOpt.textContent = '-- Pilih Kapasitas Beban --';
+        } else {
+            placeholderOpt.textContent = '-- Pilih Tinggi Angkat --';
+        }
+        selectEl.appendChild(placeholderOpt);
+
+        criteriaList.forEach(opt => {
+            // Option is allowed if:
+            // 1. selectedUnitType is empty (show all)
+            // 2. opt.equipment_map is null or empty array (no restriction)
+            // 3. opt.equipment_map includes selectedUnitType
+            const isAllowed = !selectedUnitType || 
+                              !opt.equipment_map || 
+                              opt.equipment_map.length === 0 || 
+                              opt.equipment_map.includes(selectedUnitType);
+
+            if (isAllowed) {
+                const newOpt = document.createElement('option');
+                newOpt.value = opt.code;
+                newOpt.textContent = opt.name;
+                selectEl.appendChild(newOpt);
+            }
+        });
+
+        // Restore previously selected value if still valid
+        if (Array.from(selectEl.options).some(opt => opt.value === currentValue)) {
+            selectEl.value = currentValue;
+        } else {
+            selectEl.value = '';
+        }
+    }
+
+    // Attach listener to product_type selection change
+    document.addEventListener("DOMContentLoaded", () => {
+        const productTypeSelect = document.getElementById('product_type');
+        if (productTypeSelect) {
+            productTypeSelect.addEventListener('change', function() {
+                const selectedType = this.value;
+                filterDssDropdown('energi', rawEnergies, selectedType);
+                filterDssDropdown('berat', rawWeights, selectedType);
+                filterDssDropdown('tinggi', rawHeights, selectedType);
+            });
+        }
+    });
+
     function goStep(n) {
         document.getElementById('step' + currentStep).style.display = 'none';
         currentStep = n;
@@ -758,6 +822,12 @@
         document.getElementById('tinggi').value = '';
         document.getElementById('energi').value = '';
         document.getElementById('step3').style.display = 'none';
+
+        // Reset dynamic dropdown filters
+        filterDssDropdown('energi', rawEnergies, '');
+        filterDssDropdown('berat', rawWeights, '');
+        filterDssDropdown('tinggi', rawHeights, '');
+
         goStep(1);
     }
 </script>

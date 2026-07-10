@@ -31,31 +31,31 @@ class DSSCriteriaSeeder extends Seeder
             ['field_type' => 'industry', 'code' => 'others', 'name' => 'Lainnya', 'sort_order' => 9],
 
             // Product Types (Jenis Unit Forklift/Reach Truck)
-            ['field_type' => 'product_type', 'code' => 'forklift', 'name' => 'Forklift (Counterbalance)', 'sort_order' => 1],
-            ['field_type' => 'product_type', 'code' => 'reach_truck', 'name' => 'Reach Truck', 'sort_order' => 2],
-            ['field_type' => 'product_type', 'code' => 'electric_stacker', 'name' => 'Electric Stacker', 'sort_order' => 3],
-            ['field_type' => 'product_type', 'code' => 'pallet_truck', 'name' => 'Electric Pallet Truck', 'sort_order' => 4],
+            ['field_type' => 'product_type', 'code' => 'forklift', 'name' => 'Forklift (Counterbalance)', 'sort_order' => 1, 'equipment_map' => null],
+            ['field_type' => 'product_type', 'code' => 'reach_truck', 'name' => 'Reach Truck', 'sort_order' => 2, 'equipment_map' => null],
+            ['field_type' => 'product_type', 'code' => 'electric_stacker', 'name' => 'Electric Stacker', 'sort_order' => 3, 'equipment_map' => null],
+            ['field_type' => 'product_type', 'code' => 'pallet_truck', 'name' => 'Electric Pallet Truck', 'sort_order' => 4, 'equipment_map' => null],
 
             // Drive Type / Energy (Sumber Energi)
-            ['field_type' => 'energy', 'code' => 'diesel', 'name' => 'Diesel / IC (Tangguh & Outdoor)', 'sort_order' => 1],
-            ['field_type' => 'energy', 'code' => 'lithium', 'name' => 'Listrik Lithium-Ion (Eco & Cepat)', 'sort_order' => 2],
-            ['field_type' => 'energy', 'code' => 'electric', 'name' => 'Listrik Lead-Acid (Ekonomis)', 'sort_order' => 3],
+            ['field_type' => 'energy', 'code' => 'diesel', 'name' => 'Diesel / IC (Tangguh & Outdoor)', 'sort_order' => 1, 'equipment_map' => ['forklift']],
+            ['field_type' => 'energy', 'code' => 'lithium', 'name' => 'Listrik Lithium-Ion (Eco & Cepat)', 'sort_order' => 2, 'equipment_map' => ['forklift', 'reach_truck', 'electric_stacker', 'pallet_truck']],
+            ['field_type' => 'energy', 'code' => 'electric', 'name' => 'Listrik Lead-Acid (Ekonomis)', 'sort_order' => 3, 'equipment_map' => ['forklift', 'reach_truck', 'electric_stacker', 'pallet_truck']],
 
             // Load Capacity (Kapasitas Beban)
-            ['field_type' => 'weight', 'code' => 'le1t', 'name' => '≤ 1 Ton', 'sort_order' => 1],
-            ['field_type' => 'weight', 'code' => '1to2t', 'name' => '1 – 2 Ton', 'sort_order' => 2],
-            ['field_type' => 'weight', 'code' => '2to3.5t', 'name' => '2 – 3,5 Ton', 'sort_order' => 3],
-            ['field_type' => 'weight', 'code' => '3.5to5t', 'name' => '3,5 – 5 Ton', 'sort_order' => 4],
-            ['field_type' => 'weight', 'code' => '5to10t', 'name' => '5 – 10 Ton', 'sort_order' => 5],
-            ['field_type' => 'weight', 'code' => 'gt10t', 'name' => '> 10 Ton', 'sort_order' => 6],
+            ['field_type' => 'weight', 'code' => 'le1t', 'name' => '≤ 1 Ton', 'sort_order' => 1, 'equipment_map' => ['electric_stacker', 'pallet_truck']],
+            ['field_type' => 'weight', 'code' => '1to2t', 'name' => '1 – 2 Ton', 'sort_order' => 2, 'equipment_map' => ['forklift', 'reach_truck', 'electric_stacker', 'pallet_truck']],
+            ['field_type' => 'weight', 'code' => '2to3.5t', 'name' => '2 – 3,5 Ton', 'sort_order' => 3, 'equipment_map' => ['forklift', 'reach_truck', 'electric_stacker', 'pallet_truck']],
+            ['field_type' => 'weight', 'code' => '3.5to5t', 'name' => '3,5 – 5 Ton', 'sort_order' => 4, 'equipment_map' => ['forklift']],
+            ['field_type' => 'weight', 'code' => '5to10t', 'name' => '5 – 10 Ton', 'sort_order' => 5, 'equipment_map' => ['forklift']],
+            ['field_type' => 'weight', 'code' => 'gt10t', 'name' => '> 10 Ton', 'sort_order' => 6, 'equipment_map' => ['forklift']],
 
             // Lift Height (Tinggi Angkat)
-            ['field_type' => 'height', 'code' => 'le0.125m', 'name' => 'Tinggi Rendah (≤ 0.125 m)', 'sort_order' => 1],
-            ['field_type' => 'height', 'code' => '0.126to2m', 'name' => 'Tinggi Sedang (0.126 – 2 m)', 'sort_order' => 2],
-            ['field_type' => 'height', 'code' => '2to5.5m', 'name' => 'Tinggi Standar (2 – 5,5 m)', 'sort_order' => 3],
-            ['field_type' => 'height', 'code' => '5.5to7m', 'name' => 'Tinggi Sedang (5,5 – 7 m)', 'sort_order' => 4],
-            ['field_type' => 'height', 'code' => '7to10m', 'name' => 'Tinggi Tinggi (7 – 10 m)', 'sort_order' => 5],
-            ['field_type' => 'height', 'code' => 'gt10m', 'name' => 'Sangat Tinggi (> 10 m)', 'sort_order' => 6],
+            ['field_type' => 'height', 'code' => 'le0.125m', 'name' => 'Tinggi Rendah (≤ 0.125 m)', 'sort_order' => 1, 'equipment_map' => ['pallet_truck']],
+            ['field_type' => 'height', 'code' => '0.126to2m', 'name' => 'Tinggi Sedang (0.126 – 2 m)', 'sort_order' => 2, 'equipment_map' => ['electric_stacker']],
+            ['field_type' => 'height', 'code' => '2to5.5m', 'name' => 'Tinggi Standar (2 – 5,5 m)', 'sort_order' => 3, 'equipment_map' => ['forklift', 'electric_stacker', 'reach_truck']],
+            ['field_type' => 'height', 'code' => '5.5to7m', 'name' => 'Tinggi Sedang (5,5 – 7 m)', 'sort_order' => 4, 'equipment_map' => ['forklift', 'reach_truck']],
+            ['field_type' => 'height', 'code' => '7to10m', 'name' => 'Tinggi Tinggi (7 – 10 m)', 'sort_order' => 5, 'equipment_map' => ['reach_truck']],
+            ['field_type' => 'height', 'code' => 'gt10m', 'name' => 'Sangat Tinggi (> 10 m)', 'sort_order' => 6, 'equipment_map' => ['reach_truck']],
         ];
 
         foreach ($criteria as $item) {
