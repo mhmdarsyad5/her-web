@@ -15,6 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'throttle.contact' => \App\Http\Middleware\ThrottleContactForm::class,
             'throttle.dss' => \App\Http\Middleware\ThrottleDssApi::class,
         ]);
+
+        $middleware->append(\App\Http\Middleware\MinifyHtml::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
