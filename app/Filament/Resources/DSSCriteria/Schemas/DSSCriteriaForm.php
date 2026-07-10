@@ -15,13 +15,14 @@ class DSSCriteriaForm
             Select::make('field_type')
                 ->label('Tipe Field')
                 ->options([
-                    'location' => 'Lokasi',
                     'industry' => 'Industri',
+                    'product_type' => 'Jenis Unit (Product Type)',
+                    'energy' => 'Energi (Drive Type)',
+                    'weight' => 'Berat (Load Capacity)',
+                    'height' => 'Ketinggian (Lift Height)',
+                    'location' => 'Lokasi',
                     'cargo_type' => 'Jenis Barang',
-                    'weight' => 'Berat',
-                    'height' => 'Ketinggian',
                     'aisle' => 'Lebar Lorong',
-                    'energy' => 'Energi',
                     'unit' => 'Unit Sekarang',
                     'operator' => 'Posisi Operator',
                 ])
