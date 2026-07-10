@@ -20,11 +20,6 @@ class DSSCriteriaForm
                     'energy' => 'Energi (Drive Type)',
                     'weight' => 'Berat (Load Capacity)',
                     'height' => 'Ketinggian (Lift Height)',
-                    'location' => 'Lokasi',
-                    'cargo_type' => 'Jenis Barang',
-                    'aisle' => 'Lebar Lorong',
-                    'unit' => 'Unit Sekarang',
-                    'operator' => 'Posisi Operator',
                 ])
                 ->required(),
 
