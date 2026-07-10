@@ -44,7 +44,6 @@ class ProductForm
                 Select::make('product_type')
                     ->label('Tipe / Segmen Produk')
                     ->options([
-                        'lithium' => 'Lithium-Ion Forklift',
                         'electric' => 'Forklift Elektrik',
                         'diesel' => 'Forklift Diesel',
                         'pallet-truck' => 'Pallet Truck',
