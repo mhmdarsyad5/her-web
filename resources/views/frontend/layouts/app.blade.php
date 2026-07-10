@@ -96,7 +96,7 @@
     @stack('head')
 </head>
 
-<body class="min-h-screen bg-white text-gray-900">
+<body class="min-h-screen bg-white text-gray-900" oncontextmenu="return false;">
 
     {{-- Navbar --}}
     @include('frontend.partials.navbar')
@@ -124,20 +124,24 @@
 
     {{-- Anti-Inspect & DevTools Blocker --}}
     <script>
-        // Blokir Klik Kanan
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        // Blokir Klik Kanan secara capture (mendahului script lain)
+        window.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            e.stopPropagation();
+        }, true);
 
-        // Blokir Tombol Pintasan (F12, Ctrl+Shift+I/J/C, Ctrl+U)
-        document.addEventListener('keydown', e => {
+        // Blokir Tombol Pintasan secara capture (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+        window.addEventListener('keydown', e => {
             if (
                 e.key === 'F12' || 
                 (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.key === 'i' || e.key === 'j' || e.key === 'c')) || 
                 (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
             ) {
                 e.preventDefault();
+                e.stopPropagation();
                 return false;
             }
-        });
+        }, true);
 
         // Deteksi DevTools lewat Loop Debugger
         setInterval(() => {
