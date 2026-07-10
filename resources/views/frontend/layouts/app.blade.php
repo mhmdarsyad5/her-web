@@ -122,8 +122,38 @@
     {{-- WhatsApp Floating --}}
     <div x-data x-init="$nextTick(() => $el.innerHTML = @js(view('frontend.partials.whatsapp-float')->render()))"></div>
 
+    {{-- Anti-Inspect & DevTools Blocker --}}
+    <script>
+        // Blokir Klik Kanan
+        document.addEventListener('contextmenu', e => e.preventDefault());
 
+        // Blokir Tombol Pintasan (F12, Ctrl+Shift+I/J/C, Ctrl+U)
+        document.addEventListener('keydown', e => {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.key === 'i' || e.key === 'j' || e.key === 'c')) || 
+                (e.ctrlKey && (e.key === 'U' || e.key === 'u'))
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
 
+        // Deteksi DevTools lewat Loop Debugger
+        setInterval(() => {
+            const start = performance.now();
+            debugger;
+            const end = performance.now();
+            if (end - start > 100) {
+                document.body.innerHTML = `
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;background-color:#fafafa;font-family:system-ui,-apple-system,sans-serif;text-align:center;padding:20px;">
+                        <h1 style="color:#ef4444;font-size:24px;font-weight:800;margin-bottom:10px;">Akses Ditolak</h1>
+                        <p style="color:#52525b;font-size:14px;max-width:400px;line-height:1.6;">Alat pengembang (Developer Tools) terdeteksi aktif. Demi keamanan kode dan data, halaman ini tidak dapat diakses.</p>
+                    </div>
+                `;
+            }
+        }, 1000);
+    </script>
 </body>
 
 </html>
