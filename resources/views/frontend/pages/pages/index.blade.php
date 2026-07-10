@@ -50,11 +50,11 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         <div class="mb-6 flex justify-center fade-slide opacity-0 translate-y-4">
             <div class="flex items-center gap-2 overflow-x-auto pb-3 w-full max-w-4xl px-4 no-scrollbar" style="scrollbar-width: none;">
                 <button type="button" class="category-pill active flex-shrink-0 px-5 py-1.5 rounded-full text-xs font-semibold border whitespace-nowrap transition-colors" data-slug="all">
-                    Semua Artikel
+                    Semua Artikel <span class="category-count">{{ $categories->sum('pages_count') }}</span>
                 </button>
                 @foreach($categories as $cat)
                 <button type="button" class="category-pill flex-shrink-0 px-5 py-1.5 rounded-full text-xs font-semibold border whitespace-nowrap transition-colors" data-slug="{{ $cat->slug }}">
-                    {{ $cat->name }} <span class="ml-1 opacity-70">({{ $cat->pages_count }})</span>
+                    {{ ucwords($cat->name) }} <span class="category-count">{{ $cat->pages_count }}</span>
                 </button>
                 @endforeach
             </div>
@@ -68,6 +68,8 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                 background-color: #ffffff;
                 color: #52525b;
                 border-color: #e4e4e7;
+                display: inline-flex;
+                align-items: center;
             }
             .category-pill:hover {
                 background-color: #f4f4f5;
@@ -79,6 +81,24 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                 color: #ffffff !important;
                 border-color: #18181b !important;
                 box-shadow: none !important;
+            }
+            .category-count {
+                background-color: #f4f4f5;
+                color: #71717a;
+                border-radius: 9999px;
+                padding: 0.125rem 0.375rem;
+                font-size: 10px;
+                font-weight: 700;
+                margin-left: 0.375rem;
+                transition: all 0.2s ease-in-out;
+            }
+            .category-pill:hover .category-count {
+                background-color: #e4e4e7;
+                color: #18181b;
+            }
+            .category-pill.active .category-count {
+                background-color: rgba(255, 255, 255, 0.15) !important;
+                color: #ffffff !important;
             }
         </style>
         @endif
