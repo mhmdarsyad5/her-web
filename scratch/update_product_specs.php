@@ -55,7 +55,7 @@ $p1 = Product::where('slug', 'xe-series-forklift-elektrik-15-38t')->first();
 if ($p1) {
     $p1->update([
         'specifications' => $specsSmall,
-        'product_type' => 'lithium'
+        'product_type' => 'electric'
     ]);
     $updated++;
 }

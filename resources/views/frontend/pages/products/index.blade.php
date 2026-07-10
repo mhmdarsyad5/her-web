@@ -79,11 +79,8 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         {{-- ================= SEGMENT FILTER BAR ================= --}}
         <div class="mb-10 flex justify-center fade-slide opacity-0 translate-y-4">
             <div class="flex items-center gap-3 overflow-x-auto pb-4 pt-1 w-full max-w-6xl scrollbar-none justify-start lg:justify-center px-1">
-                <button type="button" data-segment="all" class="segment-btn active flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
+                 <button type="button" data-segment="all" class="segment-btn active flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
                     Semua Produk
-                </button>
-                <button type="button" data-segment="lithium" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Lithium-Ion Forklift
                 </button>
                 <button type="button" data-segment="electric" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
                     Forklift Elektrik
