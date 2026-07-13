@@ -140,6 +140,6 @@ class DSSRuleSeeder extends Seeder
             DSSRule::create(array_merge($ruleData, ['is_active' => true]));
         }
 
-        $this->command->info("DSS Rules seeded successfully and mapped to real Products catalog!");
+        $this->command->info('DSS Rules seeded successfully and mapped to real Products catalog!');
     }
 }

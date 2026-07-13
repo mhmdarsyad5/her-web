@@ -2,8 +2,8 @@
 
 use App\Models\Product;
 
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
 $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
@@ -55,7 +55,7 @@ $p1 = Product::where('slug', 'xe-series-forklift-elektrik-15-38t')->first();
 if ($p1) {
     $p1->update([
         'specifications' => $specsSmall,
-        'product_type' => 'electric'
+        'product_type' => 'electric',
     ]);
     $updated++;
 }
@@ -64,7 +64,7 @@ $p2 = Product::where('slug', 'xe-series-forklift-elektrik-4-5t')->first();
 if ($p2) {
     $p2->update([
         'specifications' => $specsLarge,
-        'product_type' => 'electric'
+        'product_type' => 'electric',
     ]);
     $updated++;
 }
@@ -73,7 +73,7 @@ $p3 = Product::where('slug', 'a2-series-forklift-diesel')->first();
 if ($p3) {
     $p3->update([
         'specifications' => $specsDiesel,
-        'product_type' => 'diesel'
+        'product_type' => 'diesel',
     ]);
     $updated++;
 }

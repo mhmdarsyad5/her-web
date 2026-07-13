@@ -4,8 +4,6 @@ namespace App\Filament\Resources\Pages\PageCategories;
 
 use App\Filament\Resources\Pages\PageCategories\Pages\ManagePageCategories;
 use App\Models\PageCategory;
-use Illuminate\Support\Str;
-use BackedEnum;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -13,13 +11,14 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class PageCategoryResource extends Resource
 {
     protected static ?string $model = PageCategory::class;
+
     protected static ?string $slug = 'kategori-artikel';
 
     protected static ?string $recordTitleAttribute = 'name';
@@ -36,7 +35,7 @@ class PageCategoryResource extends Resource
 
     public static function getNavigationSort(): ?int
     {
-        return 2;
+        return 7;
     }
 
     public static function getModelLabel(): string
@@ -58,7 +57,7 @@ class PageCategoryResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn($state, callable $set) => $set('slug', Str::slug($state))),
+                    ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
 
                 TextInput::make('slug')
                     ->required()

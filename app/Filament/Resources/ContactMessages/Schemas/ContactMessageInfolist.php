@@ -11,17 +11,24 @@ class ContactMessageInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('Nama Pengirim'),
                 TextEntry::make('email')
-                    ->label('Email address'),
+                    ->label('Alamat Email'),
+                TextEntry::make('whatsapp_number')
+                    ->label('Nomor WhatsApp'),
                 TextEntry::make('subject')
+                    ->label('Subjek')
                     ->placeholder('-'),
                 TextEntry::make('message')
+                    ->label('Isi Pesan')
                     ->columnSpanFull(),
                 TextEntry::make('created_at')
+                    ->label('Diterima Pada')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Terakhir Diubah')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

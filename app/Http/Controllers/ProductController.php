@@ -40,7 +40,7 @@ class ProductController extends Controller
             ->when($keyword, function ($q) use ($keyword) {
                 $q->where(function ($inner) use ($keyword) {
                     $inner->where('name_id', 'LIKE', "%{$keyword}%")
-                          ->orWhere('description_id', 'LIKE', "%{$keyword}%");
+                        ->orWhere('description_id', 'LIKE', "%{$keyword}%");
                 });
             })
             ->orderBy('sort_order')

@@ -20,13 +20,6 @@
         </span>
         @endif
 
-        @if($page->publish_at)
-        <span
-            class="absolute top-3 right-3 z-10 inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium backdrop-blur bg-white/90 text-zinc-700 border border-zinc-200/70 shadow-sm">
-            {{ \Carbon\Carbon::parse($page->publish_at)->translatedFormat('d M Y') }}
-        </span>
-        @endif
-
         <img
             src="{{ asset('storage/' . $page->thumbnail) }}"
             alt="{{ $page->title }}"

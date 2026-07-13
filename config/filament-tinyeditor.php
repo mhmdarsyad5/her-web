@@ -24,15 +24,17 @@ return [
         'ui' => 'oxide',
 
         // dark, default, document, tinymce-5, tinymce-5-dark, writer
-        'content' => 'default'
+        'content' => 'default',
     ],
 
     'profiles' => [
         'default' => [
-            'plugins' => 'accordion autoresize codesample directionality advlist link image lists preview pagebreak searchreplace wordcount code fullscreen insertdatetime media table emoticons',
+            'plugins' => 'accordion codesample directionality advlist link image lists preview pagebreak searchreplace wordcount code fullscreen insertdatetime media table emoticons',
             'toolbar' => 'undo redo removeformat | fontfamily fontsize lineheight styles | bold italic underline | rtl ltr | alignjustify alignleft aligncenter alignright | numlist bullist outdent indent | forecolor backcolor | blockquote table toc hr | image link media codesample emoticons | wordcount fullscreen',
             'upload_directory' => null,
             'custom_configs' => [
+                'statusbar' => true,
+                'resize' => true,
                 'content_style' => '
                     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
                     body {
@@ -110,6 +112,6 @@ return [
     'extra' => [
         'toolbar' => [
             'fontfamily' => 'Poppins=poppins,sans-serif;Arial=arial,helvetica,sans-serif;Georgia=georgia,palatino,serif;Times New Roman=times new roman,times,serif;Courier New=courier new,courier,monospace;',
-        ]
-    ]
+        ],
+    ],
 ];

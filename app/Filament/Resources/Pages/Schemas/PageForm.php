@@ -2,127 +2,139 @@
 
 namespace App\Filament\Resources\Pages\Schemas;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Illuminate\Support\Str;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class PageForm
 {
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->columns(2)
+            ->columns(1)
             ->components([
+                Grid::make(3)->schema([
+                    // Main column (left)
+                    Group::make([
+                        TextInput::make('title')
+                            ->label('Judul Halaman')
+                            ->required()
+                            ->maxLength(200)
+                            ->placeholder('Contoh: Tentang Kami')
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(function ($state, callable $set) {
+                                $set('slug', Str::slug($state));
+                            }),
 
-                /* =====================
-                 * PAGE TITLE & CONTENT
-                 * ===================== */
-                TextInput::make('title')
-                    ->label('Judul Halaman')
-                    ->required()
-                    ->maxLength(200)
-                    ->placeholder('Contoh: Tentang Kami')
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        $set('slug', Str::slug($state));
-                    })
-                    ->columnSpanFull(),
+                        TinyEditor::make('content')
+                            ->label('Konten Halaman')
+                            ->placeholder('Tulis isi halaman...')
+                            ->height(350)
+                            ->minHeight(200)
+                            ->maxHeight(1000)
+                            ->resize(true),
 
-                Textarea::make('excerpt')
-                    ->label('Ringkasan / Excerpt / Meta Description')
-                    ->placeholder('Tulis deskripsi singkat halaman ini untuk tampilan kartu dan SEO...')
-                    ->rows(3)
-                    ->maxLength(255)
-                    ->columnSpanFull()
-                    ->helperText('Maksimal 255 karakter. Rekomendasi SEO: 150-160 karakter untuk deskripsi pencarian Google. Jika dikosongkan, deskripsi diambil otomatis dari konten.'),
+                        Textarea::make('excerpt')
+                            ->label('Ringkasan / Excerpt')
+                            ->placeholder('Tulis deskripsi singkat halaman ini untuk tampilan kartu...')
+                            ->rows(3)
+                            ->maxLength(255)
+                            ->helperText('Maksimal 255 karakter. Jika dikosongkan, deskripsi diambil otomatis dari konten.'),
+                    ])->columnSpan(2),
 
-                TinyEditor::make('content')
-                    ->label('Konten Halaman')
-                    ->placeholder('Tulis isi halaman...')
-                    ->columnSpanFull(),
+                    // Sidebar column (right)
+                    Group::make([
+                        Section::make('Detail Post')
+                            ->schema([
+                                TextInput::make('slug')
+                                    ->label('Slug URL')
+                                    ->required()
+                                    ->placeholder('Akan terisi otomatis dari Judul'),
 
-                /* =====================
-                 * SLUG
-                 * ===================== */
-                TextInput::make('slug')
-                    ->label('Slug URL')
-                    ->required()
-                    ->placeholder('Akan terisi otomatis dari Judul')
-                    ->columnSpan(1),
+                                Select::make('status')
+                                    ->label('Status')
+                                    ->options([
+                                        'published' => 'Published',
+                                        'draft' => 'Draft',
+                                        'pending' => 'Pending',
+                                    ])
+                                    ->default('draft')
+                                    ->required(),
 
-                /* =====================
-                 * KATEGORI & TAG
-                 * ===================== */
-                Group::make([
-                    Select::make('category_id')
-                        ->label('Kategori')
-                        ->relationship('category', 'name')
-                        ->searchable()
-                        ->preload()
-                        ->createOptionForm([
-                            TextInput::make('name')
-                                ->required()
-                                ->maxLength(255)
-                                ->live(onBlur: true)
-                                ->afterStateUpdated(fn($state, callable $set) => $set('slug', Str::slug($state))),
-                            TextInput::make('slug')
-                                ->required()
-                                ->maxLength(255)
-                                ->unique('page_categories', 'slug')
-                        ]),
+                                Select::make('category_id')
+                                    ->label('Kategori')
+                                    ->relationship('category', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm([
+                                        TextInput::make('name')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
+                                        TextInput::make('slug')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->unique('page_categories', 'slug'),
+                                    ]),
 
-                    Select::make('tags')
-                        ->label('Tags / Label')
-                        ->relationship('tags', 'name')
-                        ->multiple()
-                        ->searchable()
-                        ->preload()
-                        ->createOptionForm([
-                            TextInput::make('name')
-                                ->required()
-                                ->maxLength(255)
-                                ->live(onBlur: true)
-                                ->afterStateUpdated(fn($state, callable $set) => $set('slug', Str::slug($state))),
-                            TextInput::make('slug')
-                                ->required()
-                                ->maxLength(255)
-                                ->unique('page_tags', 'slug')
-                        ]),
-                ])->columnSpanFull()->columns(2),
+                                Select::make('tags')
+                                    ->label('Tags / Label')
+                                    ->relationship('tags', 'name')
+                                    ->multiple()
+                                    ->searchable()
+                                    ->preload()
+                                    ->createOptionForm([
+                                        TextInput::make('name')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->live(onBlur: true)
+                                            ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state))),
+                                        TextInput::make('slug')
+                                            ->required()
+                                            ->maxLength(255)
+                                            ->unique('page_tags', 'slug'),
+                                    ]),
+                            ]),
 
-                /* =====================
-                 * THUMBNAIL
-                 * ===================== */
-                FileUpload::make('thumbnail')
-                    ->label('Thumbnail')
-                    ->directory('pages')
-                    ->disk('public')
-                    ->image()
-                    ->imageEditor()
-                    ->helperText('Thumbnail halaman (opsional).')
-                    ->columnSpan(1),
+                        Section::make('Gambar Post')
+                            ->schema([
+                                FileUpload::make('thumbnail')
+                                    ->label('Thumbnail')
+                                    ->directory('pages')
+                                    ->disk('public')
+                                    ->image()
+                                    ->imageEditor()
+                                    ->helperText('Thumbnail halaman'),
+                            ]),
 
-                /* =====================
-                 * PUBLISH SETTINGS
-                 * ===================== */
-                Toggle::make('is_published')
-                    ->label('Publish?')
-                    ->default(false)
-                    ->helperText('Aktifkan agar halaman tampil di website.')
-                    ->columnSpan(1),
+                        Section::make('SEO Content')
+                            ->schema([
+                                TextInput::make('seo_title')
+                                    ->label('SEO Title')
+                                    ->placeholder('Judul khusus SEO...')
+                                    ->maxLength(100),
 
-                DateTimePicker::make('publish_at')
-                    ->label('Publish At')
-                    ->visible(fn(callable $get) => $get('is_published'))
-                    ->helperText('Kosongkan jika ingin publish sekarang.')
-                    ->columnSpan(1),
+                                Textarea::make('meta_description')
+                                    ->label('Meta Description')
+                                    ->placeholder('Deskripsi ringkas pencarian Google...')
+                                    ->rows(3)
+                                    ->maxLength(255),
+
+                                TextInput::make('meta_keywords')
+                                    ->label('Meta Keywords')
+                                    ->placeholder('Kata kunci (pisahkan dengan koma)...')
+                                    ->maxLength(255),
+                            ]),
+                    ])->columnSpan(1),
+                ]),
             ]);
     }
 }

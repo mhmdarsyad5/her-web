@@ -12,7 +12,7 @@ class PrivacyPolicyController extends Controller
             setting('privacy-policy_title', 'Kebijakan Privasi')
         );
 
-        $pageTitle = $title . ' - ' . $siteName;
+        $pageTitle = $title.' - '.$siteName;
 
         $privacyText = setting('privacy-policy', 'Belum ada kebijakan privasi.');
 

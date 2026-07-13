@@ -6,18 +6,22 @@ use App\Filament\Resources\DSSRule\Schemas\DSSRuleForm;
 use App\Filament\Resources\DSSRule\Tables\DSSRulesTable;
 use App\Filament\Resources\DSSRuleResource\Pages;
 use App\Models\DSSRule;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
-use BackedEnum;
 
 class DSSRuleResource extends Resource
 {
     protected static ?string $model = DSSRule::class;
+
     protected static ?string $label = 'DSS Rule';
+
     protected static ?string $pluralLabel = 'DSS Rules';
+
     protected static UnitEnum|string|null $navigationGroup = 'System Settings';
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     public static function form(Schema $schema): Schema

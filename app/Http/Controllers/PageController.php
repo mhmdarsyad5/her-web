@@ -11,14 +11,14 @@ class PageController extends Controller
     public function index()
     {
         $pages = Page::with(['category', 'tags'])
-            ->where('is_published', true)
+            ->where('status', 'published')
             ->orderByDesc('publish_at')
             ->paginate(6);
 
         $title = setting('nav_blog', 'Blog');
 
         $categories = PageCategory::withCount(['pages' => function ($query) {
-            $query->where('is_published', true);
+            $query->where('status', 'published');
         }])->having('pages_count', '>', 0)->get();
 
         return view(
@@ -27,13 +27,12 @@ class PageController extends Controller
         );
     }
 
-
     public function search(Request $request)
     {
         $keyword = $request->get('keyword');
         $categorySlug = $request->get('category');
 
-        $query = Page::where('is_published', true);
+        $query = Page::where('status', 'published');
 
         if ($categorySlug && $categorySlug !== 'all') {
             $query->whereHas('category', function ($q) use ($categorySlug) {
@@ -70,11 +69,11 @@ class PageController extends Controller
     {
         $page = Page::with(['category', 'tags'])
             ->where('slug', $slug)
-            ->where('is_published', true)
+            ->where('status', 'published')
             ->firstOrFail();
 
         $relatedPages = Page::with(['category'])
-            ->where('is_published', true)
+            ->where('status', 'published')
             ->where('id', '!=', $page->id)
             ->when($page->category_id, function ($q) use ($page) {
                 $q->where('category_id', $page->category_id);

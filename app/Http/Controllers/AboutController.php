@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class AboutController extends Controller
 {
     public function index()
@@ -12,9 +10,9 @@ class AboutController extends Controller
         $siteName = strip_tags(setting('site_name', 'Nama Website'));
 
         // Konten
-        $aboutText   = strip_tags(setting('about', 'Tidak ada deskripsi'));
+        $aboutText = strip_tags(setting('about', 'Tidak ada deskripsi'));
         $historyText = setting('history', 'Belum ada sejarah perusahaan.');
-        $visionText  = setting('vision', 'Belum ada visi perusahaan.');
+        $visionText = setting('vision', 'Belum ada visi perusahaan.');
         $missionText = setting('mission', 'Belum ada misi perusahaan.');
 
         // ===== TITLE =====
@@ -24,7 +22,7 @@ class AboutController extends Controller
         $title = strip_tags($rawTitle);
 
         // Full page title (AMAN)
-        $pageTitle = $title . ' - ' . $siteName;
+        $pageTitle = $title.' - '.$siteName;
 
         return view('frontend.pages.abouts.index', compact(
             'siteName',

@@ -10,7 +10,9 @@ use Filament\Widgets\TableWidget as BaseWidget;
 class OverdueRentalsWidget extends BaseWidget
 {
     protected static ?string $heading = '⚠️ Penyewaan Terlambat';
+
     protected int|string|array $columnSpan = 'full';
+
     protected static ?int $sort = 3;
 
     public static function canView(): bool
@@ -42,7 +44,7 @@ class OverdueRentalsWidget extends BaseWidget
 
                 TextColumn::make('days_overdue')
                     ->label('Terlambat')
-                    ->getStateUsing(fn ($record) => $record->daysOverdue() . ' hari')
+                    ->getStateUsing(fn ($record) => $record->daysOverdue().' hari')
                     ->badge()
                     ->color('danger'),
             ]);

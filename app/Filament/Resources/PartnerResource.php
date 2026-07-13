@@ -4,35 +4,41 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PartnerResource\Pages;
 use App\Models\Partner;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables\Table;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Toggle;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use App\Traits\HasShieldAccess;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class PartnerResource extends Resource
 {
     use HasShieldAccess;
 
     protected static ?string $model = Partner::class;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-hand-raised';
+
     protected static ?string $navigationLabel = 'Customer / Partner';
+
     protected static ?string $modelLabel = 'Partner / Customer';
+
     protected static ?string $pluralModelLabel = 'Customer & Partner';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
-    protected static ?int $navigationSort = 6;
+
+    protected static ?int $navigationSort = 10;
 
     public static function form(Schema $schema): Schema
     {
@@ -50,7 +56,7 @@ class PartnerResource extends Resource
                         ->disk('public')
                         ->directory('partners')
                         ->getUploadedFileNameForStorageUsing(function ($file) {
-                            return 'partner-' . now()->timestamp . '.' . $file->getClientOriginalExtension();
+                            return 'partner-'.now()->timestamp.'.'.$file->getClientOriginalExtension();
                         })
                         ->required(),
 

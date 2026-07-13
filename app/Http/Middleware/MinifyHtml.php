@@ -23,8 +23,9 @@ class MinifyHtml
             $content = preg_replace_callback(
                 '/(<(?:script|pre|textarea)[\s\S]*?<\/(?:script|pre|textarea)>)/i',
                 function ($matches) use (&$placeholders) {
-                    $placeholder = '___HTML_MINIFY_PLACEHOLDER_' . count($placeholders) . '___';
+                    $placeholder = '___HTML_MINIFY_PLACEHOLDER_'.count($placeholders).'___';
                     $placeholders[$placeholder] = $matches[0];
+
                     return $placeholder;
                 },
                 $content
@@ -55,6 +56,7 @@ class MinifyHtml
     protected function isHtmlResponse(Response $response): bool
     {
         $contentType = $response->headers->get('Content-Type');
+
         return $contentType && str_contains($contentType, 'text/html');
     }
 }

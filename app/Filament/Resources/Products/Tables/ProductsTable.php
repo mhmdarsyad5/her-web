@@ -25,7 +25,7 @@ class ProductsTable
                     ->disk('public')
                     ->circular()
                     ->size(48)
-                    ->getStateUsing(fn($record) => $record->images[0] ?? null),
+                    ->getStateUsing(fn ($record) => $record->images[0] ?? null),
 
                 /* =====================
                  * PRODUCT INFO

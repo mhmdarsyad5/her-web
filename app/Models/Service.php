@@ -39,5 +39,4 @@ class Service extends Model
             }
         });
     }
-
 }

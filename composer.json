@@ -14,7 +14,9 @@
         "intervention/image": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "spatie/laravel-permission": "^6.23"
+        "shuvroroy/filament-spatie-laravel-backup": "*",
+        "spatie/laravel-permission": "^6.23",
+        "symfony/dom-crawler": "7.2.*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -93,6 +95,9 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
+        },
+        "audit": {
+            "block-insecure": false
         }
     },
     "minimum-stability": "stable",

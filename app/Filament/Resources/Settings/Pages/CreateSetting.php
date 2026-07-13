@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Settings\Pages;
 
 use App\Filament\Resources\Settings\SettingResource;
-use Filament\Resources\Pages\CreateRecord;
 use App\Traits\RedirectsToIndex;
+use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Cache;
 
 class CreateSetting extends CreateRecord
@@ -16,7 +16,7 @@ class CreateSetting extends CreateRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['value'] = match ($data['type']) {
-            'text'  => $data['text_value'] ?? null,
+            'text' => $data['text_value'] ?? null,
             'color' => $data['color_value'] ?? null,
             'image', 'video' => $data['file_value'] ?? null,
             default => null,
@@ -34,6 +34,6 @@ class CreateSetting extends CreateRecord
     protected function afterCreate(): void
     {
         Cache::forget('settings.all');
-        Cache::forget('settings.url.' . $this->record->key);
+        Cache::forget('settings.url.'.$this->record->key);
     }
 }

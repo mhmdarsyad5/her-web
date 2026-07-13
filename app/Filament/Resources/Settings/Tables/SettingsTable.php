@@ -28,14 +28,14 @@ class SettingsTable
                     ->badge()
                     ->sortable()
                     ->color(fn (string $state): string => match ($state) {
-                        'core'     => 'gray',     // tetap gray
+                        'core' => 'gray',     // tetap gray
                         'branding' => 'primary',  // purple ≈ primary (atau info untuk lebih biru-ungu)
-                        'theme'    => 'info',     // indigo ≈ info (biru keunguan)
-                        'layout'   => 'primary',  // blue ≈ primary
+                        'theme' => 'info',     // indigo ≈ info (biru keunguan)
+                        'layout' => 'primary',  // blue ≈ primary
                         'sections' => 'success',  // emerald (hijau) ≈ success
-                        'content'  => 'warning',  // amber (kuning/orange) ≈ warning
-                        'system'   => 'danger',   // rose (merah pink) ≈ danger
-                        default    => 'gray',
+                        'content' => 'warning',  // amber (kuning/orange) ≈ warning
+                        'system' => 'danger',   // rose (merah pink) ≈ danger
+                        default => 'gray',
                     })
                     ->formatStateUsing(fn ($state) => ucfirst($state)),
 
@@ -46,8 +46,10 @@ class SettingsTable
                     ->formatStateUsing(function ($state) {
                         if (is_array($state)) {
                             $text = $state['id'] ?? ($state['path'] ?? ($state['color'] ?? json_encode($state)));
+
                             return Str::of($text)->stripTags()->squish();
                         }
+
                         return Str::of((string) $state)->stripTags()->squish();
                     })
                     ->limit(40),
@@ -67,26 +69,26 @@ class SettingsTable
                 SelectFilter::make('category')
                     ->label('Category')
                     ->options([
-                        'general'   => 'General',
-                        'branding'  => 'Branding',
-                        'theme'     => 'Theme & Color',
+                        'general' => 'General',
+                        'branding' => 'Branding',
+                        'theme' => 'Theme & Color',
 
-                        'navbar'    => 'Navbar',
-                        'footer'    => 'Footer',
+                        'navbar' => 'Navbar',
+                        'footer' => 'Footer',
 
-                        'hero'      => 'Hero Section',
-                        'about'     => 'About Section',
+                        'hero' => 'Hero Section',
+                        'about' => 'About Section',
 
-                        'pages'     => 'Pages',
-                        'services'  => 'Services',
+                        'pages' => 'Pages',
+                        'services' => 'Services',
                         'galleries' => 'Galleries',
-                        'faq'       => 'FAQ',
+                        'faq' => 'FAQ',
 
-                        'seo'       => 'SEO',
-                        'legal'     => 'Legal',
+                        'seo' => 'SEO',
+                        'legal' => 'Legal',
 
-                        'contact'   => 'Contact',
-                        'social'    => 'Social Media',
+                        'contact' => 'Contact',
+                        'social' => 'Social Media',
                     ])
                     ->searchable()
                     ->indicator('Category'),

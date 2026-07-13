@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\PartnerResource\Pages;
 
 use App\Filament\Resources\PartnerResource;
-use Filament\Resources\Pages\CreateRecord;
 use App\Traits\RedirectsToIndex;
+use Filament\Resources\Pages\CreateRecord;
 
 class CreatePartner extends CreateRecord
 {

@@ -10,11 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class ThrottleContactForm
 {
     protected int $maxAttempts = 5;
+
     protected int $decayMinutes = 1;
 
     public function handle(Request $request, Closure $next): Response
     {
-        $key = 'throttle:contact:' . $request->ip();
+        $key = 'throttle:contact:'.$request->ip();
         $attempts = (int) Cache::get($key, 0);
 
         if ($attempts >= $this->maxAttempts) {

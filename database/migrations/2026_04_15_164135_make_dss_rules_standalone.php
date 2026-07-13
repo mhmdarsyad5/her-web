@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('model')->nullable()->after('brand');
             $table->string('image')->nullable()->after('model');
             $table->json('display_specifications')->nullable()->after('conditions');
-            
+
             // Rename 'name' column if it exists to avoid confusion with product_name
             // Or just keep it as rule_name description
             $table->string('name')->nullable()->change();
@@ -38,7 +38,7 @@ return new class extends Migration
         Schema::table('dss_rules', function (Blueprint $table) {
             $table->unsignedBigInteger('equipment_id')->nullable()->after('id');
             $table->foreign('equipment_id')->references('id')->on('equipment')->onDelete('cascade');
-            
+
             $table->dropColumn([
                 'product_name',
                 'category_name',

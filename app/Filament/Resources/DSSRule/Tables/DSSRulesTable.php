@@ -34,11 +34,12 @@ class DSSRulesTable
                         $labels = [];
                         foreach ($conditions as $key => $value) {
                             if (is_array($value)) {
-                                $labels[] = "$key: " . implode(', ', $value);
+                                $labels[] = "$key: ".implode(', ', $value);
                             } else {
                                 $labels[] = "$key: $value";
                             }
                         }
+
                         return implode(' | ', $labels) ?: '-';
                     })
                     ->limit(60),

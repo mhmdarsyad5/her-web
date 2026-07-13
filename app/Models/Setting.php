@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
@@ -25,7 +25,7 @@ class Setting extends Model
 
     protected static function booted(): void
     {
-        $flushAll = function (string $key = null) {
+        $flushAll = function (?string $key = null) {
             cache()->forget('settings.all');
 
             if ($key) {
@@ -100,8 +100,8 @@ class Setting extends Model
         static::updateOrCreate(
             ['key' => $key],
             [
-                'value'    => $normalizedValue,
-                'type'     => $type,
+                'value' => $normalizedValue,
+                'type' => $type,
                 'category' => $category,
             ]
         );

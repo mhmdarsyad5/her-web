@@ -18,5 +18,4 @@ class Faq extends Model
     protected $casts = [
         'is_published' => 'boolean',
     ];
-
 }

@@ -15,8 +15,8 @@ class ContactMessageController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'    => 'required|string|max:100',
-            'email'   => 'required|email|max:100',
+            'name' => 'required|string|max:100',
+            'email' => 'required|email|max:100',
             'whatsapp_number' => 'required|string|max:20',
             'subject' => 'nullable|string|max:150',
             'message' => 'required|string|max:1000',

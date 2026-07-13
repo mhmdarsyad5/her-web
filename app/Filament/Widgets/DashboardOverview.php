@@ -4,8 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Models\ContactMessage;
 use App\Models\Equipment;
-use App\Models\Faq;
-use App\Models\HeroSection;
 use App\Models\Page;
 use App\Models\Rental;
 use App\Models\User;
@@ -52,7 +50,7 @@ class DashboardOverview extends StatsOverviewWidget
                     ->whereYear('actual_return', now()->year)
                     ->count()
             )
-                ->description('Pengembalian ' . now()->translatedFormat('F Y'))
+                ->description('Pengembalian '.now()->translatedFormat('F Y'))
                 ->icon('heroicon-o-arrow-uturn-left')
                 ->color('gray'),
 

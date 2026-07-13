@@ -7,32 +7,38 @@ use App\Models\Equipment;
 use App\Models\EquipmentMaintenance;
 use App\Models\User;
 use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables\Table;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Actions\Action;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class EquipmentMaintenanceResource extends Resource
 {
     protected static ?string $model = EquipmentMaintenance::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wrench';
+
     protected static ?string $navigationLabel = 'Maintenance Alat';
+
     protected static ?string $modelLabel = 'Maintenance';
+
     protected static ?string $pluralModelLabel = 'Maintenance Alat';
+
     protected static UnitEnum|string|null $navigationGroup = 'Manajemen Alat';
+
     protected static ?int $navigationSort = 3;
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
@@ -46,9 +52,9 @@ class EquipmentMaintenanceResource extends Resource
                     Select::make('equipment_id')
                         ->label('Alat')
                         ->options(
-                            fn() => Equipment::active()
+                            fn () => Equipment::active()
                                 ->get()
-                                ->mapWithKeys(fn($e) => [$e->id => "[{$e->code}] {$e->name} — {$e->status_label}"])
+                                ->mapWithKeys(fn ($e) => [$e->id => "[{$e->code}] {$e->name} — {$e->status_label}"])
                         )
                         ->searchable()
                         ->required(),
@@ -126,18 +132,18 @@ class EquipmentMaintenanceResource extends Resource
                 TextColumn::make('equipment.name')
                     ->label('Alat')
                     ->searchable()
-                    ->description(fn($record) => $record->equipment?->code ?? '—'),
+                    ->description(fn ($record) => $record->equipment?->code ?? '—'),
 
                 TextColumn::make('maintenance_type')
                     ->label('Jenis')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'routine' => 'info',
                         'repair' => 'danger',
                         'inspection' => 'warning',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'routine' => 'Rutin',
                         'repair' => 'Perbaikan',
                         'inspection' => 'Inspeksi',
@@ -165,13 +171,13 @@ class EquipmentMaintenanceResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'scheduled' => 'gray',
                         'in_progress' => 'warning',
                         'completed' => 'success',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'scheduled' => 'Terjadwal',
                         'in_progress' => 'Dikerjakan',
                         'completed' => 'Selesai',
@@ -200,7 +206,7 @@ class EquipmentMaintenanceResource extends Resource
                     ->label('Mulai')
                     ->icon('heroicon-o-play')
                     ->color('warning')
-                    ->visible(fn($record) => $record->status === 'scheduled')
+                    ->visible(fn ($record) => $record->status === 'scheduled')
                     ->requiresConfirmation()
                     ->action(function ($record) {
                         $record->update(['status' => 'in_progress']);
@@ -214,7 +220,7 @@ class EquipmentMaintenanceResource extends Resource
                     ->label('Selesaikan')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->visible(fn($record) => $record->status === 'in_progress')
+                    ->visible(fn ($record) => $record->status === 'in_progress')
                     ->form([
                         DatePicker::make('end_date')
                             ->label('Tanggal Selesai')
@@ -249,7 +255,7 @@ class EquipmentMaintenanceResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn($r) => [
+                            $csvData = $records->map(fn ($r) => [
                                 $r->equipment?->code ?? '—',
                                 $r->equipment?->name ?? '—',
                                 match ($r->maintenance_type) {
@@ -277,7 +283,7 @@ class EquipmentMaintenanceResource extends Resource
 
                             $callback = function () use ($csvData, $headers) {
                                 $handle = fopen('php://output', 'w');
-                                fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                                fwrite($handle, chr(0xEF).chr(0xBB).chr(0xBF));
                                 fputcsv($handle, $headers);
                                 foreach ($csvData as $row) {
                                     fputcsv($handle, $row);
@@ -285,12 +291,12 @@ class EquipmentMaintenanceResource extends Resource
                                 fclose($handle);
                             };
 
-                            return \Illuminate\Support\Facades\Response::streamDownload($callback, 'maintenance-alat-' . now()->format('Y-m-d') . '.csv', [
+                            return \Illuminate\Support\Facades\Response::streamDownload($callback, 'maintenance-alat-'.now()->format('Y-m-d').'.csv', [
                                 'Content-Type' => 'text/csv',
                             ]);
                         })
                         ->deselectRecordsAfterCompletion(),
-                ])
+                ]),
             ])
             ->defaultSort('start_date', 'desc');
     }

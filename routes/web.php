@@ -1,22 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Response;
-
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\DSSController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GalleryController;
-use App\Http\Controllers\TermConditionController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\DSSController;
-
-
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TermConditionController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +82,6 @@ Route::post('/dss/process', [DSSController::class, 'processForm'])
     ->name('dss.process');
 Route::get('/dss/criteria/{fieldType}', [DSSController::class, 'getCriteria'])->name('dss.criteria');
 
-
 // Dynamic XML Sitemap for Google SEO
 Route::get('/sitemap.xml', function () {
     $pages = \App\Models\Page::where('is_published', true)->get();
@@ -97,36 +92,36 @@ Route::get('/sitemap.xml', function () {
 
     // Home Page
     $xml .= '<url>';
-    $xml .= '<loc>' . url('/') . '</loc>';
+    $xml .= '<loc>'.url('/').'</loc>';
     $xml .= '<priority>1.0</priority>';
     $xml .= '</url>';
 
     // Blog Listings Page
     $xml .= '<url>';
-    $xml .= '<loc>' . route('pages.index') . '</loc>';
+    $xml .= '<loc>'.route('pages.index').'</loc>';
     $xml .= '<priority>0.8</priority>';
     $xml .= '</url>';
 
     // Blog/Articles Detail Pages
     foreach ($pages as $page) {
         $xml .= '<url>';
-        $xml .= '<loc>' . route('pages.show', $page->slug) . '</loc>';
-        $xml .= '<lastmod>' . $page->updated_at->toAtomString() . '</lastmod>';
+        $xml .= '<loc>'.route('pages.show', $page->slug).'</loc>';
+        $xml .= '<lastmod>'.$page->updated_at->toAtomString().'</lastmod>';
         $xml .= '<priority>0.7</priority>';
         $xml .= '</url>';
     }
 
     // Products Listings Page
     $xml .= '<url>';
-    $xml .= '<loc>' . route('products.index') . '</loc>';
+    $xml .= '<loc>'.route('products.index').'</loc>';
     $xml .= '<priority>0.8</priority>';
     $xml .= '</url>';
 
     // Products Detail Pages
     foreach ($products as $product) {
         $xml .= '<url>';
-        $xml .= '<loc>' . route('products.show', $product->slug) . '</loc>';
-        $xml .= '<lastmod>' . $product->updated_at->toAtomString() . '</lastmod>';
+        $xml .= '<loc>'.route('products.show', $product->slug).'</loc>';
+        $xml .= '<lastmod>'.$product->updated_at->toAtomString().'</lastmod>';
         $xml .= '<priority>0.7</priority>';
         $xml .= '</url>';
     }
@@ -136,7 +131,7 @@ Route::get('/sitemap.xml', function () {
     foreach ($staticPages as $route) {
         if (Route::has($route)) {
             $xml .= '<url>';
-            $xml .= '<loc>' . route($route) . '</loc>';
+            $xml .= '<loc>'.route($route).'</loc>';
             $xml .= '<priority>0.5</priority>';
             $xml .= '</url>';
         }
@@ -146,5 +141,3 @@ Route::get('/sitemap.xml', function () {
 
     return response($xml, 200, ['Content-Type' => 'application/xml']);
 })->name('sitemap');
-
-

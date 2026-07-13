@@ -3,9 +3,10 @@
 namespace App\Filament\Resources\Users\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Select;
 
 class UserForm
 {
@@ -13,6 +14,14 @@ class UserForm
     {
         return $schema
             ->components([
+                FileUpload::make('avatar')
+                    ->label('Foto Profil')
+                    ->image()
+                    ->avatar()
+                    ->directory('users')
+                    ->maxSize(2048) // 2MB
+                    ->helperText('Format: JPG, PNG, WEBP. Maks: 2MB.')
+                    ->columnSpanFull(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
@@ -31,9 +40,9 @@ class UserForm
                 TextInput::make('password')
                     ->password()
                     ->label('Password baru (biarkan kosong jika tidak ganti)')
-                    ->required(fn(string $operation) => $operation === 'create')
-                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
-                    ->dehydrated(fn($state) => filled($state)),
+                    ->required(fn (string $operation) => $operation === 'create')
+                    ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
+                    ->dehydrated(fn ($state) => filled($state)),
 
             ]);
     }

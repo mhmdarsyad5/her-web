@@ -8,23 +8,28 @@ use App\Filament\Resources\Products\Pages\ListProducts;
 use App\Filament\Resources\Products\Schemas\ProductForm;
 use App\Filament\Resources\Products\Tables\ProductsTable;
 use App\Models\Product;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
+use UnitEnum;
 
 class ProductResource extends Resource
 {
     use HasShieldAccess;
 
     protected static ?string $model = Product::class;
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shopping-cart';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
+
     protected static ?string $navigationLabel = 'Produk';
+
     protected static ?string $pluralModelLabel = 'Data Produk';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {

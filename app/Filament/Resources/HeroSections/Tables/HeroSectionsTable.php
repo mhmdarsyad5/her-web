@@ -40,7 +40,7 @@ class HeroSectionsTable
                     ->label('URL')
                     ->limit(30)
                     ->copyable()
-                    ->tooltip(fn($record) => $record->button_url),
+                    ->tooltip(fn ($record) => $record->button_url),
 
                 // META
                 TextColumn::make('created_at')

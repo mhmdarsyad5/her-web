@@ -15,26 +15,29 @@ class EquipmentImportDirectSeeder extends Seeder
     {
         $htmlFile = base_path('dss_herro_equipment_rental.html');
 
-        if (!file_exists($htmlFile)) {
+        if (! file_exists($htmlFile)) {
             $this->command->error("File not found: {$htmlFile}");
+
             return;
         }
 
         $html = file_get_contents($htmlFile);
 
         // Extract data menggunakan simple regex
-        if (!preg_match('/const\s+DB\s*=\s*\[(.*?)\];/s', $html, $matches)) {
-            $this->command->error("No DB array found in HTML");
+        if (! preg_match('/const\s+DB\s*=\s*\[(.*?)\];/s', $html, $matches)) {
+            $this->command->error('No DB array found in HTML');
+
             return;
         }
 
-        $arrayText = '[' . $matches[1] . ']';
+        $arrayText = '['.$matches[1].']';
 
         // Parse JS objects ke array
         $products = $this->parseJSArray($arrayText);
 
         if (empty($products)) {
-            $this->command->error("No products parsed");
+            $this->command->error('No products parsed');
+
             return;
         }
 
@@ -50,7 +53,9 @@ class EquipmentImportDirectSeeder extends Seeder
                 $operator = $product['op'] ?? 'seated';
                 $energy = $product['energy'] ?? 'electric';
 
-                if (!$name) continue;
+                if (! $name) {
+                    continue;
+                }
 
                 // Find or create category
                 $category = EquipmentCategory::firstOrCreate(
@@ -138,8 +143,8 @@ class EquipmentImportDirectSeeder extends Seeder
             $data = [];
 
             // Extract quoted string values
-            foreach (["name", "type", "cat", "energy", "op"] as $key) {
-                if (preg_match('/' . $key . ':"([^"]*)"/', $obj, $m)) {
+            foreach (['name', 'type', 'cat', 'energy', 'op'] as $key) {
+                if (preg_match('/'.$key.':"([^"]*)"/', $obj, $m)) {
                     $data[$key] = $m[1];
                 }
             }
@@ -155,10 +160,10 @@ class EquipmentImportDirectSeeder extends Seeder
 
             // Extract capacity array
             if (preg_match('/cap:\[(\d+),(\d+)\]/', $obj, $m)) {
-                $data['cap'] = [(int)$m[1], (int)$m[2]];
+                $data['cap'] = [(int) $m[1], (int) $m[2]];
             }
 
-            if (!empty($data)) {
+            if (! empty($data)) {
                 $result[] = $data;
             }
         }

@@ -8,23 +8,26 @@ use App\Filament\Resources\Seos\Pages\ListSeos;
 use App\Filament\Resources\Seos\Schemas\SeoForm;
 use App\Filament\Resources\Seos\Tables\SeosTable;
 use App\Models\Seo;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
-
+use UnitEnum;
 
 class SeoResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Seo::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-magnifying-glass';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
+
     protected static ?string $navigationLabel = 'SEO Website';
+
+    protected static ?int $navigationSort = 11;
 
     public static function form(Schema $schema): Schema
     {

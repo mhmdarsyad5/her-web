@@ -16,4 +16,12 @@ class ManagePageTags extends ManageRecords
             CreateAction::make(),
         ];
     }
+
+    public function getBreadcrumbs(): array
+    {
+        return [
+            \App\Filament\Resources\Pages\PageResource::getUrl() => 'Artikel/Blog',
+            '#' => 'Tag',
+        ];
+    }
 }

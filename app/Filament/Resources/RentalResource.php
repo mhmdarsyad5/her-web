@@ -7,48 +7,51 @@ use App\Models\Customer;
 use App\Models\Equipment;
 use App\Models\Rental;
 use BackedEnum;
-use UnitEnum;
 use Carbon\Carbon;
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\DatePicker;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
-use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\Filter;
-use Filament\Actions\Action;
-use Filament\Actions\EditAction;
-use Filament\Actions\BulkAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\BulkActionGroup;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Response;
+use UnitEnum;
 
 class RentalResource extends Resource
 {
     protected static ?string $model = Rental::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-list';
+
     protected static ?string $navigationLabel = 'Data Penyewaan';
+
     protected static ?string $modelLabel = 'Penyewaan';
+
     protected static ?string $pluralModelLabel = 'Data Penyewaan';
+
     protected static UnitEnum|string|null $navigationGroup = 'Manajemen Penyewaan';
+
     protected static ?int $navigationSort = 2;
 
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
-
-
 
     public static function form(Schema $schema): Schema
     {
@@ -68,7 +71,7 @@ class RentalResource extends Resource
                             Select::make('equipment_id')
                                 ->label('Alat')
                                 ->relationship('equipment', 'name')
-                                ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->code}] {$record->name}")
+                                ->getOptionLabelFromRecordUsing(fn ($record) => "[{$record->code}] {$record->name}")
                                 ->searchable()
                                 ->required()
                                 ->live()
@@ -86,9 +89,9 @@ class RentalResource extends Resource
                             Select::make('customer_id')
                                 ->label('Pelanggan')
                                 ->options(
-                                    fn() => Customer::where('is_active', true)
+                                    fn () => Customer::where('is_active', true)
                                         ->get()
-                                        ->mapWithKeys(fn($c) => [$c->id => $c->display_name])
+                                        ->mapWithKeys(fn ($c) => [$c->id => $c->display_name])
                                 )
                                 ->searchable()
                                 ->required()
@@ -100,7 +103,7 @@ class RentalResource extends Resource
                                         ->options(['individual' => 'Perorangan', 'company' => 'Perusahaan'])
                                         ->default('individual'),
                                 ])
-                                ->createOptionUsing(fn(array $data) => Customer::create($data)->id),
+                                ->createOptionUsing(fn (array $data) => Customer::create($data)->id),
 
                             DatePicker::make('rental_start')
                                 ->label('Tanggal Mulai')
@@ -108,8 +111,7 @@ class RentalResource extends Resource
                                 ->default(now())
                                 ->live()
                                 ->afterStateUpdated(
-                                    fn($state, Set $set, Get $get) =>
-                                    self::recalculateTotal($set, $get)
+                                    fn ($state, Set $set, Get $get) => self::recalculateTotal($set, $get)
                                 ),
 
                             DatePicker::make('rental_end')
@@ -117,8 +119,7 @@ class RentalResource extends Resource
                                 ->required()
                                 ->live()
                                 ->afterStateUpdated(
-                                    fn($state, Set $set, Get $get) =>
-                                    self::recalculateTotal($set, $get)
+                                    fn ($state, Set $set, Get $get) => self::recalculateTotal($set, $get)
                                 ),
 
                             Textarea::make('notes')
@@ -215,12 +216,12 @@ class RentalResource extends Resource
                 TextColumn::make('equipment.name')
                     ->label('Alat')
                     ->searchable()
-                    ->description(fn($record) => $record->equipment?->code ?? '—'),
+                    ->description(fn ($record) => $record->equipment?->code ?? '—'),
 
                 TextColumn::make('customer.name')
                     ->label('Pelanggan')
                     ->searchable()
-                    ->description(fn($record) => $record->customer?->phone ?? '—'),
+                    ->description(fn ($record) => $record->customer?->phone ?? '—'),
 
                 TextColumn::make('rental_start')
                     ->label('Mulai')
@@ -231,7 +232,7 @@ class RentalResource extends Resource
                     ->label('Est. Kembali')
                     ->date('d M Y')
                     ->sortable()
-                    ->color(fn($record) => $record->isOverdue() ? 'danger' : null),
+                    ->color(fn ($record) => $record->isOverdue() ? 'danger' : null),
 
                 TextColumn::make('duration_days')
                     ->label('Hari')
@@ -245,7 +246,7 @@ class RentalResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'pending' => 'warning',
                         'active' => 'success',
                         'returned' => 'gray',
@@ -253,7 +254,7 @@ class RentalResource extends Resource
                         'cancelled' => 'secondary',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'pending' => 'Menunggu',
                         'active' => 'Aktif',
                         'returned' => 'Dikembalikan',
@@ -275,7 +276,7 @@ class RentalResource extends Resource
 
                 Filter::make('overdue')
                     ->label('Terlambat Saja')
-                    ->query(fn(Builder $query) => $query->where('status', 'overdue')),
+                    ->query(fn (Builder $query) => $query->where('status', 'overdue')),
 
                 Filter::make('rental_date')
                     ->label('Rentang Tanggal')
@@ -285,8 +286,8 @@ class RentalResource extends Resource
                     ])
                     ->query(function (Builder $query, array $data) {
                         return $query
-                            ->when($data['from'], fn($q) => $q->whereDate('rental_start', '>=', $data['from']))
-                            ->when($data['until'], fn($q) => $q->whereDate('rental_start', '<=', $data['until']));
+                            ->when($data['from'], fn ($q) => $q->whereDate('rental_start', '>=', $data['from']))
+                            ->when($data['until'], fn ($q) => $q->whereDate('rental_start', '<=', $data['until']));
                     }),
             ])
             ->actions([
@@ -294,7 +295,7 @@ class RentalResource extends Resource
                     ->label('Aktifkan')
                     ->icon('heroicon-o-play')
                     ->color('success')
-                    ->visible(fn($record) => $record->status === 'pending')
+                    ->visible(fn ($record) => $record->status === 'pending')
                     ->requiresConfirmation()
                     ->modalHeading('Aktifkan Penyewaan?')
                     ->modalDescription('Alat akan ditandai Sedang Disewa.')
@@ -310,7 +311,7 @@ class RentalResource extends Resource
                     ->label('Kembalikan')
                     ->icon('heroicon-o-arrow-uturn-left')
                     ->color('warning')
-                    ->visible(fn($record) => in_array($record->status, ['active', 'overdue']))
+                    ->visible(fn ($record) => in_array($record->status, ['active', 'overdue']))
                     ->form([
                         DatePicker::make('actual_return')
                             ->label('Tanggal Kembali')
@@ -347,7 +348,7 @@ class RentalResource extends Resource
                     ->label('Batalkan')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
-                    ->visible(fn($record) => $record->status === 'pending')
+                    ->visible(fn ($record) => $record->status === 'pending')
                     ->requiresConfirmation()
                     ->modalHeading('Batalkan Penyewaan?')
                     ->action(function ($record) {
@@ -366,7 +367,7 @@ class RentalResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn($r) => [
+                            $csvData = $records->map(fn ($r) => [
                                 $r->rental_code,
                                 $r->equipment?->name ?? '—',
                                 $r->customer?->name ?? '—',
@@ -374,8 +375,8 @@ class RentalResource extends Resource
                                 $r->rental_start?->format('d M Y') ?? '—',
                                 $r->rental_end?->format('d M Y') ?? '—',
                                 $r->duration_days,
-                                'Rp ' . number_format($r->total_cost, 0, ',', '.'),
-                                'Rp ' . number_format($r->deposit ?? 0, 0, ',', '.'),
+                                'Rp '.number_format($r->total_cost, 0, ',', '.'),
+                                'Rp '.number_format($r->deposit ?? 0, 0, ',', '.'),
                                 $r->status_label,
                                 $r->actual_return?->format('d M Y') ?? '—',
                                 $r->return_condition ?? '—',
@@ -388,7 +389,7 @@ class RentalResource extends Resource
 
                             $callback = function () use ($csvData, $headers) {
                                 $handle = fopen('php://output', 'w');
-                                fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF)); // BOM for Excel UTF-8
+                                fwrite($handle, chr(0xEF).chr(0xBB).chr(0xBF)); // BOM for Excel UTF-8
                                 fputcsv($handle, $headers);
                                 foreach ($csvData as $row) {
                                     fputcsv($handle, $row);
@@ -396,13 +397,13 @@ class RentalResource extends Resource
                                 fclose($handle);
                             };
 
-                            return Response::streamDownload($callback, 'penyewaan-' . now()->format('Y-m-d') . '.csv', [
+                            return Response::streamDownload($callback, 'penyewaan-'.now()->format('Y-m-d').'.csv', [
                                 'Content-Type' => 'text/csv',
-                                'Content-Disposition' => 'attachment; filename="penyewaan-' . now()->format('Y-m-d') . '.csv"',
+                                'Content-Disposition' => 'attachment; filename="penyewaan-'.now()->format('Y-m-d').'.csv"',
                             ]);
                         })
                         ->deselectRecordsAfterCompletion(),
-                ])
+                ]),
             ])
             ->defaultSort('created_at', 'desc');
     }

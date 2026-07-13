@@ -12,7 +12,7 @@ trait HasShieldAccess
         $modelName = class_basename($modelClass); // Contoh: User
 
         // Format permission: ViewAny:User
-        return ucfirst($action) . ':' . $modelName;
+        return ucfirst($action).':'.$modelName;
     }
 
     public static function canViewAny(): bool

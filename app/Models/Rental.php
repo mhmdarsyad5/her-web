@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Carbon\Carbon;
 
 class Rental extends Model
 {
@@ -30,12 +29,12 @@ class Rental extends Model
     ];
 
     protected $casts = [
-        'rental_start'  => 'date',
-        'rental_end'    => 'date',
+        'rental_start' => 'date',
+        'rental_end' => 'date',
         'actual_return' => 'date',
-        'rate_amount'   => 'decimal:2',
-        'total_cost'    => 'decimal:2',
-        'deposit'       => 'decimal:2',
+        'rate_amount' => 'decimal:2',
+        'total_cost' => 'decimal:2',
+        'deposit' => 'decimal:2',
     ];
 
     /*
@@ -59,8 +58,8 @@ class Rental extends Model
                 $equipment = $rental->equipment;
 
                 match ($rental->status) {
-                    'active'    => $equipment->update(['status' => 'rented']),
-                    'returned'  => $equipment->update([
+                    'active' => $equipment->update(['status' => 'rented']),
+                    'returned' => $equipment->update([
                         'status' => $rental->return_condition === 'damaged'
                             ? 'maintenance'
                             : 'available',
@@ -68,7 +67,7 @@ class Rental extends Model
                     'cancelled' => $rental->getOriginal('status') === 'active'
                         ? $equipment->update(['status' => 'available'])
                         : null,
-                    default     => null,
+                    default => null,
                 };
             }
         });
@@ -142,14 +141,18 @@ class Rental extends Model
 
     public function daysRemaining(): int
     {
-        if ($this->actual_return) return 0;
+        if ($this->actual_return) {
+            return 0;
+        }
 
         return max(0, now()->diffInDays($this->rental_end, false));
     }
 
     public function daysOverdue(): int
     {
-        if (! $this->isOverdue()) return 0;
+        if (! $this->isOverdue()) {
+            return 0;
+        }
 
         return abs($this->rental_end->diffInDays(now()));
     }
@@ -168,12 +171,12 @@ class Rental extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'pending'   => 'Menunggu',
-            'active'    => 'Aktif',
-            'returned'  => 'Dikembalikan',
-            'overdue'   => 'Terlambat',
+            'pending' => 'Menunggu',
+            'active' => 'Aktif',
+            'returned' => 'Dikembalikan',
+            'overdue' => 'Terlambat',
             'cancelled' => 'Dibatalkan',
-            default     => $this->status,
+            default => $this->status,
         };
     }
 
@@ -190,9 +193,9 @@ class Rental extends Model
 
     public static function generateCode(): string
     {
-        $year  = now()->year;
+        $year = now()->year;
         $count = self::whereYear('created_at', $year)->count() + 1;
 
-        return 'RNT-' . $year . '-' . str_pad($count, 4, '0', STR_PAD_LEFT);
+        return 'RNT-'.$year.'-'.str_pad($count, 4, '0', STR_PAD_LEFT);
     }
 }

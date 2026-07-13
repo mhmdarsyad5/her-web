@@ -3,9 +3,9 @@
 namespace App\Filament\Resources\Settings\Pages;
 
 use App\Filament\Resources\Settings\SettingResource;
+use App\Traits\RedirectsToIndex;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use App\Traits\RedirectsToIndex;
 use Illuminate\Support\Facades\Cache;
 
 class EditSetting extends EditRecord
@@ -21,6 +21,7 @@ class EditSetting extends EditRecord
                 'color' => $data['value'],
             ];
         }
+
         return $data;
     }
 
@@ -29,8 +30,7 @@ class EditSetting extends EditRecord
         return [
             DeleteAction::make()
                 ->disabled(
-                    fn($record) =>
-                    in_array($record->key, ['primary_color'])
+                    fn ($record) => in_array($record->key, ['primary_color'])
                 )
                 ->tooltip('System settings cannot be deleted.'),
         ];
@@ -39,12 +39,12 @@ class EditSetting extends EditRecord
     protected function afterSave(): void
     {
         Cache::forget('settings.all');
-        Cache::forget('settings.url.' . $this->record->key);
+        Cache::forget('settings.url.'.$this->record->key);
     }
 
     protected function afterDelete(): void
     {
         Cache::forget('settings.all');
-        Cache::forget('settings.url.' . $this->record->key);
+        Cache::forget('settings.url.'.$this->record->key);
     }
 }

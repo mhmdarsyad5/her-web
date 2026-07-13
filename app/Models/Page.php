@@ -15,13 +15,15 @@ class Page extends Model
         'excerpt',
         'content',
         'category_id',
-        'is_published',
+        'status',
+        'seo_title',
+        'meta_description',
+        'meta_keywords',
         'publish_at',
         'created_by',
     ];
 
     protected $casts = [
-        'is_published' => 'boolean',
         'publish_at' => 'datetime',
     ];
 
@@ -44,5 +46,4 @@ class Page extends Model
     {
         return $this->belongsToMany(PageTag::class, 'page_tag', 'page_id', 'page_tag_id');
     }
-
 }

@@ -12,16 +12,16 @@ class SeoComposer
      * Pemetaan nama route → identifier di tabel seos
      */
     protected static array $routeMap = [
-        'home'             => 'home',
-        'products.index'   => 'products',
-        'products.show'    => 'products',
-        'pages.index'      => 'blog',
-        'pages.show'       => 'blog',
-        'services.index'   => 'services',
-        'gallery.index'    => 'gallery',
-        'contact'          => 'contact',
-        'faq.index'        => 'faq',
-        'dss.index'        => 'dss',
+        'home' => 'home',
+        'products.index' => 'products',
+        'products.show' => 'products',
+        'pages.index' => 'blog',
+        'pages.show' => 'blog',
+        'services.index' => 'services',
+        'gallery.index' => 'gallery',
+        'contact' => 'contact',
+        'faq.index' => 'faq',
+        'dss.index' => 'dss',
     ];
 
     public function compose(View $view): void
@@ -31,8 +31,8 @@ class SeoComposer
             return;
         }
 
-        $routeName  = request()->route()?->getName() ?? '';
-        $pageKey    = static::$routeMap[$routeName] ?? null;
+        $routeName = request()->route()?->getName() ?? '';
+        $pageKey = static::$routeMap[$routeName] ?? null;
 
         $seo = null;
         if ($pageKey) {

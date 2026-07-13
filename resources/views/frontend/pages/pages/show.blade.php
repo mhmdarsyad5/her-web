@@ -1,8 +1,12 @@
 @extends('frontend.layouts.app')
 
-@section('title', strip_tags($title) . ' - ' . strip_tags(setting('site_name', config('app.name'))))
+@section('title', ($page->seo_title ?: strip_tags($title)) . ' - ' . strip_tags(setting('site_name', config('app.name'))))
 
-@section('description', $page->excerpt ? strip_tags($page->excerpt) : Str::limit(strip_tags($page->content), 155))
+@section('description', $page->meta_description ?: ($page->excerpt ? strip_tags($page->excerpt) : Str::limit(strip_tags($page->content), 155)))
+
+@if(!empty($page->meta_keywords))
+@section('keywords', $page->meta_keywords)
+@endif
 
 @if($page->thumbnail)
 @section('og_image', asset('storage/' . $page->thumbnail))
@@ -294,11 +298,10 @@
                 </div>
 
             </div>
-
             {{-- RIGHT COLUMN: SIDEBAR --}}
             <aside class="lg:col-span-4 space-y-6">
                 @php
-                    $recentPosts = \App\Models\Page::where('is_published', true)
+                    $recentPosts = \App\Models\Page::where('status', 'published')
                         ->where('id', '!=', $page->id)
                         ->latest('publish_at')
                         ->limit(5)
@@ -307,7 +310,7 @@
                 @if($recentPosts->count() > 0)
                 <div class="bg-white p-5 sm:p-6 rounded-2xl border border-zinc-200/80 shadow-sm">
                     <h3 class="text-sm font-bold text-zinc-950 mb-4 pb-2.5 border-b border-zinc-100 uppercase tracking-wider">
-                        Recent Posts
+                        Baca Juga
                     </h3>
                     <div class="space-y-4">
                         @foreach($recentPosts as $post)

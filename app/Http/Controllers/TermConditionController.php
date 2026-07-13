@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
-
 class TermConditionController extends Controller
 {
     public function index()
@@ -11,7 +9,7 @@ class TermConditionController extends Controller
         $siteName = strip_tags(setting('site_name', 'Website'));
 
         $title = strip_tags(setting('terms_title', 'Terms & Conditions'));
-        $pageTitle = $title . ' - ' . $siteName;
+        $pageTitle = $title.' - '.$siteName;
 
         $termsText = setting('terms-conditions', 'Belum ada ketentuan.');
 

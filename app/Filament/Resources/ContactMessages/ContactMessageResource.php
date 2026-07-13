@@ -10,23 +10,26 @@ use App\Filament\Resources\ContactMessages\Schemas\ContactMessageForm;
 use App\Filament\Resources\ContactMessages\Schemas\ContactMessageInfolist;
 use App\Filament\Resources\ContactMessages\Tables\ContactMessagesTable;
 use App\Models\ContactMessage;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
-
+use UnitEnum;
 
 class ContactMessageResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = ContactMessage::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-envelope';
-    protected static ?string $navigationLabel = 'Messages';
-    protected static UnitEnum|string|null $navigationGroup = 'Communication';
+
+    protected static ?string $navigationLabel = 'Pesan Masuk';
+
+    protected static ?string $pluralModelLabel = 'Pesan Masuk';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Pesan & Komunikasi';
 
     public static function form(Schema $schema): Schema
     {
@@ -59,8 +62,11 @@ class ContactMessageResource extends Resource
             'edit' => EditContactMessage::route('/{record}/edit'),
         ];
     }
+
     public static function getNavigationBadge(): ?string
     {
-        return static::getModel()::count();
+        $unreadCount = static::getModel()::where('is_read', false)->count();
+
+        return $unreadCount > 0 ? (string) $unreadCount : null;
     }
 }

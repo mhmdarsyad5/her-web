@@ -6,44 +6,47 @@ use App\Filament\Resources\EquipmentResource\Pages;
 use App\Models\Equipment;
 use App\Models\EquipmentCategory;
 use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\FileUpload;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\BulkActionGroup;
-use Filament\Schemas\Components\Section as InfoSection;
-use Filament\Infolists\Components\TextEntry;
+use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\ImageEntry;
-use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section as InfoSection;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use UnitEnum;
 
 class EquipmentResource extends Resource
 {
     protected static ?string $model = Equipment::class;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-wrench-screwdriver';
+
     protected static ?string $navigationLabel = 'Data Alat';
+
     protected static ?string $modelLabel = 'Alat';
+
     protected static ?string $pluralModelLabel = 'Data Alat';
+
     protected static UnitEnum|string|null $navigationGroup = 'Manajemen Alat';
+
     protected static ?int $navigationSort = 2;
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
@@ -183,8 +186,6 @@ class EquipmentResource extends Resource
                                 ->default('available')
                                 ->required(),
 
-
-
                             TextInput::make('sort_order')
                                 ->label('Urutan Tampil')
                                 ->numeric()
@@ -211,7 +212,7 @@ class EquipmentResource extends Resource
                     ->label('Nama Alat')
                     ->searchable()
                     ->sortable()
-                    ->description(fn($record) => trim(($record->brand ?? '') . ($record->model ? ' — ' . $record->model : ''))),
+                    ->description(fn ($record) => trim(($record->brand ?? '').($record->model ? ' — '.$record->model : ''))),
 
                 TextColumn::make('category.name')
                     ->label('Kategori')
@@ -221,14 +222,14 @@ class EquipmentResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'available' => 'success',
                         'rented' => 'primary',
                         'maintenance' => 'warning',
                         'retired' => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'available' => 'Tersedia',
                         'rented' => 'Disewa',
                         'maintenance' => 'Maintenance',
@@ -239,13 +240,13 @@ class EquipmentResource extends Resource
                 TextColumn::make('condition')
                     ->label('Kondisi')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'excellent', 'good' => 'success',
                         'fair' => 'warning',
                         'poor' => 'danger',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'excellent' => 'Sangat Baik',
                         'good' => 'Baik',
                         'fair' => 'Cukup',
@@ -263,7 +264,6 @@ class EquipmentResource extends Resource
                     ->placeholder('—')
                     ->toggleable(),
 
-
             ])
             ->filters([
                 SelectFilter::make('category_id')
@@ -279,7 +279,6 @@ class EquipmentResource extends Resource
                         'retired' => 'Tidak Aktif',
                     ]),
 
-
             ])
             ->actions([
                 ViewAction::make(),
@@ -293,7 +292,7 @@ class EquipmentResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn($r) => [
+                            $csvData = $records->map(fn ($r) => [
                                 $r->code,
                                 $r->name,
                                 $r->category?->name ?? '—',
@@ -323,7 +322,7 @@ class EquipmentResource extends Resource
 
                             $callback = function () use ($csvData, $headers) {
                                 $handle = fopen('php://output', 'w');
-                                fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                                fwrite($handle, chr(0xEF).chr(0xBB).chr(0xBF));
                                 fputcsv($handle, $headers);
                                 foreach ($csvData as $row) {
                                     fputcsv($handle, $row);
@@ -331,12 +330,12 @@ class EquipmentResource extends Resource
                                 fclose($handle);
                             };
 
-                            return \Illuminate\Support\Facades\Response::streamDownload($callback, 'data-alat-' . now()->format('Y-m-d') . '.csv', [
+                            return \Illuminate\Support\Facades\Response::streamDownload($callback, 'data-alat-'.now()->format('Y-m-d').'.csv', [
                                 'Content-Type' => 'text/csv',
                             ]);
                         })
                         ->deselectRecordsAfterCompletion(),
-                ])
+                ]),
             ])
             ->defaultSort('sort_order');
     }
@@ -365,14 +364,14 @@ class EquipmentResource extends Resource
                     TextEntry::make('status')
                         ->label('Status')
                         ->badge()
-                        ->color(fn($state) => match ($state) {
+                        ->color(fn ($state) => match ($state) {
                             'available' => 'success',
                             'rented' => 'primary',
                             'maintenance' => 'warning',
                             'retired' => 'danger',
                             default => 'gray',
                         })
-                        ->formatStateUsing(fn($state) => match ($state) {
+                        ->formatStateUsing(fn ($state) => match ($state) {
                             'available' => '✅ Tersedia',
                             'rented' => '🔵 Sedang Disewa',
                             'maintenance' => '🔧 Maintenance',
@@ -383,13 +382,13 @@ class EquipmentResource extends Resource
                     TextEntry::make('condition')
                         ->label('Kondisi')
                         ->badge()
-                        ->color(fn($state) => match ($state) {
+                        ->color(fn ($state) => match ($state) {
                             'excellent', 'good' => 'success',
                             'fair' => 'warning',
                             'poor' => 'danger',
                             default => 'gray',
                         })
-                        ->formatStateUsing(fn($state) => match ($state) {
+                        ->formatStateUsing(fn ($state) => match ($state) {
                             'excellent' => '⭐ Sangat Baik',
                             'good' => '✅ Baik',
                             'fair' => '⚠️ Cukup',
@@ -413,7 +412,6 @@ class EquipmentResource extends Resource
                         ->label('Lokasi / Gudang')
                         ->placeholder('—')
                         ->icon('heroicon-o-map-pin'),
-
 
                 ])
                 ->columns(3),
@@ -445,13 +443,13 @@ class EquipmentResource extends Resource
                         ->height(220)
                         ->extraImgAttributes(['class' => 'rounded-lg object-cover'])
                         ->columnSpanFull()
-                        ->hidden(fn($record) => empty($record->images)),
+                        ->hidden(fn ($record) => empty($record->images)),
 
                     TextEntry::make('no_images')
                         ->label('')
-                        ->getStateUsing(fn() => 'Belum ada foto yang diupload.')
+                        ->getStateUsing(fn () => 'Belum ada foto yang diupload.')
                         ->columnSpanFull()
-                        ->visible(fn($record) => empty($record->images))
+                        ->visible(fn ($record) => empty($record->images))
                         ->color('gray'),
                 ])
                 ->collapsible(),
@@ -470,13 +468,13 @@ class EquipmentResource extends Resource
                         ])
                         ->columns(2)
                         ->columnSpanFull()
-                        ->hidden(fn($record) => empty($record->specifications)),
+                        ->hidden(fn ($record) => empty($record->specifications)),
 
                     TextEntry::make('no_specs')
                         ->label('')
-                        ->getStateUsing(fn() => 'Belum ada spesifikasi teknis.')
+                        ->getStateUsing(fn () => 'Belum ada spesifikasi teknis.')
                         ->columnSpanFull()
-                        ->visible(fn($record) => empty($record->specifications))
+                        ->visible(fn ($record) => empty($record->specifications))
                         ->color('gray'),
                 ])
                 ->collapsible(),

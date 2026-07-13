@@ -10,22 +10,26 @@ use App\Filament\Resources\Faqs\Schemas\FaqForm;
 use App\Filament\Resources\Faqs\Schemas\FaqInfolist;
 use App\Filament\Resources\Faqs\Tables\FaqsTable;
 use App\Models\Faq;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
+use UnitEnum;
 
 class FaqResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Faq::class;
 
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-question-mark-circle';
+
     protected static ?string $navigationLabel = 'FAQs';
+
+    protected static ?int $navigationSort = 9;
 
     public static function form(Schema $schema): Schema
     {

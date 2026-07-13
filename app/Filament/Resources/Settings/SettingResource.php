@@ -8,21 +8,23 @@ use App\Filament\Resources\Settings\Pages\ListSettings;
 use App\Filament\Resources\Settings\Schemas\SettingForm;
 use App\Filament\Resources\Settings\Tables\SettingsTable;
 use App\Models\Setting;
+use App\Traits\HasShieldAccess;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
-use BackedEnum;
-use App\Traits\HasShieldAccess;
 
 class SettingResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Setting::class;
 
     protected static UnitEnum|string|null $navigationGroup = 'System Settings';
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $navigationLabel = 'Settings';
 
     public static function form(Schema $schema): Schema

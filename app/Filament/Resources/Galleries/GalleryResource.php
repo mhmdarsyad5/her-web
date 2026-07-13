@@ -8,22 +8,28 @@ use App\Filament\Resources\Galleries\Pages\ListGalleries;
 use App\Filament\Resources\Galleries\Schemas\GalleryForm;
 use App\Filament\Resources\Galleries\Tables\GalleriesTable;
 use App\Models\Gallery;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
+use UnitEnum;
 
 class GalleryResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Gallery::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-camera';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
-    protected static ?string $navigationLabel = 'Galleries';
+
+    protected static ?string $navigationLabel = 'Galeri';
+
+    protected static ?string $pluralModelLabel = 'Galeri';
+
+    protected static ?int $navigationSort = 5;
 
     public static function form(Schema $schema): Schema
     {

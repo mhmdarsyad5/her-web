@@ -8,23 +8,23 @@ use App\Filament\Resources\Users\Pages\ListUsers;
 use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
+use App\Traits\HasShieldAccess;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use UnitEnum;
-use BackedEnum;
-use App\Traits\HasShieldAccess;
-
-
 
 class UserResource extends Resource
 {
     use HasShieldAccess;
 
     protected static ?string $model = User::class;
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-user';
+
     protected static UnitEnum|string|null $navigationGroup = 'System Settings';
+
     protected static ?string $navigationLabel = 'Users';
 
     public static function form(Schema $schema): Schema

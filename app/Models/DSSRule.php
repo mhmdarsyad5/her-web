@@ -66,7 +66,7 @@ class DSSRule extends Model
         foreach ($conditions as $key => $value) {
             $label = $fieldLabels[$key] ?? ucfirst($key);
             if (is_array($value)) {
-                $labels[] = "$label: " . implode(', ', $value);
+                $labels[] = "$label: ".implode(', ', $value);
             } else {
                 $labels[] = "$label: $value";
             }
@@ -96,12 +96,16 @@ class DSSRule extends Model
      */
     public function matchesInput(array $userInput): bool
     {
-        if (empty($this->conditions)) return false;
+        if (empty($this->conditions)) {
+            return false;
+        }
 
         foreach ($this->conditions as $field => $expectedValue) {
-            if (!isset($userInput[$field])) continue;
+            if (! isset($userInput[$field])) {
+                continue;
+            }
 
-            if (!$this->matchesSingleField($field, $userInput[$field])) {
+            if (! $this->matchesSingleField($field, $userInput[$field])) {
                 return false;
             }
         }
@@ -116,17 +120,24 @@ class DSSRule extends Model
     {
         $expectedValue = $this->conditions[$field] ?? null;
 
-        if ($expectedValue === null) return true; // Rule doesn't care about this field
-        if ($userValue === null || $userValue === '') return true; // User didn't provide input
+        if ($expectedValue === null) {
+            return true;
+        } // Rule doesn't care about this field
+        if ($userValue === null || $userValue === '') {
+            return true;
+        } // User didn't provide input
 
         // Handle 'any' as a wildmatch
-        if ($expectedValue === 'any' || $userValue === 'any') return true;
+        if ($expectedValue === 'any' || $userValue === 'any') {
+            return true;
+        }
 
         // Handle array values for multi-select (user selections vs rule requirements)
         if (is_array($userValue)) {
             if (is_array($expectedValue)) {
                 return count(array_intersect($userValue, $expectedValue)) > 0;
             }
+
             return in_array($expectedValue, $userValue);
         }
 
@@ -142,13 +153,17 @@ class DSSRule extends Model
      */
     public function getMatchScore(array $userInput): int
     {
-        if (empty($this->conditions)) return 0;
+        if (empty($this->conditions)) {
+            return 0;
+        }
 
         $totalConditions = count($this->conditions);
         $matchedCount = 0;
 
         foreach ($this->conditions as $field => $expectedValue) {
-            if (!isset($userInput[$field])) continue;
+            if (! isset($userInput[$field])) {
+                continue;
+            }
 
             if ($this->matchesSingleField($field, $userInput[$field])) {
                 $matchedCount++;
@@ -170,7 +185,7 @@ class DSSRule extends Model
         $matchedCount = 0;
 
         foreach ($this->conditions as $field => $expectedValue) {
-            if (!isset($userInput[$field])) {
+            if (! isset($userInput[$field])) {
                 continue;
             }
 

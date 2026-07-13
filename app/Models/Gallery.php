@@ -21,5 +21,4 @@ class Gallery extends Model
         'tags' => 'array',
         'is_published' => 'boolean',
     ];
-
 }

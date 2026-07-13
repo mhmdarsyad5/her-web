@@ -29,12 +29,13 @@ class ImportEquipmentFromHTML extends Command
         $filePath = $this->argument('filePath');
 
         // Resolve to absolute path if relative
-        if (!str_starts_with($filePath, '/')) {
+        if (! str_starts_with($filePath, '/')) {
             $filePath = base_path($filePath);
         }
 
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             $this->error("File not found: {$filePath}");
+
             return 1;
         }
 
@@ -42,7 +43,7 @@ class ImportEquipmentFromHTML extends Command
             $this->info("Starting equipment import from: {$filePath}");
             $this->info('');
 
-            $importer = new EquipmentImporter();
+            $importer = new EquipmentImporter;
             $report = $importer->importFromHTML($filePath);
 
             // Display results
@@ -56,11 +57,11 @@ class ImportEquipmentFromHTML extends Command
                 ]
             );
 
-            if (!empty($report['errors'])) {
+            if (! empty($report['errors'])) {
                 $this->warn('');
                 $this->warn('Errors encountered:');
                 foreach ($report['errors'] as $error) {
-                    $this->line('  ⚠ ' . $error);
+                    $this->line('  ⚠ '.$error);
                 }
             }
 
@@ -69,7 +70,8 @@ class ImportEquipmentFromHTML extends Command
 
             return 0;
         } catch (\Exception $e) {
-            $this->error('Import failed: ' . $e->getMessage());
+            $this->error('Import failed: '.$e->getMessage());
+
             return 1;
         }
     }

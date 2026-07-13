@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -35,9 +35,9 @@ class Equipment extends Model
 
     protected $casts = [
         'specifications' => 'array',
-        'images'         => 'array',
-        'monthly_rate'   => 'decimal:2',
-        'deposit'        => 'decimal:2',
+        'images' => 'array',
+        'monthly_rate' => 'decimal:2',
+        'deposit' => 'decimal:2',
     ];
 
     /*
@@ -100,8 +100,6 @@ class Equipment extends Model
         return $query->where('status', '!=', 'retired');
     }
 
-
-
     /*
     |--------------------------------------------------------------------------
     | HELPERS
@@ -121,11 +119,11 @@ class Equipment extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'available'   => 'Tersedia',
-            'rented'      => 'Disewa',
+            'available' => 'Tersedia',
+            'rented' => 'Disewa',
             'maintenance' => 'Maintenance',
-            'retired'     => 'Tidak Aktif',
-            default       => $this->status,
+            'retired' => 'Tidak Aktif',
+            default => $this->status,
         };
     }
 
@@ -133,10 +131,10 @@ class Equipment extends Model
     {
         return match ($this->condition) {
             'excellent' => 'Sangat Baik',
-            'good'      => 'Baik',
-            'fair'      => 'Cukup',
-            'poor'      => 'Perlu Perbaikan',
-            default     => $this->condition,
+            'good' => 'Baik',
+            'fair' => 'Cukup',
+            'poor' => 'Perlu Perbaikan',
+            default => $this->condition,
         };
     }
 
@@ -166,6 +164,6 @@ class Equipment extends Model
         preg_match('/(\d+)$/', $last, $matches);
         $next = isset($matches[1]) ? (int) $matches[1] + 1 : 1;
 
-        return 'ALT-' . str_pad($next, 3, '0', STR_PAD_LEFT);
+        return 'ALT-'.str_pad($next, 3, '0', STR_PAD_LEFT);
     }
 }

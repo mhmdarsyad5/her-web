@@ -6,18 +6,22 @@ use App\Filament\Resources\DSSCriteria\Schemas\DSSCriteriaForm;
 use App\Filament\Resources\DSSCriteria\Tables\DSSCriteriaTable;
 use App\Filament\Resources\DSSCriteriaResource\Pages;
 use App\Models\DSSCriteria;
+use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
-use BackedEnum;
 
 class DSSCriteriaResource extends Resource
 {
     protected static ?string $model = DSSCriteria::class;
+
     protected static ?string $label = 'DSS Criteria';
+
     protected static ?string $pluralLabel = 'DSS Criteria';
+
     protected static UnitEnum|string|null $navigationGroup = 'System Settings';
+
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-list-bullet';
 
     public static function form(Schema $schema): Schema

@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Log;
 class EquipmentImporter
 {
     protected $created = 0;
+
     protected $updated = 0;
+
     protected $skipped = 0;
+
     protected $errors = [];
 
     /**
@@ -18,7 +21,7 @@ class EquipmentImporter
      */
     public function importFromHTML(string $filePath): array
     {
-        if (!file_exists($filePath)) {
+        if (! file_exists($filePath)) {
             throw new \Exception("File not found: {$filePath}");
         }
 
@@ -28,7 +31,7 @@ class EquipmentImporter
         $products = $this->extractProductsFromHTML($html);
 
         if (empty($products)) {
-            throw new \Exception("No products found in HTML file.");
+            throw new \Exception('No products found in HTML file.');
         }
 
         // Upsert equipment records
@@ -36,7 +39,7 @@ class EquipmentImporter
             try {
                 $this->upsertEquipment($product);
             } catch (\Exception $e) {
-                $this->errors[] = "Error importing {$product['name']}: " . $e->getMessage();
+                $this->errors[] = "Error importing {$product['name']}: ".$e->getMessage();
                 $this->skipped++;
             }
         }
@@ -53,7 +56,7 @@ class EquipmentImporter
         $startPattern = '/const\s+DB\s*=\s*\[/';
         $startMatch = [];
 
-        if (!preg_match($startPattern, $html, $startMatch, PREG_OFFSET_CAPTURE)) {
+        if (! preg_match($startPattern, $html, $startMatch, PREG_OFFSET_CAPTURE)) {
             return [];
         }
 
@@ -74,9 +77,11 @@ class EquipmentImporter
 
         try {
             $decoded = json_decode($jsonContent, true);
+
             return is_array($decoded) ? $decoded : [];
         } catch (\Exception $e) {
-            Log::error("Failed to parse products from HTML: " . $e->getMessage());
+            Log::error('Failed to parse products from HTML: '.$e->getMessage());
+
             return [];
         }
     }
@@ -96,7 +101,7 @@ class EquipmentImporter
 
             // Handle string boundaries
             if (($char === '"' || $char === "'" || $char === '`') && $prevChar !== '\\') {
-                if (!$inString) {
+                if (! $inString) {
                     $inString = true;
                     $stringChar = $char;
                 } elseif ($char === $stringChar) {
@@ -105,7 +110,7 @@ class EquipmentImporter
             }
 
             // Count brackets outside strings
-            if (!$inString) {
+            if (! $inString) {
                 if ($char === '[' || $char === '{') {
                     $depth++;
                 } elseif ($char === ']' || $char === '}') {
@@ -133,7 +138,7 @@ class EquipmentImporter
         $json = preg_replace_callback(
             '/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/',
             function ($matches) {
-                return $matches[1] . '"' . $matches[2] . '":';
+                return $matches[1].'"'.$matches[2].'":';
             },
             $json
         );
@@ -144,7 +149,7 @@ class EquipmentImporter
         // Remove any trailing commas
         $json = preg_replace('/,(\s*[\]}])/', '$1', $json);
 
-        return '[' . $json . ']';
+        return '['.$json.']';
     }
 
     /**
@@ -160,8 +165,9 @@ class EquipmentImporter
         $operator = $product['op'] ?? 'seated';
         $energy = $product['energy'] ?? 'electric';
 
-        if (!$name) {
+        if (! $name) {
             $this->skipped++;
+
             return;
         }
 

@@ -33,6 +33,12 @@
             $seoDesc = $globalDesc;
         }
 
+        // Keywords: @yield('keywords') → seo.meta_keywords
+        $seoKeywords = trim(strip_tags($__env->yieldContent('keywords')));
+        if (empty($seoKeywords) && !empty($pageSeo?->meta_keywords)) {
+            $seoKeywords = $pageSeo->meta_keywords;
+        }
+
         // OG Image: @yield('og_image') → seo.og_image → site logo
         $ogImage = trim(strip_tags($__env->yieldContent('og_image')));
         if (empty($ogImage)) {
@@ -49,6 +55,9 @@
 
     {{-- Standard Meta --}}
     <meta name="description" content="{{ $seoDesc }}" />
+    @if(!empty($seoKeywords))
+    <meta name="keywords" content="{{ $seoKeywords }}" />
+    @endif
     <meta name="robots"      content="index, follow" />
     <link rel="canonical"    href="{{ $canonicalUrl }}" />
 
@@ -97,6 +106,9 @@
 
     {{-- Extra Head --}}
     @stack('head')
+
+    {{-- Google Analytics & Custom Header Scripts --}}
+    {!! setting('custom_header_scripts') !!}
 </head>
 
 <body class="min-h-screen bg-white text-gray-900">
@@ -126,6 +138,8 @@
     <div x-data x-init="$nextTick(() => $el.innerHTML = @js(view('frontend.partials.whatsapp-float')->render()))"></div>
 
 
+    {{-- Custom Footer Scripts --}}
+    {!! setting('custom_footer_scripts') !!}
 </body>
 
 </html>

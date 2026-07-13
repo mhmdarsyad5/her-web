@@ -23,7 +23,7 @@ class CreateRental extends CreateRecord
         // Hitung durasi hari jika belum dihitung
         if (isset($data['rental_start'], $data['rental_end']) && empty($data['duration_days'])) {
             $start = Carbon::parse($data['rental_start']);
-            $end   = Carbon::parse($data['rental_end']);
+            $end = Carbon::parse($data['rental_end']);
             $data['duration_days'] = $start->diffInDays($end) + 1;
         }
 

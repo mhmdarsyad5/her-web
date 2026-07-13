@@ -8,23 +8,30 @@ use App\Filament\Resources\Pages\Pages\ListPages;
 use App\Filament\Resources\Pages\Schemas\PageForm;
 use App\Filament\Resources\Pages\Tables\PagesTable;
 use App\Models\Page;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
+use UnitEnum;
 
 class PageResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Page::class;
+
     protected static ?string $slug = 'artikel-blog';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-document-text';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
+
     protected static ?string $navigationLabel = 'Artikel/Blog';
+
+    protected static ?string $pluralModelLabel = 'Artikel/Blog';
+
+    protected static ?int $navigationSort = 6;
 
     public static function form(Schema $schema): Schema
     {
@@ -51,6 +58,7 @@ class PageResource extends Resource
             'edit' => EditPage::route('/{record}/edit'),
         ];
     }
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

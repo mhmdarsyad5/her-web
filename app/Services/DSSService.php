@@ -20,7 +20,7 @@ class DSSService
         $rules = DSSRule::where('is_active', true)->with('product')->get();
 
         // Tier 1: Strict Match ALL input fields
-        $tier1 = $rules->filter(fn($rule) => $rule->matchesInput($userInput));
+        $tier1 = $rules->filter(fn ($rule) => $rule->matchesInput($userInput));
         if ($tier1->isNotEmpty()) {
             return $tier1->sortByDesc('priority')->values();
         }
@@ -28,9 +28,9 @@ class DSSService
         // Tier 2: Core fields Match (product_type, energy, weight)
         $coreFields = ['product_type', 'energy', 'weight'];
         $coreInput = array_intersect_key($userInput, array_flip($coreFields));
-        
-        if (!empty($coreInput)) {
-            $tier2 = $rules->filter(fn($rule) => $this->matchesSubset($rule, $coreInput));
+
+        if (! empty($coreInput)) {
+            $tier2 = $rules->filter(fn ($rule) => $this->matchesSubset($rule, $coreInput));
             if ($tier2->isNotEmpty()) {
                 return $tier2->sortByDesc('priority')->values();
             }
@@ -40,8 +40,8 @@ class DSSService
         $crucialFields = ['product_type', 'weight'];
         $crucialInput = array_intersect_key($userInput, array_flip($crucialFields));
 
-        if (!empty($crucialInput)) {
-            $tier3 = $rules->filter(fn($rule) => $this->matchesSubset($rule, $crucialInput));
+        if (! empty($crucialInput)) {
+            $tier3 = $rules->filter(fn ($rule) => $this->matchesSubset($rule, $crucialInput));
             if ($tier3->isNotEmpty()) {
                 return $tier3->sortByDesc('priority')->values();
             }
@@ -52,10 +52,12 @@ class DSSService
 
     protected function matchesSubset(DSSRule $rule, array $subsetInput): bool
     {
-        if (empty($subsetInput)) return false;
+        if (empty($subsetInput)) {
+            return false;
+        }
 
         foreach ($subsetInput as $field => $userValue) {
-            if (!$rule->matchesSingleField($field, $userValue)) {
+            if (! $rule->matchesSingleField($field, $userValue)) {
                 return false;
             }
         }
@@ -63,12 +65,17 @@ class DSSService
         return true;
     }
 
-    public function validateInput(array $userInput = null): array
+    public function validateInput(?array $userInput = null): array
     {
         $errors = [];
         $filledFields = array_filter($userInput ?? $this->userInput, function ($value) {
-            if ($value === null || $value === '') return false;
-            if (is_array($value) && count($value) === 0) return false;
+            if ($value === null || $value === '') {
+                return false;
+            }
+            if (is_array($value) && count($value) === 0) {
+                return false;
+            }
+
             return true;
         });
 
@@ -87,7 +94,7 @@ class DSSService
         $this->userInput = $userInput;
         $validation = $this->validateInput($userInput);
 
-        if (!$validation['valid']) {
+        if (! $validation['valid']) {
             return ['success' => false, 'errors' => $validation['errors']];
         }
 
@@ -112,14 +119,14 @@ class DSSService
     {
         $conditions = $rule->conditions ?? [];
         $displaySpecs = $rule->display_specifications ?? [];
-        
+
         $product = $rule->product;
 
         return [
             'id' => $rule->id,
             'name' => $product ? $product->name : $rule->product_name,
             'slug' => $product ? $product->slug : null,
-            'image' => $product ? asset('storage/' . $product->thumbnail) : null,
+            'image' => $product ? asset('storage/'.$product->thumbnail) : null,
             'type' => $rule->model ?? ($rule->category_name ?? 'Equipment'),
             'category' => $rule->category_name,
             'capacity' => $product && $product->load_capacity ? $product->load_capacity : ($displaySpecs['capacity'] ?? '0kg'),

@@ -41,7 +41,10 @@ class DSSController extends Controller
 
         // Remove null and empty values
         $userInput = array_filter($userInput, function ($value) {
-            if ($value === null || $value === '') return false;
+            if ($value === null || $value === '') {
+                return false;
+            }
+
             return true;
         });
 

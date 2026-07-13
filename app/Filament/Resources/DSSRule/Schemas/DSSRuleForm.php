@@ -3,11 +3,11 @@
 namespace App\Filament\Resources\DSSRule\Schemas;
 
 use App\Models\DSSCriteria;
-use Filament\Schemas\Components\Grid;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class DSSRuleForm
@@ -56,34 +56,34 @@ class DSSRuleForm
                         Select::make('conditions.industry')
                             ->label('Jenis Industri (Form 1)')
                             ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'industry')->pluck('name', 'code'))
+                            ->options(fn () => DSSCriteria::where('field_type', 'industry')->pluck('name', 'code'))
                             ->searchable()
                             ->required(),
-                        
+
                         Select::make('conditions.product_type')
                             ->label('Jenis Unit Produk (Form 1)')
                             ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'product_type')->pluck('name', 'code'))
+                            ->options(fn () => DSSCriteria::where('field_type', 'product_type')->pluck('name', 'code'))
                             ->searchable()
                             ->required(),
 
                         Select::make('conditions.energy')
                             ->label('Sumber Energi / Drive Type (Form 2)')
-                            ->options(fn() => DSSCriteria::where('field_type', 'energy')->pluck('name', 'code'))
+                            ->options(fn () => DSSCriteria::where('field_type', 'energy')->pluck('name', 'code'))
                             ->searchable()
                             ->required(),
 
                         Select::make('conditions.weight')
                             ->label('Kapasitas Berat / Load Capacity (Form 2)')
                             ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'weight')->pluck('name', 'code'))
+                            ->options(fn () => DSSCriteria::where('field_type', 'weight')->pluck('name', 'code'))
                             ->searchable()
                             ->required(),
-                        
+
                         Select::make('conditions.height')
                             ->label('Ketinggian Angkat / Lift Height (Form 2)')
                             ->multiple()
-                            ->options(fn() => DSSCriteria::where('field_type', 'height')->pluck('name', 'code'))
+                            ->options(fn () => DSSCriteria::where('field_type', 'height')->pluck('name', 'code'))
                             ->searchable()
                             ->required(),
                     ]),

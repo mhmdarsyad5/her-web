@@ -17,5 +17,4 @@ class HeroSection extends Model
     protected $casts = [
         'image' => 'array',
     ];
-
 }

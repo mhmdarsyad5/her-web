@@ -3,13 +3,14 @@
 namespace App\Filament\Resources\Services\Pages;
 
 use App\Filament\Resources\Services\ServiceResource;
+use App\Traits\RedirectsToIndex;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use App\Traits\RedirectsToIndex;
 
 class EditService extends EditRecord
 {
     use RedirectsToIndex;
+
     protected static string $resource = ServiceResource::class;
 
     protected function getHeaderActions(): array

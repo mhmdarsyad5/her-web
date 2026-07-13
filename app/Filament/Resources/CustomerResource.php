@@ -5,38 +5,43 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CustomerResource\Pages;
 use App\Models\Customer;
 use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables\Table;
-use Filament\Schemas\Components\Section;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Toggle;
-use Filament\Schemas\Components\Utilities\Get;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
+use Filament\Tables\Table;
 use Illuminate\Support\Facades\Response;
+use UnitEnum;
 
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-users';
+
     protected static ?string $navigationLabel = 'Data Pelanggan';
+
     protected static ?string $modelLabel = 'Pelanggan';
+
     protected static ?string $pluralModelLabel = 'Data Pelanggan';
+
     protected static UnitEnum|string|null $navigationGroup = 'Manajemen Penyewaan';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
@@ -62,7 +67,7 @@ class CustomerResource extends Resource
                     TextInput::make('company_name')
                         ->label('Nama Perusahaan')
                         ->maxLength(200)
-                        ->visible(fn(Get $get) => $get('customer_type') === 'company'),
+                        ->visible(fn (Get $get) => $get('customer_type') === 'company'),
 
                     TextInput::make('phone')
                         ->label('No. HP / WA')
@@ -105,17 +110,17 @@ class CustomerResource extends Resource
                     ->label('Nama')
                     ->searchable()
                     ->sortable()
-                    ->description(fn($record) => $record->company_name ?? null),
+                    ->description(fn ($record) => $record->company_name ?? null),
 
                 TextColumn::make('customer_type')
                     ->label('Tipe')
                     ->badge()
-                    ->color(fn($state) => match ($state) {
+                    ->color(fn ($state) => match ($state) {
                         'individual' => 'info',
                         'company' => 'warning',
                         default => 'gray',
                     })
-                    ->formatStateUsing(fn($state) => match ($state) {
+                    ->formatStateUsing(fn ($state) => match ($state) {
                         'individual' => 'Perorangan',
                         'company' => 'Perusahaan',
                         default => $state,
@@ -167,7 +172,7 @@ class CustomerResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn($r) => [
+                            $csvData = $records->map(fn ($r) => [
                                 $r->name,
                                 $r->company_name ?? '—',
                                 match ($r->customer_type) {
@@ -187,7 +192,7 @@ class CustomerResource extends Resource
 
                             $callback = function () use ($csvData, $headers) {
                                 $handle = fopen('php://output', 'w');
-                                fputs($handle, chr(0xEF) . chr(0xBB) . chr(0xBF)); // BOM for Excel UTF-8
+                                fwrite($handle, chr(0xEF).chr(0xBB).chr(0xBF)); // BOM for Excel UTF-8
                                 fputcsv($handle, $headers);
                                 foreach ($csvData as $row) {
                                     fputcsv($handle, $row);
@@ -195,13 +200,13 @@ class CustomerResource extends Resource
                                 fclose($handle);
                             };
 
-                            return Response::streamDownload($callback, 'pelanggan-' . now()->format('Y-m-d') . '.csv', [
+                            return Response::streamDownload($callback, 'pelanggan-'.now()->format('Y-m-d').'.csv', [
                                 'Content-Type' => 'text/csv',
-                                'Content-Disposition' => 'attachment; filename="pelanggan-' . now()->format('Y-m-d') . '.csv"',
+                                'Content-Disposition' => 'attachment; filename="pelanggan-'.now()->format('Y-m-d').'.csv"',
                             ]);
                         })
                         ->deselectRecordsAfterCompletion(),
-                ])
+                ]),
             ]);
     }
 
@@ -213,6 +218,7 @@ class CustomerResource extends Resource
             'edit' => Pages\EditCustomer::route('/{record}/edit'),
         ];
     }
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

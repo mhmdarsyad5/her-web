@@ -4,9 +4,7 @@ namespace App\Filament\Resources\EquipmentResource\Pages;
 
 use App\Filament\Resources\EquipmentResource;
 use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\ViewRecord;
 
 class EditEquipment extends EditRecord
 {

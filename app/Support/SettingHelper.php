@@ -66,6 +66,7 @@ if (! function_exists('setting')) {
                 if (is_array($decoded)) {
                     return resolveSettingArray($decoded, $default);
                 }
+
                 return $decoded;
             }
 

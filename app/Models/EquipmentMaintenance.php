@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EquipmentMaintenance extends Model
@@ -27,9 +27,9 @@ class EquipmentMaintenance extends Model
     ];
 
     protected $casts = [
-        'cost'                  => 'decimal:2',
-        'start_date'            => 'date',
-        'end_date'              => 'date',
+        'cost' => 'decimal:2',
+        'start_date' => 'date',
+        'end_date' => 'date',
         'next_maintenance_date' => 'date',
     ];
 
@@ -95,20 +95,20 @@ class EquipmentMaintenance extends Model
     public function getMaintenanceTypeLabelAttribute(): string
     {
         return match ($this->maintenance_type) {
-            'routine'    => 'Rutin',
-            'repair'     => 'Perbaikan',
+            'routine' => 'Rutin',
+            'repair' => 'Perbaikan',
             'inspection' => 'Inspeksi',
-            default      => $this->maintenance_type,
+            default => $this->maintenance_type,
         };
     }
 
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'scheduled'   => 'Terjadwal',
+            'scheduled' => 'Terjadwal',
             'in_progress' => 'Sedang Dikerjakan',
-            'completed'   => 'Selesai',
-            default       => $this->status,
+            'completed' => 'Selesai',
+            default => $this->status,
         };
     }
 }

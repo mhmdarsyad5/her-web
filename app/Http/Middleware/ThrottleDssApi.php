@@ -10,11 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 class ThrottleDssApi
 {
     protected int $maxAttempts = 20;
+
     protected int $decayMinutes = 1;
 
     public function handle(Request $request, Closure $next): Response
     {
-        $key = 'throttle:dss:' . $request->ip();
+        $key = 'throttle:dss:'.$request->ip();
         $attempts = (int) Cache::get($key, 0);
 
         if ($attempts >= $this->maxAttempts) {

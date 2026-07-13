@@ -13,7 +13,7 @@ class ContactController extends Controller
             setting('contact_title', 'Contact Us')
         );
 
-        $pageTitle = $title . ' - ' . $siteName;
+        $pageTitle = $title.' - '.$siteName;
 
         // Badge & description
         $badge = strip_tags(setting('contact_badge', 'Hubungi Kami'));
@@ -26,8 +26,8 @@ class ContactController extends Controller
 
         // Contact info (TANPA HTML)
         $whatsapp = strip_tags(setting('whatsapp_number', '-'));
-        $email    = strip_tags(setting('email', '-'));
-        $address  = strip_tags(setting('address', '-'));
+        $email = strip_tags(setting('email', '-'));
+        $address = strip_tags(setting('address', '-'));
 
         return view('frontend.pages.contacts.index', compact(
             'pageTitle',

@@ -7,7 +7,8 @@ use Illuminate\Console\Command;
 
 class MarkOverdueRentals extends Command
 {
-    protected $signature   = 'rentals:mark-overdue';
+    protected $signature = 'rentals:mark-overdue';
+
     protected $description = 'Tandai penyewaan yang melewati tanggal estimasi kembali sebagai Terlambat (overdue)';
 
     public function handle(): int

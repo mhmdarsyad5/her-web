@@ -3,18 +3,16 @@
 namespace App\Providers\Filament;
 
 use App\Models\Setting;
-use Filament\Http\Middleware\Authenticate;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
-use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -46,32 +44,33 @@ class AdminPanelProvider extends PanelProvider
                     950 => '#452202',
                 ];
             }
+
             return Color::hex($value);
         }
 
         return match ($value) {
-            'red'     => Color::Red,
-            'orange'  => Color::Orange,
-            'amber'   => Color::Amber,
-            'yellow'  => Color::Yellow,
-            'lime'    => Color::Lime,
-            'green'   => Color::Green,
+            'red' => Color::Red,
+            'orange' => Color::Orange,
+            'amber' => Color::Amber,
+            'yellow' => Color::Yellow,
+            'lime' => Color::Lime,
+            'green' => Color::Green,
             'emerald' => Color::Emerald,
-            'teal'    => Color::Teal,
-            'cyan'    => Color::Cyan,
-            'sky'     => Color::Sky,
-            'blue'    => Color::Blue,
-            'indigo'  => Color::Indigo,
-            'violet'  => Color::Violet,
-            'purple'  => Color::Purple,
+            'teal' => Color::Teal,
+            'cyan' => Color::Cyan,
+            'sky' => Color::Sky,
+            'blue' => Color::Blue,
+            'indigo' => Color::Indigo,
+            'violet' => Color::Violet,
+            'purple' => Color::Purple,
             'fuchsia' => Color::Fuchsia,
-            'pink'    => Color::Pink,
-            'rose'    => Color::Rose,
+            'pink' => Color::Pink,
+            'rose' => Color::Rose,
 
-            'gray'    => Color::Gray,
-            'zinc'    => Color::Zinc,
+            'gray' => Color::Gray,
+            'zinc' => Color::Zinc,
             'neutral' => Color::Neutral,
-            'stone'   => Color::Stone,
+            'stone' => Color::Stone,
 
             default => $default,
         };
@@ -85,6 +84,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
 
             ->colors([
                 'primary' => Color::Orange,
@@ -137,6 +137,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
+                \ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin::make()
+                    ->navigationGroup('System Settings'),
             ])
             ->authMiddleware([
                 Authenticate::class,

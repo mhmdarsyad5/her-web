@@ -8,23 +8,28 @@ use App\Filament\Resources\Services\Pages\ListServices;
 use App\Filament\Resources\Services\Schemas\ServiceForm;
 use App\Filament\Resources\Services\Tables\ServicesTable;
 use App\Models\Service;
+use App\Traits\HasShieldAccess;
 use BackedEnum;
-use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
-use App\Traits\HasShieldAccess;
+use UnitEnum;
 
 class ServiceResource extends Resource
 {
     use HasShieldAccess;
+
     protected static ?string $model = Service::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-briefcase';
+
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
+
     protected static ?string $navigationLabel = 'Keunggulan';
+
     protected static ?string $pluralModelLabel = 'Keunggulan';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {
