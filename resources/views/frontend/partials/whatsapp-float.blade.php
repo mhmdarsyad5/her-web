@@ -11,7 +11,7 @@
            target="_blank" 
            :class="showText ? 'opacity-100 translate-x-0 scale-100 pointer-events-auto' : 'opacity-0 translate-x-8 scale-90 pointer-events-none'"
            style="transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);"
-           class="absolute right-[68px] top-1/2 -translate-y-1/2 flex flex-col bg-[#15a847] hover:bg-[#128c3a] text-white px-5 py-2.5 rounded-[1.25rem] shadow-lg transform leading-tight whitespace-nowrap">
+           class="absolute right-[68px] top-1/2 -translate-y-1/2 hidden md:flex flex-col bg-[#15a847] hover:bg-[#128c3a] text-white px-5 py-2.5 rounded-[1.25rem] shadow-lg transform leading-tight whitespace-nowrap">
             <span class="text-[11px] font-normal text-white/90">Ada pertanyaan?</span>
             <span class="text-[13px] sm:text-[14px] font-bold mt-0.5">Yuk konsultasi sekarang!</span>
         </a>
