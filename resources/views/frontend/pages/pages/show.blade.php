@@ -83,8 +83,8 @@
     }
 
     #articleContent li {
-        margin-bottom: 0.375rem;
-        line-height: 1.6;
+        margin-bottom: 0.625rem;
+        line-height: 1.7;
         color: #4b5563;
     }
 

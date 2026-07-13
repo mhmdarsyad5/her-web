@@ -38,23 +38,41 @@ return [
                     body {
                         font-family: "Poppins", sans-serif !important;
                         font-size: 15px;
-                        line-height: 1.6;
-                        color: #27272a; /* text-zinc-800 */
+                        line-height: 1.7;
+                        color: #4b5563;
                         margin: 20px;
                     }
                     p {
                         margin-top: 0;
                         margin-bottom: 1.25rem;
+                        text-align: justify;
                     }
                     h1, h2, h3, h4, h5, h6 {
-                        font-weight: 700;
-                        color: #09090b; /* text-zinc-950 */
-                        margin-top: 1.5rem;
-                        margin-bottom: 0.75rem;
+                        font-weight: 800;
+                        color: #09090b;
+                        margin-top: 2rem;
+                        margin-bottom: 0.875rem;
+                        line-height: 1.3;
+                        letter-spacing: -0.02em;
                     }
                     h1 { font-size: 2.25rem; }
                     h2 { font-size: 1.5rem; }
-                    h3 { font-size: 1.25rem; }
+                    h3 { font-size: 1.25rem; font-weight: 700; color: #18181b; }
+                    ul {
+                        list-style-type: disc;
+                        margin: 1.25rem 0;
+                        padding-left: 1.25rem;
+                    }
+                    ol {
+                        list-style-type: decimal;
+                        margin: 1.25rem 0;
+                        padding-left: 1.25rem;
+                    }
+                    li {
+                        margin-bottom: 0.625rem;
+                        line-height: 1.7;
+                        color: #4b5563;
+                    }
                 ',
             ],
         ],
