@@ -51,6 +51,10 @@ class HomeController extends Controller
     {
         // Honeypot spam protection
         if ($request->filled('company_website')) {
+            if ($request->ajax()) {
+                return response()->json(['success' => true]);
+            }
+
             return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')->withFragment('form');
         }
 
@@ -63,6 +67,10 @@ class HomeController extends Controller
         ]);
 
         ContactMessage::create($validated);
+
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
 
         return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')->withFragment('form');
     }
