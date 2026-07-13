@@ -1,6 +1,22 @@
 <div x-data="{ showScrollTop: false }" @scroll.window="showScrollTop = (window.pageYOffset > 400)"
     class="fixed z-50 bottom-28 right-4 md:bottom-6 md:right-6 flex flex-col items-center gap-3 select-none pointer-events-auto">
 
+    <!-- BACK TO TOP BUTTON -->
+    <button x-show="showScrollTop" x-cloak x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 translate-y-2 scale-90"
+        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+        x-transition:leave-end="opacity-0 translate-y-2 scale-90"
+        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        class="flex items-center justify-center h-10 w-10 rounded-full bg-white/95 border border-zinc-200/80 shadow-lg text-zinc-650 hover:text-zinc-900 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
+        title="Kembali ke Atas">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
+            class="h-5 w-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+        </svg>
+    </button>
+
     <!-- FLOATING WHATSAPP -->
     <div x-data="waFloat" x-init="init()" x-show="show" x-cloak x-transition.opacity.duration.200ms
         class="relative flex items-center justify-end h-[56px] w-[56px]">
@@ -26,22 +42,6 @@
                 )" class="wa-float-img">
         </div>
     </div>
-
-    <!-- BACK TO TOP BUTTON -->
-    <button x-show="showScrollTop" x-cloak x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-y-2 scale-90"
-        x-transition:enter-end="opacity-100 translate-y-0 scale-100"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 translate-y-0 scale-100"
-        x-transition:leave-end="opacity-0 translate-y-2 scale-90"
-        @click="window.scrollTo({ top: 0, behavior: 'smooth' })"
-        class="flex items-center justify-center h-10 w-10 rounded-full bg-white/95 border border-zinc-200/80 shadow-lg text-zinc-650 hover:text-zinc-900 hover:bg-zinc-50 hover:border-zinc-300 transition-all duration-200 transform hover:scale-105 active:scale-95"
-        title="Kembali ke Atas">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"
-            class="h-5 w-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-        </svg>
-    </button>
 </div>
 
 <style>
