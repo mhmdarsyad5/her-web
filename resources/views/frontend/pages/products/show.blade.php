@@ -17,7 +17,12 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
     class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-primary-900 transition-all duration-300">
 </div>
 
-@include('frontend.components.breadcrumb')
+@include('frontend.components.breadcrumb', [
+    'items' => [
+        ['label' => 'Produk', 'url' => route('products.index')],
+        ['label' => $product->name, 'url' => null]
+    ]
+])
 
 <section class="pt-3 pb-12 sm:pt-5 sm:pb-16 bg-zinc-50 select-none">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
