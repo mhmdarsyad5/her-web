@@ -268,9 +268,8 @@
 
                         {{-- Instagram --}}
                         <a
-                            href="https://www.instagram.com/stories/compose?text={{ urlencode($page->title . ' — ' . url()->current()) }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="javascript:void(0)"
+                            onclick="shareInstagram()"
                             class="share-btn share-btn-ig"
                             title="Bagikan ke Instagram">
                             <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
@@ -449,6 +448,14 @@
     function shareCopyLink() {
         navigator.clipboard.writeText(window.location.href).then(() => {
             showShareToast('Link berhasil disalin!');
+        }).catch(() => {
+            showShareToast('Gagal menyalin link', 'error');
+        });
+    }
+
+    function shareInstagram() {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            showShareToast('Link disalin! Silakan bagikan di Instagram Story Anda.');
         }).catch(() => {
             showShareToast('Gagal menyalin link', 'error');
         });
