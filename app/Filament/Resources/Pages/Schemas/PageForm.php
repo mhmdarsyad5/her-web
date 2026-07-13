@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Pages\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Select;
@@ -43,7 +43,7 @@ class PageForm
                     ->columnSpanFull()
                     ->helperText('Maksimal 255 karakter. Rekomendasi SEO: 150-160 karakter untuk deskripsi pencarian Google. Jika dikosongkan, deskripsi diambil otomatis dari konten.'),
 
-                RichEditor::make('content')
+                TinyEditor::make('content')
                     ->label('Konten Halaman')
                     ->placeholder('Tulis isi halaman...')
                     ->columnSpanFull(),

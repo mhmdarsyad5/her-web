@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Services\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -30,7 +30,7 @@ class ServiceForm
                     })
                     ->columnSpanFull(),
 
-                RichEditor::make('description')
+                TinyEditor::make('description')
                     ->label('Description')
                     ->placeholder('Tulis penjelasan lengkap tentang layanan...')
                     ->columnSpanFull(),

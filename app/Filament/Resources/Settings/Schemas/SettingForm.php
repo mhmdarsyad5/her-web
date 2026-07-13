@@ -5,7 +5,7 @@ namespace App\Filament\Resources\Settings\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Schemas\Schema;
 use Illuminate\Validation\Rule;
 
@@ -76,7 +76,7 @@ class SettingForm
             /**
              * ========= TEXT (INDONESIAN ONLY) =========
              */
-            RichEditor::make('value.id')
+            TinyEditor::make('value.id')
                 ->label('Content / Value')
                 ->visible(fn($get) => $get('type') === 'text' && !in_array($get('key'), ['service_show_image', 'service_show_desc']))
                 ->required()

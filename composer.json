@@ -7,6 +7,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "amidesfahani/filament-tinyeditor": "^4.0",
         "bezhansalleh/filament-shield": "^4.0",
         "blade-ui-kit/blade-heroicons": "^2.6",
         "filament/filament": "^4.0",
