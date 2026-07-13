@@ -45,9 +45,10 @@ class EquipmentMaintenanceResource extends Resource
                 ->schema([
                     Select::make('equipment_id')
                         ->label('Alat')
-                        ->options(fn () => Equipment::active()
-                            ->get()
-                            ->mapWithKeys(fn ($e) => [$e->id => "[{$e->code}] {$e->name} — {$e->status_label}"])
+                        ->options(
+                            fn() => Equipment::active()
+                                ->get()
+                                ->mapWithKeys(fn($e) => [$e->id => "[{$e->code}] {$e->name} — {$e->status_label}"])
                         )
                         ->searchable()
                         ->required(),
@@ -61,8 +62,8 @@ class EquipmentMaintenanceResource extends Resource
                     Select::make('maintenance_type')
                         ->label('Jenis Maintenance')
                         ->options([
-                            'routine'    => '🔄 Rutin',
-                            'repair'     => '🔧 Perbaikan',
+                            'routine' => '🔄 Rutin',
+                            'repair' => '🔧 Perbaikan',
                             'inspection' => '🔍 Inspeksi',
                         ])
                         ->default('routine')
@@ -96,9 +97,9 @@ class EquipmentMaintenanceResource extends Resource
                     Select::make('status')
                         ->label('Status')
                         ->options([
-                            'scheduled'   => '📅 Terjadwal',
+                            'scheduled' => '📅 Terjadwal',
                             'in_progress' => '🔧 Sedang Dikerjakan',
-                            'completed'   => '✅ Selesai',
+                            'completed' => '✅ Selesai',
                         ])
                         ->default('scheduled')
                         ->required()
@@ -125,22 +126,22 @@ class EquipmentMaintenanceResource extends Resource
                 TextColumn::make('equipment.name')
                     ->label('Alat')
                     ->searchable()
-                    ->description(fn ($record) => $record->equipment?->code ?? '—'),
+                    ->description(fn($record) => $record->equipment?->code ?? '—'),
 
                 TextColumn::make('maintenance_type')
                     ->label('Jenis')
                     ->badge()
-                    ->color(fn ($state) => match ($state) {
-                        'routine'    => 'info',
-                        'repair'     => 'danger',
+                    ->color(fn($state) => match ($state) {
+                        'routine' => 'info',
+                        'repair' => 'danger',
                         'inspection' => 'warning',
-                        default      => 'gray',
+                        default => 'gray',
                     })
-                    ->formatStateUsing(fn ($state) => match ($state) {
-                        'routine'    => 'Rutin',
-                        'repair'     => 'Perbaikan',
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'routine' => 'Rutin',
+                        'repair' => 'Perbaikan',
                         'inspection' => 'Inspeksi',
-                        default      => $state,
+                        default => $state,
                     }),
 
                 TextColumn::make('title')
@@ -164,34 +165,34 @@ class EquipmentMaintenanceResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn ($state) => match ($state) {
-                        'scheduled'   => 'gray',
+                    ->color(fn($state) => match ($state) {
+                        'scheduled' => 'gray',
                         'in_progress' => 'warning',
-                        'completed'   => 'success',
-                        default       => 'gray',
+                        'completed' => 'success',
+                        default => 'gray',
                     })
-                    ->formatStateUsing(fn ($state) => match ($state) {
-                        'scheduled'   => 'Terjadwal',
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'scheduled' => 'Terjadwal',
                         'in_progress' => 'Dikerjakan',
-                        'completed'   => 'Selesai',
-                        default       => $state,
+                        'completed' => 'Selesai',
+                        default => $state,
                     }),
             ])
             ->filters([
                 SelectFilter::make('maintenance_type')
                     ->label('Jenis')
                     ->options([
-                        'routine'    => 'Rutin',
-                        'repair'     => 'Perbaikan',
+                        'routine' => 'Rutin',
+                        'repair' => 'Perbaikan',
                         'inspection' => 'Inspeksi',
                     ]),
 
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
-                        'scheduled'   => 'Terjadwal',
+                        'scheduled' => 'Terjadwal',
                         'in_progress' => 'Dikerjakan',
-                        'completed'   => 'Selesai',
+                        'completed' => 'Selesai',
                     ]),
             ])
             ->actions([
@@ -199,7 +200,7 @@ class EquipmentMaintenanceResource extends Resource
                     ->label('Mulai')
                     ->icon('heroicon-o-play')
                     ->color('warning')
-                    ->visible(fn ($record) => $record->status === 'scheduled')
+                    ->visible(fn($record) => $record->status === 'scheduled')
                     ->requiresConfirmation()
                     ->action(function ($record) {
                         $record->update(['status' => 'in_progress']);
@@ -213,7 +214,7 @@ class EquipmentMaintenanceResource extends Resource
                     ->label('Selesaikan')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->visible(fn ($record) => $record->status === 'in_progress')
+                    ->visible(fn($record) => $record->status === 'in_progress')
                     ->form([
                         DatePicker::make('end_date')
                             ->label('Tanggal Selesai')
@@ -227,10 +228,10 @@ class EquipmentMaintenanceResource extends Resource
                     ])
                     ->action(function ($record, array $data) {
                         $record->update([
-                            'status'                => 'completed',
-                            'end_date'              => $data['end_date'],
+                            'status' => 'completed',
+                            'end_date' => $data['end_date'],
                             'next_maintenance_date' => $data['next_maintenance_date'] ?? null,
-                            'notes'                 => $data['notes'] ?? $record->notes,
+                            'notes' => $data['notes'] ?? $record->notes,
                         ]);
                         Notification::make()
                             ->title('Maintenance Selesai')
@@ -248,24 +249,24 @@ class EquipmentMaintenanceResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn ($r) => [
+                            $csvData = $records->map(fn($r) => [
                                 $r->equipment?->code ?? '—',
                                 $r->equipment?->name ?? '—',
                                 match ($r->maintenance_type) {
-                                    'routine'    => 'Rutin',
-                                    'repair'     => 'Perbaikan',
+                                    'routine' => 'Rutin',
+                                    'repair' => 'Perbaikan',
                                     'inspection' => 'Inspeksi',
-                                    default      => $r->maintenance_type,
+                                    default => $r->maintenance_type,
                                 },
                                 $r->title,
                                 $r->start_date?->format('d M Y') ?? '—',
                                 $r->end_date?->format('d M Y') ?? '—',
                                 $r->cost,
                                 match ($r->status) {
-                                    'scheduled'   => 'Terjadwal',
+                                    'scheduled' => 'Terjadwal',
                                     'in_progress' => 'Dikerjakan',
-                                    'completed'   => 'Selesai',
-                                    default       => $r->status,
+                                    'completed' => 'Selesai',
+                                    default => $r->status,
                                 },
                                 $r->performedBy?->name ?? '—',
                                 $r->description ?? '',
@@ -297,9 +298,9 @@ class EquipmentMaintenanceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListEquipmentMaintenances::route('/'),
+            'index' => Pages\ListEquipmentMaintenances::route('/'),
             'create' => Pages\CreateEquipmentMaintenance::route('/create'),
-            'edit'   => Pages\EditEquipmentMaintenance::route('/{record}/edit'),
+            'edit' => Pages\EditEquipmentMaintenance::route('/{record}/edit'),
         ];
     }
 }

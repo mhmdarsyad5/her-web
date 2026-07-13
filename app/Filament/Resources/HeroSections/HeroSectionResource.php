@@ -25,6 +25,8 @@ class HeroSectionResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-photo';
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
     protected static ?string $navigationLabel = 'Hero Sections';
+    protected static ?string $pluralModelLabel = 'Hero Sections';
+    protected static ?int $navigationSort = 1;
 
     public static function form(Schema $schema): Schema
     {

@@ -84,7 +84,7 @@ class EquipmentCategoryResource extends Resource
 
                 TextColumn::make('equipment_count')
                     ->label('Jumlah Alat')
-                    ->getStateUsing(fn ($record) => $record->equipment()->count())
+                    ->getStateUsing(fn($record) => $record->equipment()->count())
                     ->badge()
                     ->color('info'),
 
@@ -112,7 +112,7 @@ class EquipmentCategoryResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn ($r) => [
+                            $csvData = $records->map(fn($r) => [
                                 $r->name,
                                 $r->description ?? '—',
                                 $r->equipment()->count(),
@@ -145,9 +145,9 @@ class EquipmentCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListEquipmentCategories::route('/'),
+            'index' => Pages\ListEquipmentCategories::route('/'),
             'create' => Pages\CreateEquipmentCategory::route('/create'),
-            'edit'   => Pages\EditEquipmentCategory::route('/{record}/edit'),
+            'edit' => Pages\EditEquipmentCategory::route('/{record}/edit'),
         ];
     }
 }

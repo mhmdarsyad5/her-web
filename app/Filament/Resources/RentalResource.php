@@ -68,7 +68,7 @@ class RentalResource extends Resource
                             Select::make('equipment_id')
                                 ->label('Alat')
                                 ->relationship('equipment', 'name')
-                                ->getOptionLabelFromRecordUsing(fn ($record) => "[{$record->code}] {$record->name}")
+                                ->getOptionLabelFromRecordUsing(fn($record) => "[{$record->code}] {$record->name}")
                                 ->searchable()
                                 ->required()
                                 ->live()

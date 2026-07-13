@@ -23,7 +23,8 @@ class ServiceResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-briefcase';
     protected static UnitEnum|string|null $navigationGroup = 'Website Content';
-    protected static ?string $navigationLabel = 'Services';
+    protected static ?string $navigationLabel = 'Keunggulan';
+    protected static ?string $pluralModelLabel = 'Keunggulan';
 
     public static function form(Schema $schema): Schema
     {

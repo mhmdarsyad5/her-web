@@ -58,7 +58,6 @@ class ImportDSSFromExcel extends Command
                     'conditions' => $conditions,
                     'display_specifications' => $displaySpecs,
                     'priority' => $this->calculatePriority($conditions),
-                    'relevance_score' => 100,
                     'is_active' => true,
                 ]
             );

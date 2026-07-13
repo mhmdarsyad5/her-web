@@ -91,15 +91,11 @@ class DSSRuleForm
 
             Section::make('Pengaturan Tambahan')
                 ->schema([
-                    Grid::make(3)->schema([
+                    Grid::make(2)->schema([
                         TextInput::make('priority')
                             ->label('Prioritas')
                             ->numeric()
                             ->default(0),
-                        TextInput::make('relevance_score')
-                            ->label('Skor Relevansi')
-                            ->numeric()
-                            ->default(100),
                         Toggle::make('is_active')
                             ->label('Aktif')
                             ->default(true)

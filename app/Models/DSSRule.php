@@ -19,7 +19,6 @@ class DSSRule extends Model
         'conditions',
         'display_specifications',
         'priority',
-        'relevance_score',
         'is_active',
     ];
 

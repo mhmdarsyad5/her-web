@@ -94,9 +94,9 @@ class EquipmentResource extends Resource
                                 ->label('Kondisi')
                                 ->options([
                                     'excellent' => '⭐ Sangat Baik',
-                                    'good'      => '✅ Baik',
-                                    'fair'      => '⚠️ Cukup',
-                                    'poor'      => '🔴 Perlu Perbaikan',
+                                    'good' => '✅ Baik',
+                                    'fair' => '⚠️ Cukup',
+                                    'poor' => '🔴 Perlu Perbaikan',
                                 ])
                                 ->default('good')
                                 ->required(),
@@ -121,10 +121,10 @@ class EquipmentResource extends Resource
                         ->icon('heroicon-o-currency-dollar')
                         ->schema([
                             TextInput::make('monthly_rate')
-                        ->label('Harga Per Bulan (Rp)')
-                        ->numeric()
-                        ->prefix('Rp')
-                        ->placeholder('50000000'),
+                                ->label('Harga Per Bulan (Rp)')
+                                ->numeric()
+                                ->prefix('Rp')
+                                ->placeholder('50000000'),
 
                             TextInput::make('deposit')
                                 ->label('Uang Jaminan (Rp)')
@@ -175,10 +175,10 @@ class EquipmentResource extends Resource
                             Select::make('status')
                                 ->label('Status Alat')
                                 ->options([
-                                    'available'   => '✅ Tersedia',
-                                    'rented'      => '🔵 Sedang Disewa',
+                                    'available' => '✅ Tersedia',
+                                    'rented' => '🔵 Sedang Disewa',
                                     'maintenance' => '🔧 Maintenance',
-                                    'retired'     => '⚫ Tidak Aktif',
+                                    'retired' => '⚫ Tidak Aktif',
                                 ])
                                 ->default('available')
                                 ->required(),
@@ -211,7 +211,7 @@ class EquipmentResource extends Resource
                     ->label('Nama Alat')
                     ->searchable()
                     ->sortable()
-                    ->description(fn ($record) => trim(($record->brand ?? '') . ($record->model ? ' — ' . $record->model : ''))),
+                    ->description(fn($record) => trim(($record->brand ?? '') . ($record->model ? ' — ' . $record->model : ''))),
 
                 TextColumn::make('category.name')
                     ->label('Kategori')
@@ -221,36 +221,36 @@ class EquipmentResource extends Resource
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
-                    ->color(fn ($state) => match ($state) {
-                        'available'   => 'success',
-                        'rented'      => 'primary',
+                    ->color(fn($state) => match ($state) {
+                        'available' => 'success',
+                        'rented' => 'primary',
                         'maintenance' => 'warning',
-                        'retired'     => 'danger',
-                        default       => 'gray',
+                        'retired' => 'danger',
+                        default => 'gray',
                     })
-                    ->formatStateUsing(fn ($state) => match ($state) {
-                        'available'   => 'Tersedia',
-                        'rented'      => 'Disewa',
+                    ->formatStateUsing(fn($state) => match ($state) {
+                        'available' => 'Tersedia',
+                        'rented' => 'Disewa',
                         'maintenance' => 'Maintenance',
-                        'retired'     => 'Tidak Aktif',
-                        default       => $state,
+                        'retired' => 'Tidak Aktif',
+                        default => $state,
                     }),
 
                 TextColumn::make('condition')
                     ->label('Kondisi')
                     ->badge()
-                    ->color(fn ($state) => match ($state) {
+                    ->color(fn($state) => match ($state) {
                         'excellent', 'good' => 'success',
-                        'fair'              => 'warning',
-                        'poor'              => 'danger',
-                        default             => 'gray',
+                        'fair' => 'warning',
+                        'poor' => 'danger',
+                        default => 'gray',
                     })
-                    ->formatStateUsing(fn ($state) => match ($state) {
+                    ->formatStateUsing(fn($state) => match ($state) {
                         'excellent' => 'Sangat Baik',
-                        'good'      => 'Baik',
-                        'fair'      => 'Cukup',
-                        'poor'      => 'Perlu Perbaikan',
-                        default     => $state,
+                        'good' => 'Baik',
+                        'fair' => 'Cukup',
+                        'poor' => 'Perlu Perbaikan',
+                        default => $state,
                     }),
 
                 TextColumn::make('monthly_rate')
@@ -273,10 +273,10 @@ class EquipmentResource extends Resource
                 SelectFilter::make('status')
                     ->label('Status')
                     ->options([
-                        'available'   => 'Tersedia',
-                        'rented'      => 'Sedang Disewa',
+                        'available' => 'Tersedia',
+                        'rented' => 'Sedang Disewa',
                         'maintenance' => 'Maintenance',
-                        'retired'     => 'Tidak Aktif',
+                        'retired' => 'Tidak Aktif',
                     ]),
 
 
@@ -293,7 +293,7 @@ class EquipmentResource extends Resource
                         ->label('Export CSV')
                         ->icon('heroicon-o-arrow-down-tray')
                         ->action(function (\Illuminate\Support\Collection $records) {
-                            $csvData = $records->map(fn ($r) => [
+                            $csvData = $records->map(fn($r) => [
                                 $r->code,
                                 $r->name,
                                 $r->category?->name ?? '—',
@@ -302,18 +302,18 @@ class EquipmentResource extends Resource
                                 $r->year ?? '—',
                                 $r->location ?? '—',
                                 match ($r->status) {
-                                    'available'   => 'Tersedia',
-                                    'rented'      => 'Sedang Disewa',
+                                    'available' => 'Tersedia',
+                                    'rented' => 'Sedang Disewa',
                                     'maintenance' => 'Maintenance',
-                                    'retired'     => 'Tidak Aktif',
-                                    default       => $r->status,
+                                    'retired' => 'Tidak Aktif',
+                                    default => $r->status,
                                 },
                                 match ($r->condition) {
                                     'excellent' => 'Sangat Baik',
-                                    'good'      => 'Baik',
-                                    'fair'      => 'Cukup',
-                                    'poor'      => 'Perlu Perbaikan',
-                                    default     => $r->condition,
+                                    'good' => 'Baik',
+                                    'fair' => 'Cukup',
+                                    'poor' => 'Perlu Perbaikan',
+                                    default => $r->condition,
                                 },
                                 $r->monthly_rate,
                                 $r->deposit,
@@ -365,36 +365,36 @@ class EquipmentResource extends Resource
                     TextEntry::make('status')
                         ->label('Status')
                         ->badge()
-                        ->color(fn ($state) => match ($state) {
-                            'available'   => 'success',
-                            'rented'      => 'primary',
+                        ->color(fn($state) => match ($state) {
+                            'available' => 'success',
+                            'rented' => 'primary',
                             'maintenance' => 'warning',
-                            'retired'     => 'danger',
-                            default       => 'gray',
+                            'retired' => 'danger',
+                            default => 'gray',
                         })
-                        ->formatStateUsing(fn ($state) => match ($state) {
-                            'available'   => '✅ Tersedia',
-                            'rented'      => '🔵 Sedang Disewa',
+                        ->formatStateUsing(fn($state) => match ($state) {
+                            'available' => '✅ Tersedia',
+                            'rented' => '🔵 Sedang Disewa',
                             'maintenance' => '🔧 Maintenance',
-                            'retired'     => '⚫ Tidak Aktif',
-                            default       => $state,
+                            'retired' => '⚫ Tidak Aktif',
+                            default => $state,
                         }),
 
                     TextEntry::make('condition')
                         ->label('Kondisi')
                         ->badge()
-                        ->color(fn ($state) => match ($state) {
+                        ->color(fn($state) => match ($state) {
                             'excellent', 'good' => 'success',
-                            'fair'              => 'warning',
-                            'poor'              => 'danger',
-                            default             => 'gray',
+                            'fair' => 'warning',
+                            'poor' => 'danger',
+                            default => 'gray',
                         })
-                        ->formatStateUsing(fn ($state) => match ($state) {
+                        ->formatStateUsing(fn($state) => match ($state) {
                             'excellent' => '⭐ Sangat Baik',
-                            'good'      => '✅ Baik',
-                            'fair'      => '⚠️ Cukup',
-                            'poor'      => '🔴 Perlu Perbaikan',
-                            default     => $state,
+                            'good' => '✅ Baik',
+                            'fair' => '⚠️ Cukup',
+                            'poor' => '🔴 Perlu Perbaikan',
+                            default => $state,
                         }),
 
                     TextEntry::make('brand')
@@ -445,13 +445,13 @@ class EquipmentResource extends Resource
                         ->height(220)
                         ->extraImgAttributes(['class' => 'rounded-lg object-cover'])
                         ->columnSpanFull()
-                        ->hidden(fn ($record) => empty($record->images)),
+                        ->hidden(fn($record) => empty($record->images)),
 
                     TextEntry::make('no_images')
                         ->label('')
-                        ->getStateUsing(fn () => 'Belum ada foto yang diupload.')
+                        ->getStateUsing(fn() => 'Belum ada foto yang diupload.')
                         ->columnSpanFull()
-                        ->visible(fn ($record) => empty($record->images))
+                        ->visible(fn($record) => empty($record->images))
                         ->color('gray'),
                 ])
                 ->collapsible(),
@@ -470,13 +470,13 @@ class EquipmentResource extends Resource
                         ])
                         ->columns(2)
                         ->columnSpanFull()
-                        ->hidden(fn ($record) => empty($record->specifications)),
+                        ->hidden(fn($record) => empty($record->specifications)),
 
                     TextEntry::make('no_specs')
                         ->label('')
-                        ->getStateUsing(fn () => 'Belum ada spesifikasi teknis.')
+                        ->getStateUsing(fn() => 'Belum ada spesifikasi teknis.')
                         ->columnSpanFull()
-                        ->visible(fn ($record) => empty($record->specifications))
+                        ->visible(fn($record) => empty($record->specifications))
                         ->color('gray'),
                 ])
                 ->collapsible(),
@@ -503,10 +503,10 @@ class EquipmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListEquipment::route('/'),
+            'index' => Pages\ListEquipment::route('/'),
             'create' => Pages\CreateEquipment::route('/create'),
-            'edit'   => Pages\EditEquipment::route('/{record}/edit'),
-            'view'   => Pages\ViewEquipment::route('/{record}'),
+            'edit' => Pages\EditEquipment::route('/{record}/edit'),
+            'view' => Pages\ViewEquipment::route('/{record}'),
         ];
     }
 }
