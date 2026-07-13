@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     willContactSoon: 'Kami akan menghubungi Anda segera.',
     errorOccurred: 'Terjadi kesalahan',
     tryAgain: 'Silakan coba lagi.',
+    tooManyRequests: 'Terlalu banyak percobaan',
+    waitBeforeRetry: 'Silakan tunggu beberapa menit sebelum mengirim lagi.',
     sending: 'Mengirim...',
     sendMessage: 'Kirim Pesan'
   }
@@ -130,15 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json()
 
       if (res.status === 422) {
+        // Validation error — tampilkan error per field
         Object.entries(data.errors).forEach(([field, messages]) => {
           const input = form.querySelector(`[name="${field}"]`)
           if (input) showFieldError(input, messages[0])
         })
-
         showToast(msg.validationFailed, msg.checkInputs, 'error')
-      } else {
+      } else if (res.status === 429) {
+        // Rate limit terkena — tampilkan pesan tunggu
+        showToast(msg.tooManyRequests, msg.waitBeforeRetry, 'error')
+      } else if (res.ok && data.success) {
+        // Sukses — reset form dan tampilkan toast hijau
         form.reset()
         showToast(msg.messageSent, msg.willContactSoon)
+      } else {
+        showToast(msg.errorOccurred, msg.tryAgain, 'error')
       }
     } catch {
       showToast(msg.errorOccurred, msg.tryAgain, 'error')
