@@ -33,10 +33,13 @@
             $seoDesc = $globalDesc;
         }
 
-        // OG Image: seo.og_image → site logo → empty
-        $ogImage = $pageSeo?->og_image
-            ? asset('storage/' . $pageSeo->og_image)
-            : setting_url('logo');
+        // OG Image: @yield('og_image') → seo.og_image → site logo
+        $ogImage = trim(strip_tags($__env->yieldContent('og_image')));
+        if (empty($ogImage)) {
+            $ogImage = $pageSeo?->og_image
+                ? asset('storage/' . $pageSeo->og_image)
+                : setting_url('logo');
+        }
 
         $canonicalUrl = url()->current();
     @endphp

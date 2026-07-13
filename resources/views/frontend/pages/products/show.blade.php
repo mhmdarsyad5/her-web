@@ -5,6 +5,10 @@
 strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
+@if(is_array($product->images) && count($product->images))
+@section('og_image', asset('storage/' . $product->images[0]))
+@endif
+
 @section('content')
 
 {{-- Swiper CDN for product detail slide page --}}

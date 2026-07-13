@@ -4,12 +4,12 @@
 
 @section('description', $page->excerpt ? strip_tags($page->excerpt) : Str::limit(strip_tags($page->content), 155))
 
-@push('head')
 @if($page->thumbnail)
-<meta property="og:image"      content="{{ asset('storage/' . $page->thumbnail) }}" />
-<meta property="og:type"       content="article" />
-<meta name="twitter:image"     content="{{ asset('storage/' . $page->thumbnail) }}" />
+@section('og_image', asset('storage/' . $page->thumbnail))
 @endif
+
+@push('head')
+<meta property="og:type"       content="article" />
 @if($page->publish_at)
 <meta property="article:published_time" content="{{ \Carbon\Carbon::parse($page->publish_at)->toIso8601String() }}" />
 @endif
