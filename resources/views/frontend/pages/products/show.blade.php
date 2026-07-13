@@ -106,7 +106,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                             </div>
                             <div class="min-w-0">
                                 <p class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">Tipe Energi</p>
-                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 truncate">{{ $product->energy_type ?: '-' }}</p>
+                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 leading-tight">{{ $product->energy_type ?: '-' }}</p>
                             </div>
                         </div>
 
@@ -117,7 +117,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                             </div>
                             <div class="min-w-0">
                                 <p class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">Tinggi Angkat</p>
-                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 truncate">{{ $product->lift_height ?: '-' }}</p>
+                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 leading-tight">{{ $product->lift_height ?: '-' }}</p>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                             </div>
                             <div class="min-w-0">
                                 <p class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">Kapasitas Beban</p>
-                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 truncate">{{ $product->load_capacity ?: '-' }}</p>
+                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 leading-tight">{{ $product->load_capacity ?: '-' }}</p>
                             </div>
                         </div>
 
