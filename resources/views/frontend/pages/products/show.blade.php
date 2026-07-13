@@ -185,11 +185,11 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         @endif
 
         {{-- ================= SHARE SECTION ================= --}}
-        <div class="mt-12 flex flex-wrap items-center justify-center gap-3.5 fade-slide opacity-0 translate-y-4">
-            <span class="text-xs font-bold tracking-wider text-zinc-400 uppercase">
+        <div class="share-flex-container fade-slide opacity-0 translate-y-4">
+            <span class="share-flex-label">
                 {{ strip_tags(setting('product_share_label', 'Bagikan')) }} :
             </span>
-            <div class="flex flex-wrap gap-2.5">
+            <div class="share-flex-buttons">
                 {{-- WhatsApp --}}
                 <a
                     href="https://wa.me/?text={{ urlencode($product->name . ' — ' . url()->current()) }}"
@@ -226,7 +226,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                     <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
                         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
-                    <span>X</span>
+                    <span>Twitter</span>
                 </a>
 
                 {{-- Copy Link --}}
@@ -464,6 +464,27 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 
 {{-- ================= STYLE ================= --}}
 <style>
+    .share-flex-container {
+        margin-top: 3rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 16px !important;
+    }
+    .share-flex-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: #a1a1aa;
+        text-transform: uppercase;
+    }
+    .share-flex-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px !important;
+    }
+
     .share-btn {
         display: inline-flex;
         align-items: center;

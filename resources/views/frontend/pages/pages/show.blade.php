@@ -222,7 +222,7 @@
 
                 {{-- ================= SHARE ================= --}}
                 <div class="mt-8 border-t border-zinc-200 pt-6">
-                    <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex flex-wrap items-center gap-3 share-flex-buttons">
                         <span class="text-xs font-medium text-zinc-400 uppercase tracking-wider">
                             {{ strip_tags(setting('blog_share_label', 'Bagikan')) }}
                         </span>
@@ -263,7 +263,7 @@
                             <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
                                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                             </svg>
-                            <span>X</span>
+                            <span>Twitter</span>
                         </a>
 
                         {{-- Copy Link --}}
@@ -510,6 +510,12 @@
 
 {{-- ================= STYLE ================= --}}
 <style>
+    .share-flex-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px !important;
+    }
+
     .share-btn {
         display: inline-flex;
         align-items: center;
