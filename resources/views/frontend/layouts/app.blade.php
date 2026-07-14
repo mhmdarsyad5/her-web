@@ -70,7 +70,7 @@
 
     {{-- Icons --}}
     <link rel="icon"             href="{{ setting_url('favicon', 'favicon.svg') }}" />
-    <link rel="apple-touch-icon" href="{{ setting_url('logo', 'logo.png') }}" />
+    <link rel="apple-touch-icon" href="{{ setting_url('logo', setting_url('favicon', 'favicon.svg')) }}" />
 
 
 
@@ -103,13 +103,13 @@
       "@@context": "https://schema.org",
       "@@type": "Organization",
       "name": "{{ $siteName }}",
-      "image": "{{ setting_url('logo', asset('logo.png')) }}",
+      "image": "{{ setting_url('logo', setting_url('favicon', 'favicon.svg')) }}",
       "@@id": "{{ url('/') }}",
       "url": "{{ url('/') }}",
-      "telephone": "{{ setting('whatsapp_number', '') }}",
+      "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
       "address": {
         "@@type": "PostalAddress",
-        "streetAddress": "{{ setting('address', 'Jakarta, Indonesia') }}",
+        "streetAddress": "{{ strip_tags(setting('address', 'Jakarta, Indonesia')) }}",
         "addressLocality": "Jakarta",
         "addressRegion": "DKI Jakarta",
         "postalCode": "10000",
@@ -123,7 +123,7 @@
         {
           "@@type": "LocalBusiness",
           "name": "{{ $siteName }} Cabang Semarang",
-          "telephone": "{{ setting('whatsapp_number', '') }}",
+          "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
           "address": {
             "@@type": "PostalAddress",
             "streetAddress": "Semarang, Jawa Tengah, Indonesia",
@@ -135,7 +135,7 @@
         {
           "@@type": "LocalBusiness",
           "name": "{{ $siteName }} Cabang Surabaya",
-          "telephone": "{{ setting('whatsapp_number', '') }}",
+          "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
           "address": {
             "@@type": "PostalAddress",
             "streetAddress": "Surabaya, Jawa Timur, Indonesia",
@@ -163,7 +163,7 @@
       },
       "headline": "{{ $page->title }}",
       "description": "{{ Str::limit(strip_tags($page->excerpt ?: $page->content), 150) }}",
-      "image": "{{ $page->thumbnail ? asset('storage/' . $page->thumbnail) : setting_url('logo', asset('logo.png')) }}",  
+      "image": "{{ $page->thumbnail ? asset('storage/' . $page->thumbnail) : setting_url('logo', setting_url('favicon', 'favicon.svg')) }}",
       "author": {
         "@@type": "Organization",
         "name": "{{ $siteName }}"
