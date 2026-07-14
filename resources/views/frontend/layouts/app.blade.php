@@ -228,6 +228,8 @@
 </head>
 
 <body class="min-h-screen bg-white text-gray-900">
+    {{-- Custom Body Scripts (e.g. Google Tag Manager noscript) --}}
+    {!! setting('custom_body_scripts') !!}
 
     {{-- Navbar --}}
     @include('frontend.partials.navbar')
