@@ -10,6 +10,7 @@ class Seo extends Model
         'page',
         'meta_title',
         'meta_description',
+        'meta_keywords',
         'og_image',
     ];
 

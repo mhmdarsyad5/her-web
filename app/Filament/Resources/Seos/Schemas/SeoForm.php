@@ -35,6 +35,13 @@ class SeoForm
                     ->default(null)
                     ->columnSpanFull(),
 
+                TextInput::make('meta_keywords')
+                    ->label('Meta Keywords')
+                    ->placeholder('Contoh: sewa forklift, rental forklift jakarta, forklift hangcha')
+                    ->helperText('Kata kunci pencarian yang dipisahkan dengan tanda koma (opsional).')
+                    ->columnSpanFull()
+                    ->default(null),
+
                 FileUpload::make('og_image')
                     ->label('Open Graph Image')
                     ->placeholder('Unggah gambar untuk preview di sosial media')
