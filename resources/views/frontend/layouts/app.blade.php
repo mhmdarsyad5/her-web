@@ -47,7 +47,11 @@
                 : setting_url('logo');
         }
 
+        // Force canonical URL to always use HTTPS on production to prevent HTTP/HTTPS duplicate content issues
         $canonicalUrl = url()->current();
+        if (app()->environment('production') || str_starts_with(config('app.url'), 'https://')) {
+            $canonicalUrl = preg_replace('/^http:/i', 'https:', $canonicalUrl);
+        }
     @endphp
 
     {{-- Title --}}
