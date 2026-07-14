@@ -39,6 +39,7 @@ class UserForm
                     ->hidden(),
                 TextInput::make('password')
                     ->password()
+                    ->revealable()
                     ->label('Password baru (biarkan kosong jika tidak ganti)')
                     ->required(fn (string $operation) => $operation === 'create')
                     ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null)
