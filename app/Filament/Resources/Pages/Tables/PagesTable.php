@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class PagesTable
@@ -91,7 +92,13 @@ class PagesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'published' => 'Published',
+                        'draft' => 'Draft',
+                        'pending' => 'Pending',
+                    ]),
             ])
             ->recordActions([
                 EditAction::make(),
