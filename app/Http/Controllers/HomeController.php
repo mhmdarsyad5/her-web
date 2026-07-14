@@ -15,7 +15,6 @@ class HomeController extends Controller
     public function index()
     {
         $heroes = HeroSection::all();
-        $messages = ContactMessage::latest()->paginate(10);
 
         $pages = Page::where('status', 'published')
             ->whereNotNull('publish_at')
@@ -44,7 +43,7 @@ class HomeController extends Controller
         // Dynamic primary color for DSS form (default: tailwind primary-900 orange)
         $primaryColor = setting('primary_color', '#ff7f00');
 
-        return view('frontend.pages.home.index', compact('heroes', 'pages', 'messages', 'services', 'products', 'industries', 'productTypes', 'energies', 'weights', 'heights', 'primaryColor', 'partners'));
+        return view('frontend.pages.home.index', compact('heroes', 'pages', 'services', 'products', 'industries', 'productTypes', 'energies', 'weights', 'heights', 'primaryColor', 'partners'));
     }
 
     public function storeContact(Request $request)

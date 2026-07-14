@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\DSSController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\GalleryController;
@@ -29,13 +28,13 @@ Route::get('/kontak', [ContactController::class, 'index'])->name('contacts.index
 Route::post('/', [HomeController::class, 'storeContact'])
     ->middleware('throttle.contact')
     ->name('contact.store');
-Route::get('/contact/messages', [ContactMessageController::class, 'index'])->name('contact.messages');
-Route::get('/kontak/form', [ContactMessageController::class, 'create'])->name('contact.form');
 
 // Pages
 Route::get('/artikel/{slug}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/artikel', [PageController::class, 'index'])->name('pages.index');
-Route::get('/cari/artikel', [PageController::class, 'search'])->name('pages.search');
+Route::get('/cari/artikel', [PageController::class, 'search'])
+    ->middleware('throttle:30,1')
+    ->name('pages.search');
 Route::get('/cari/artikel/skeleton', function () {
     return view('frontend.pages.pages.partials.skeleton')->render();
 })->name('search.skeleton');
@@ -46,7 +45,9 @@ Route::get('/tanya-jawab', [FaqController::class, 'index'])->name('faq.index');
 // Galleries
 Route::get('/galeri', [GalleryController::class, 'index'])->name('galleries.index');
 Route::get('/galeri/{id}', [GalleryController::class, 'show'])->name('galleries.show');
-Route::get('/cari/galeri', [GalleryController::class, 'search'])->name('galleries.search');
+Route::get('/cari/galeri', [GalleryController::class, 'search'])
+    ->middleware('throttle:30,1')
+    ->name('galleries.search');
 Route::get('/cari/galeri/skeleton', function () {
     return view('frontend.pages.gallery.partials.skeleton')->render();
 })->name('galleries.search.skeleton');
@@ -66,6 +67,7 @@ Route::get('/produk', [ProductController::class, 'index'])
     ->name('products.index');
 
 Route::get('/cari/produk', [ProductController::class, 'search'])
+    ->middleware('throttle:30,1')
     ->name('products.search');
 
 Route::get('/cari/produk/skeleton', function () {
@@ -84,7 +86,10 @@ Route::get('/dss/criteria/{fieldType}', [DSSController::class, 'getCriteria'])->
 
 // Dynamic XML Sitemap for Google SEO
 Route::get('/sitemap.xml', function () {
-    $pages = \App\Models\Page::where('is_published', true)->get();
+    $pages = \App\Models\Page::where('status', 'published')
+        ->whereNotNull('publish_at')
+        ->where('publish_at', '<=', now())
+        ->get();
     $products = \App\Models\Product::all();
 
     $xml = '<?xml version="1.0" encoding="UTF-8"?>';
