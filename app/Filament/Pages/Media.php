@@ -139,11 +139,44 @@ class Media extends Page
         }
     }
 
-    public function selectItem($name, $type)
+    public function selectItem($name, $type): void
     {
         $fullPath = $this->currentPath ? $this->currentPath.'/'.$name : $name;
-        $this->selectedItems = [$fullPath];
+
+        // Jika sudah ada di selectedItems, hanya update preview panel tanpa mengubah seleksi
+        if (in_array($fullPath, $this->selectedItems)) {
+            $this->selectItemByPath($fullPath);
+
+            return;
+        }
+
+        // Jika belum, tambahkan ke selectedItems (multi-select)
+        $this->selectedItems[] = $fullPath;
         $this->selectItemByPath($fullPath);
+    }
+
+    public function selectAll(): void
+    {
+        $this->selectedItems = [];
+
+        foreach ($this->directories as $dir) {
+            $this->selectedItems[] = $dir['path'];
+        }
+
+        foreach ($this->files as $file) {
+            $this->selectedItems[] = $file['path'];
+        }
+
+        // Update preview to last item if any
+        if (! empty($this->selectedItems)) {
+            $this->selectItemByPath(end($this->selectedItems));
+        }
+    }
+
+    public function deselectAll(): void
+    {
+        $this->selectedItems = [];
+        $this->selectedItem = null;
     }
 
     protected function selectItemByPath($path)

@@ -460,6 +460,21 @@
                         </select>
                     </div>
 
+                    {{-- Select All / Deselect All --}}
+                    @if(!empty($this->directories) || !empty($this->files))
+                        @if(count($selectedItems) === count($this->directories) + count($this->files) && count($selectedItems) > 0)
+                            <button wire:click="deselectAll" class="media-btn media-btn-secondary">
+                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                Batal Pilih
+                            </button>
+                        @else
+                            <button wire:click="selectAll" class="media-btn media-btn-secondary">
+                                <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Pilih Semua
+                            </button>
+                        @endif
+                    @endif
+
                     {{-- Move Selected Button --}}
                     @if(!empty($selectedItems))
                         <button wire:click="startMove" class="media-btn media-btn-secondary">
