@@ -94,6 +94,118 @@
     <meta name="twitter:image"       content="{{ $ogImage }}" />
     @endif
 
+    {{-- ====================================================
+         STRUCTURED DATA (JSON-LD) SCHEMA ORG
+         ==================================================== --}}
+    @if(request()->routeIs('home'))
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Organization",
+      "name": "{{ $siteName }}",
+      "image": "{{ setting_url('logo', asset('logo.png')) }}",
+      "@@id": "{{ url('/') }}",
+      "url": "{{ url('/') }}",
+      "telephone": "{{ setting('whatsapp_number', '') }}",
+      "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "{{ setting('address', 'Jakarta, Indonesia') }}",
+        "addressLocality": "Jakarta",
+        "addressRegion": "DKI Jakarta",
+        "postalCode": "10000",
+        "addressCountry": "ID"
+      },
+      "areaServed": {
+        "@@type": "Country",
+        "name": "Indonesia"
+      },
+      "subOrganization": [
+        {
+          "@@type": "LocalBusiness",
+          "name": "{{ $siteName }} Cabang Semarang",
+          "telephone": "{{ setting('whatsapp_number', '') }}",
+          "address": {
+            "@@type": "PostalAddress",
+            "streetAddress": "Semarang, Jawa Tengah, Indonesia",
+            "addressLocality": "Semarang",
+            "addressRegion": "Jawa Tengah",
+            "addressCountry": "ID"
+          }
+        },
+        {
+          "@@type": "LocalBusiness",
+          "name": "{{ $siteName }} Cabang Surabaya",
+          "telephone": "{{ setting('whatsapp_number', '') }}",
+          "address": {
+            "@@type": "PostalAddress",
+            "streetAddress": "Surabaya, Jawa Timur, Indonesia",
+            "addressLocality": "Surabaya",
+            "addressRegion": "Jawa Timur",
+            "addressCountry": "ID"
+          }
+        }
+      ],
+      "description": "{{ $globalDesc }}",
+      "sameAs": [
+        "{{ setting('facebook_url', '#') }}",
+        "{{ setting('instagram_url', '#') }}"
+      ]
+    }
+    </script>
+    @elseif(request()->routeIs('pages.show') && isset($page))
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "BlogPosting",
+      "mainEntityOfPage": {
+        "@@type": "WebPage",
+        "@@id": "{{ $canonicalUrl }}"
+      },
+      "headline": "{{ $page->title }}",
+      "description": "{{ Str::limit(strip_tags($page->excerpt ?: $page->content), 150) }}",
+      "image": "{{ $page->thumbnail ? asset('storage/' . $page->thumbnail) : setting_url('logo', asset('logo.png')) }}",  
+      "author": {
+        "@@type": "Organization",
+        "name": "{{ $siteName }}"
+      },  
+      "publisher": {
+        "@@type": "Organization",
+        "name": "{{ $siteName }}",
+        "logo": {
+          "@@type": "ImageObject",
+          "url": "{{ setting_url('logo', asset('logo.png')) }}"
+        }
+      },
+      "datePublished": "{{ \Carbon\Carbon::parse($page->publish_at)->toIso8601String() }}",
+      "dateModified": "{{ $page->updated_at->toIso8601String() }}"
+    }
+    </script>
+    @elseif(request()->routeIs('products.show') && isset($product))
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Product",
+      "name": "{{ $product->name }}",
+      "image": [
+        @if(is_array($product->images) && count($product->images))
+          @foreach($product->images as $img)
+            "{{ asset('storage/' . $img) }}"{{ !$loop->last ? ',' : '' }}
+          @endforeach
+        @else
+          "{{ setting_url('logo', asset('logo.png')) }}"
+        @endif
+      ],
+      "description": "{{ Str::limit(strip_tags($product->description), 150) }}",
+      "sku": "FORKLIFT-{{ $product->id }}",
+      "mpn": "FORKLIFT-{{ $product->id }}",
+      "brand": {
+        "@@type": "Brand",
+        "name": "HANGCHA"
+      }
+    }
+    </script>
+    @endif
+
     <style>
         [x-cloak] {
             display: none !important;

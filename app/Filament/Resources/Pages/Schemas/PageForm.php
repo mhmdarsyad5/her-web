@@ -119,7 +119,7 @@ class PageForm
                                     ->label('Thumbnail')
                                     ->directory('pages')
                                     ->disk('public')
-                                    ->image()
+                                    ->optimizeToWebp()
                                     ->imageEditor()
                                     ->helperText('Thumbnail halaman'),
                             ]),

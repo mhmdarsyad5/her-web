@@ -38,7 +38,7 @@ class GalleryForm
             // ================= MEDIA =================
             FileUpload::make('thumbnail')
                 ->label('Thumbnail')
-                ->image()
+                ->optimizeToWebp()
                 ->disk('public')
                 ->directory('galleries/thumbnails')
                 ->helperText('Thumbnail / cover gallery.')
@@ -47,7 +47,7 @@ class GalleryForm
 
             FileUpload::make('images')
                 ->label('Foto Gallery')
-                ->image()
+                ->optimizeToWebp()
                 ->disk('public')
                 ->directory('galleries/images')
                 ->multiple()
