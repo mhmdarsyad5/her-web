@@ -68,6 +68,7 @@ class AppServiceProvider extends ServiceProvider
                     $filename = \Illuminate\Support\Str::random(40).'.webp';
 
                     $directory = $component->getDirectory() ?? 'uploads';
+                    $directory = rtrim($directory, '/').'/'.date('Y/F');
                     $disk = $component->getDiskName() ?? 'public';
                     $targetPath = $directory.'/'.$filename;
 
