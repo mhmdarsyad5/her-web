@@ -18,10 +18,11 @@ class SeoComposer
         'pages.index' => 'blog',
         'pages.show' => 'blog',
         'services.index' => 'services',
-        'gallery.index' => 'gallery',
-        'contact' => 'contact',
+        'galleries.index' => 'gallery',
+        'galleries.show' => 'gallery',
+        'contacts.index' => 'contact',
+        'abouts.index' => 'about',
         'faq.index' => 'faq',
-        'dss.index' => 'dss',
     ];
 
     public function compose(View $view): void
