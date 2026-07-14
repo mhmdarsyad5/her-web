@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Pages\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -51,10 +50,21 @@ class PagesTable
                 // ======================
                 // STATUS
                 // ======================
-                IconColumn::make('status')
-                    ->boolean()
-                    ->getStateUsing(fn ($record): bool => $record->status === 'published')
-                    ->label('Published'),
+                TextColumn::make('status')
+                    ->label('Status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'published' => 'success',
+                        'pending' => 'warning',
+                        'draft' => 'gray',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'published' => 'Published',
+                        'pending' => 'Pending',
+                        'draft' => 'Draft',
+                        default => ucfirst($state),
+                    }),
 
                 TextColumn::make('publish_at')
                     ->label('Publish At')
