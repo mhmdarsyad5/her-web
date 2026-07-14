@@ -51,8 +51,9 @@ class PagesTable
                 // ======================
                 // STATUS
                 // ======================
-                IconColumn::make('is_published')
+                IconColumn::make('status')
                     ->boolean()
+                    ->getStateUsing(fn ($record): bool => $record->status === 'published')
                     ->label('Published'),
 
                 TextColumn::make('publish_at')
