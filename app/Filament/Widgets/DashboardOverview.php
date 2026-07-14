@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Models\Page;
 use App\Models\Rental;
 use App\Models\User;
+use App\Models\VisitorLog;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -66,6 +67,26 @@ class DashboardOverview extends StatsOverviewWidget
             Stat::make('Total Messages', ContactMessage::count())
                 ->description('Jumlah pesan masuk')
                 ->icon('heroicon-o-envelope'),
+
+            // ── VISITOR STATS ────────────────────────────────────
+            Stat::make('Pengunjung Unik (Hari Ini)',
+                VisitorLog::whereDate('created_at', now()->toDateString())
+                    ->distinct('ip_address')
+                    ->count('ip_address')
+            )
+                ->description('IP unik mengakses hari ini')
+                ->icon('heroicon-o-user-group')
+                ->color('success'),
+
+            Stat::make('Pengunjung Unik (Bulan Ini)',
+                VisitorLog::whereMonth('created_at', now()->month)
+                    ->whereYear('created_at', now()->year)
+                    ->distinct('ip_address')
+                    ->count('ip_address')
+            )
+                ->description('Total IP unik '.now()->translatedFormat('F Y'))
+                ->icon('heroicon-o-globe-alt')
+                ->color('info'),
         ];
     }
 }
