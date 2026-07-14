@@ -32,6 +32,7 @@ Route::post('/', [HomeController::class, 'storeContact'])
 // Pages
 Route::get('/artikel/{slug}', [PageController::class, 'show'])->name('pages.show');
 Route::get('/artikel', [PageController::class, 'index'])->name('pages.index');
+Route::get('/artikel/tag/{slug}', [PageController::class, 'tag'])->name('pages.tag');
 Route::get('/cari/artikel', [PageController::class, 'search'])
     ->middleware('throttle:30,1')
     ->name('pages.search');

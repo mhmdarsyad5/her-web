@@ -89,4 +89,38 @@ class PageController extends Controller
             compact('page', 'relatedPages', 'title')
         );
     }
+
+    /**
+     * Tampilkan daftar artikel berdasarkan tag
+     */
+    public function tag($slug)
+    {
+        $tag = \App\Models\PageTag::where('slug', $slug)->firstOrFail();
+
+        $pages = $tag->pages()
+            ->with(['category', 'tags'])
+            ->where('status', 'published')
+            ->orderByDesc('publish_at')
+            ->paginate(6);
+
+        $title = 'Tag: #'.$tag->name;
+
+        // Penanganan SEO Hybrid (Otomatis & Manual Override)
+        $siteName = setting('site_name', config('app.name'));
+
+        $seoTitle = $tag->seo_title ?: 'Kumpulan Artikel '.$tag->name.' - '.$siteName;
+
+        $metaDescription = $tag->meta_description ?: 'Baca berbagai artikel, tips, dan panduan terbaru mengenai '.$tag->name.' untuk kebutuhan bisnis Anda hanya di '.$siteName.'.';
+
+        $metaKeywords = $tag->meta_keywords ?: $tag->name.', blog '.$tag->name.', '.strtolower($siteName);
+
+        $categories = PageCategory::withCount(['pages' => function ($query) {
+            $query->where('status', 'published');
+        }])->having('pages_count', '>', 0)->get();
+
+        return view(
+            'frontend.pages.pages.tag',
+            compact('pages', 'tag', 'title', 'seoTitle', 'metaDescription', 'metaKeywords', 'categories')
+        );
+    }
 }

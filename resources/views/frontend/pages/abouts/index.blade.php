@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title', $pageTitle ?? strip_tags(setting('site_name')))
+@section('description', 'Pelajari profil, sejarah singkat, serta visi dan misi Herro Equipment Rentals sebagai penyedia jasa sewa alat berat terpercaya.')
 
 @section('content')
 

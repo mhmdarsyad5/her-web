@@ -8,8 +8,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -63,6 +65,30 @@ class PageTagResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->unique(PageTag::class, 'slug', ignoreRecord: true),
+
+                Section::make('SEO Metadata (Opsional)')
+                    ->description('Atur optimasi mesin pencari secara manual. Jika dikosongkan, sistem akan men-generate SEO otomatis secara pintar.')
+                    ->collapsible()
+                    ->schema([
+                        TextInput::make('seo_title')
+                            ->label('SEO Title')
+                            ->placeholder('Contoh: Kumpulan artikel tentang Sewa Forklift Murah')
+                            ->maxLength(255)
+                            ->helperText('Jika dikosongkan, akan terisi otomatis: "Kumpulan Artikel [Nama Tag] - [Nama Website]"'),
+
+                        Textarea::make('meta_description')
+                            ->label('Meta Description')
+                            ->placeholder('Tulis deskripsi ringkas halaman tag ini...')
+                            ->rows(3)
+                            ->maxLength(255)
+                            ->helperText('Jika dikosongkan, akan terisi otomatis berdasarkan nama tag.'),
+
+                        TextInput::make('meta_keywords')
+                            ->label('Meta Keywords')
+                            ->placeholder('Contoh: sewa forklift, forklift jakarta, forklift murah')
+                            ->maxLength(255)
+                            ->helperText('Pisahkan kata kunci dengan koma. Jika kosong, terisi otomatis dari nama tag.'),
+                    ]),
             ]);
     }
 

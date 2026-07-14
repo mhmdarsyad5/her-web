@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title', strip_tags($title) . ' - ' . strip_tags(setting('site_name')))
+@section('description', 'Penyedia layanan sewa alat berat berkualitas untuk proyek logistik, konstruksi, dan pergudangan dengan unit forklift, crane, dll.')
 
 @section('content')
 

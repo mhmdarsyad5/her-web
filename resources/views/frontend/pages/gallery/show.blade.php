@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Galleries - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals')))
+@section('title', strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals')))
+@section('description', $gallery->description ? Str::limit(strip_tags($gallery->description), 155) : 'Koleksi galeri foto unit alat berat, dokumentasi kegiatan, dan layanan ' . $gallery->title . ' di Herro Equipment Rentals.')
 
 @section('content')
 

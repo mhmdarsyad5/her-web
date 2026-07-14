@@ -7,6 +7,8 @@ strip_tags(setting('gallery_title', 'Galeri'))
 . strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
+@section('description', 'Galeri foto dokumentasi unit alat berat, aktivitas kerja, dan pelayanan pelanggan kami di Herro Equipment Rentals.')
+
 @section('content')
 
 {{-- ================= BREADCRUMB ================= --}}

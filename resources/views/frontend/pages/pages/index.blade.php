@@ -5,6 +5,8 @@
 strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
+@section('description', 'Baca artikel terbaru, tips operasional alat berat, panduan industri, dan berita terbaru dari Herro Equipment Rentals.')
+
 @section('content')
 
 {{-- Breadcrumb --}}

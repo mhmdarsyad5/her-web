@@ -5,6 +5,8 @@
 strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
+@section('description', 'Temukan berbagai pilihan alat berat berkualitas tinggi untuk disewa, seperti forklift HANGCHA, genset, dan alat berat lainnya di Herro Equipment Rentals.')
+
 @section('content')
 
 <style>

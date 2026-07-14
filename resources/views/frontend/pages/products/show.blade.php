@@ -5,6 +5,8 @@
 strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Rentals'))
 )
 
+@section('description', $product->tagline ?: Str::limit(strip_tags($product->description), 155))
+
 @if(is_array($product->images) && count($product->images))
 @section('og_image', asset('storage/' . $product->images[0]))
 @endif

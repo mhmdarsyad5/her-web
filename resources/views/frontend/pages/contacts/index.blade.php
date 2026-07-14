@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title', $pageTitle)
+@section('description', 'Hubungi kami untuk informasi sewa alat berat, penawaran harga, atau konsultasi kebutuhan armada forklift dan logistik Anda.')
 
 @section('content')
 

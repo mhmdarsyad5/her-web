@@ -1,6 +1,7 @@
 @extends('frontend.layouts.app')
 
 @section('title', strip_tags($title) . ' - ' . strip_tags(setting('site_name')))
+@section('description', 'Temukan jawaban atas pertanyaan umum mengenai proses sewa alat berat, syarat, biaya, serta sistem operasional di Herro Equipment Rentals.')
 
 @section('content')
 
