@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Pages\Schemas;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -67,6 +68,14 @@ class PageForm
                                     ])
                                     ->default('draft')
                                     ->required(),
+
+                                DateTimePicker::make('publish_at')
+                                    ->label('Tanggal Publikasi')
+                                    ->native(false)
+                                    ->displayFormat('d M Y H:i')
+                                    ->seconds(false)
+                                    ->default(now())
+                                    ->helperText('Tanggal artikel ini mulai dipublikasikan.'),
 
                                 Select::make('category_id')
                                     ->label('Kategori')
