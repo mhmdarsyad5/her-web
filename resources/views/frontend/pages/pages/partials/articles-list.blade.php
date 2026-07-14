@@ -35,22 +35,12 @@
             </h2>
         </a>
 
-        <p class="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-500 line-clamp-3 mb-3">
+        <p class="mt-1 text-xs sm:text-sm leading-relaxed text-zinc-500 mb-3">
             {{ $page->excerpt ? $page->excerpt : Str::limit(strip_tags($page->content), 120) }}
         </p>
         
-        <div class="mt-auto pt-3 border-t border-zinc-100 flex flex-col gap-3">
-            @if($page->tags->count() > 0)
-            <div class="flex flex-wrap gap-1.5">
-                @foreach($page->tags as $tag)
-                <span class="text-[9px] sm:text-[10px] font-semibold text-zinc-500 bg-zinc-50 px-2 py-0.5 rounded border border-zinc-200/40">
-                    #{{ $tag->name }}
-                </span>
-                @endforeach
-            </div>
-            @endif
-
-            <a href="{{ route('pages.show', $page->slug) }}" class="flex items-center justify-between text-[11px] sm:text-xs font-bold text-zinc-400 hover:text-primary-900 group-hover:text-primary-900 transition-colors pt-2.5 border-t border-zinc-100/60">
+        <div class="mt-auto pt-3 border-t border-zinc-100">
+            <a href="{{ route('pages.show', $page->slug) }}" class="flex items-center justify-between text-[11px] sm:text-xs font-bold text-zinc-400 hover:text-primary-900 group-hover:text-primary-900 transition-colors">
                 <span>Baca Selengkapnya</span>
                 <x-heroicon-o-chevron-right class="h-3.5 w-3.5 transform transition-transform group-hover:translate-x-0.5" />
             </a>
