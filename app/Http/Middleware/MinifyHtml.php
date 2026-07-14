@@ -15,6 +15,11 @@ class MinifyHtml
     {
         $response = $next($request);
 
+        // Jangan minify untuk rute admin panel Filament dan request Livewire
+        if ($request->is('admin*') || $request->is('livewire*')) {
+            return $response;
+        }
+
         if ($this->isHtmlResponse($response)) {
             $content = $response->getContent();
 
