@@ -785,14 +785,14 @@
                 iA.href = `#${id}`;
 
                 if (isH3) {
-                    iLi.className = 'pl-5';
-                    iA.className = 'flex items-center gap-2.5 py-1.5 text-zinc-500 hover:text-primary-900 transition-colors leading-snug w-full';
+                    iLi.className = 'pl-6';
+                    iA.className = 'flex items-center gap-3 py-1.5 text-zinc-500 hover:text-primary-900 transition-colors leading-snug w-full';
                     iA.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${cleanText}</span>`;
                 } else {
                     h2Counter++;
                     iLi.className = 'border-b border-zinc-100 last:border-b-0';
-                    iA.className = 'flex items-start gap-2.5 py-2 text-zinc-700 font-medium hover:text-primary-900 transition-colors leading-snug w-full';
-                    iA.innerHTML = `<span class="flex-shrink-0 font-bold tabular-nums" style="color:${primaryColor}">${h2Counter}.</span><span>${cleanText}</span>`;
+                    iA.className = 'flex items-start gap-3 py-2 text-zinc-700 font-medium hover:text-primary-900 transition-colors leading-snug w-full';
+                    iA.innerHTML = `<span class="flex-shrink-0 font-bold tabular-nums" style="color:${primaryColor};min-width:1.5rem">${h2Counter}.</span><span>${cleanText}</span>`;
                 }
 
                 iA.addEventListener('click', e => {
