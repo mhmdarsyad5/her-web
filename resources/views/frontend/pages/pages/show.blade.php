@@ -152,6 +152,11 @@
     @media (min-width: 1024px) {
         #inline-toc { display: none !important; }
     }
+
+    /* Force top offset for sticky mobile TOC bar to work on VPS (fixes missing top-16 utility) */
+    #mobile-toc-bar {
+        top: 64px !important;
+    }
 </style>
 @endpush
 
