@@ -165,6 +165,38 @@
     ]
 ])
 
+{{-- ================= MOBILE STICKY TOC BAR (mobile/tablet only) ================= --}}
+<div id="mobile-toc-bar" class="lg:hidden sticky top-16 z-40 hidden">
+    <div class="bg-white/90 backdrop-blur-md border-b border-zinc-200/80 shadow-sm">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6">
+            <button
+                id="mobile-toc-trigger"
+                type="button"
+                class="w-full flex items-center justify-between py-3 gap-3"
+                onclick="toggleMobileToc()"
+                aria-expanded="false"
+                aria-controls="mobile-toc-panel"
+            >
+                <span class="flex items-center gap-2 min-w-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 flex-shrink-0 text-zinc-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-1.125 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <span id="mobile-toc-label" class="text-sm font-medium text-zinc-700 truncate">Daftar Isi</span>
+                </span>
+                <svg id="mobile-toc-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 flex-shrink-0 text-zinc-400 transition-transform duration-300">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    {{-- Dropdown Panel --}}
+    <div id="mobile-toc-panel" class="hidden overflow-hidden bg-white border-b border-zinc-200/80 shadow-lg">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 py-2 max-h-[55vh] overflow-y-auto">
+            <ul id="mobile-toc-list" class="py-1 space-y-0.5"></ul>
+        </div>
+    </div>
+</div>
+
 <section class="pt-3 pb-10 sm:pt-5 sm:pb-14 bg-zinc-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
@@ -205,6 +237,34 @@
                         class="w-full object-cover transition-transform duration-500 hover:scale-105">
                 </div>
                 @endif
+
+
+                {{-- ================= INLINE TABLE OF CONTENTS ================= --}}
+                <div id="inline-toc" class="mt-6 hidden lg:!hidden">
+                    <div class="rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden">
+                        <button
+                            id="inline-toc-toggle"
+                            type="button"
+                            class="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-zinc-100/70 transition-colors duration-200"
+                            onclick="toggleInlineToc()"
+                            aria-expanded="true"
+                            aria-controls="inline-toc-body"
+                        >
+                            <span class="flex items-center gap-2.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 text-primary-900 flex-shrink-0">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-1.125 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                </svg>
+                                <span class="text-sm font-bold text-zinc-800 uppercase tracking-wider">Daftar Isi</span>
+                            </span>
+                            <svg id="inline-toc-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-zinc-400 transition-transform duration-300">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <div id="inline-toc-body" class="border-t border-zinc-200/70">
+                            <ol id="inline-toc-list" class="px-5 py-4 space-y-1.5 text-sm columns-1 sm:columns-2"></ol>
+                        </div>
+                    </div>
+                </div>
 
                 {{-- CONTENT --}}
                 <article
@@ -527,122 +587,299 @@
         bar.style.width = progress + "%";
     });
 
-    /* Table of Contents Generator & Scrollspy */
+    /* ============================================================
+       GLOBAL TOC HELPERS — harus di luar DOMContentLoaded
+       agar onclick="toggleMobileToc()" di HTML bisa memanggil
+       ============================================================ */
+    function scrollToHeading(heading) {
+        const stickyNav    = document.querySelector('nav.sticky');
+        const mobileTocBar = document.getElementById('mobile-toc-bar');
+        const navH  = stickyNav    ? stickyNav.offsetHeight    : 64;
+        const tocH  = (mobileTocBar && !mobileTocBar.classList.contains('hidden'))
+                    ? mobileTocBar.offsetHeight : 0;
+        window.scrollTo({
+            top: heading.getBoundingClientRect().top + window.scrollY - navH - tocH - 16,
+            behavior: 'smooth'
+        });
+    }
+
+    function toggleMobileToc() {
+        const panel   = document.getElementById('mobile-toc-panel');
+        const chevron = document.getElementById('mobile-toc-chevron');
+        const trigger = document.getElementById('mobile-toc-trigger');
+        if (!panel) return;
+        const isOpen = !panel.classList.contains('hidden');
+        if (isOpen) {
+            panel.classList.add('hidden');
+            chevron.style.transform = '';
+            trigger.setAttribute('aria-expanded', 'false');
+        } else {
+            panel.classList.remove('hidden');
+            chevron.style.transform = 'rotate(180deg)';
+            trigger.setAttribute('aria-expanded', 'true');
+            // Scroll active item into view
+            setTimeout(() => {
+                const active = panel.querySelector('a[data-active="true"]');
+                if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            }, 60);
+        }
+    }
+
+    function closeMobileToc() {
+        const panel   = document.getElementById('mobile-toc-panel');
+        const chevron = document.getElementById('mobile-toc-chevron');
+        const trigger = document.getElementById('mobile-toc-trigger');
+        if (!panel || panel.classList.contains('hidden')) return;
+        panel.classList.add('hidden');
+        if (chevron) chevron.style.transform = '';
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    /* Close panel when clicking outside mobile TOC bar */
+    document.addEventListener('click', function (e) {
+        const bar = document.getElementById('mobile-toc-bar');
+        if (bar && !bar.classList.contains('hidden') && !bar.contains(e.target)) {
+            closeMobileToc();
+        }
+    });
+
+    function toggleInlineToc() {
+        const body    = document.getElementById('inline-toc-body');
+        const chevron = document.getElementById('inline-toc-chevron');
+        const toggle  = document.getElementById('inline-toc-toggle');
+        if (!body) return;
+        const isOpen = !body.classList.contains('hidden');
+        if (isOpen) {
+            body.classList.add('hidden');
+            chevron.style.transform = 'rotate(-90deg)';
+            toggle.setAttribute('aria-expanded', 'false');
+        } else {
+            body.classList.remove('hidden');
+            chevron.style.transform = '';
+            toggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    /* ============================================================
+       TABLE OF CONTENTS GENERATOR & SCROLLSPY
+       ============================================================ */
     document.addEventListener('DOMContentLoaded', function () {
-        const article = document.getElementById('articleContent');
-        const tocCard = document.getElementById('toc-card');
-        const tocList = document.getElementById('toc-list');
-        
+        const article        = document.getElementById('articleContent');
+        const tocCard        = document.getElementById('toc-card');
+        const tocList        = document.getElementById('toc-list');
+        const mobileTocBar   = document.getElementById('mobile-toc-bar');
+        const mobileTocList  = document.getElementById('mobile-toc-list');
+        const mobileTocLabel = document.getElementById('mobile-toc-label');
+
         if (!article || !tocCard || !tocList) return;
 
-        // Cari semua tag h2 dan h3 di dalam konten artikel
         const headings = article.querySelectorAll('h2, h3');
 
         if (headings.length === 0) {
-            tocCard.style.display = 'none'; // Sembunyikan TOC jika tidak ada heading
+            tocCard.style.display = 'none';
             return;
         }
 
-        // Loop heading dan buat list item
+        const primaryColor = @js(setting('primary_color', '#F5A21C'));
+
+        /* Build TOC items for desktop AND mobile */
+        let desktopH2Counter = 0;
         headings.forEach((heading, index) => {
             let id = heading.id;
             if (!id) {
-                // Buat ID slug dari teks judul
                 id = heading.textContent
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, '-')
                     .replace(/(^-|-$)/g, '');
-                
-                // Tambahkan index unik jika ID ganda
-                if (document.getElementById(id)) {
-                    id = `${id}-${index}`;
-                }
+                if (document.getElementById(id)) id = `${id}-${index}`;
                 heading.id = id;
             }
 
+            const isH3 = heading.tagName === 'H3';
+
+            /* -- Desktop TOC (numbered) -- */
             const li = document.createElement('li');
-            
-            // Indentasi level h3
-            if (heading.tagName.toLowerCase() === 'h3') {
-                li.className = 'pl-4 border-l border-zinc-100 hover:border-primary-500 py-0.5';
+            const a  = document.createElement('a');
+            a.href = `#${id}`;
+            a.dataset.target = id;
+
+            if (isH3) {
+                li.className           = 'pl-4 py-0.5';
+                li.dataset.headingLevel = 'h3';
+                a.className = 'flex items-center gap-2 text-zinc-500 hover:text-primary-900 transition-colors leading-snug text-xs';
+                a.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${heading.textContent}</span>`;
             } else {
-                li.className = 'font-bold border-l-2 border-zinc-200 hover:border-primary-500 py-1 pl-2';
+                desktopH2Counter++;
+                li.className           = 'py-1';
+                li.dataset.headingLevel = 'h2';
+                a.className = 'flex items-start gap-2 text-zinc-500 hover:text-primary-900 transition-colors leading-snug';
+                a.innerHTML = `<span class="flex-shrink-0 font-bold tabular-nums text-xs" style="color:${primaryColor};min-width:1.25rem">${desktopH2Counter}.</span><span class="font-semibold text-[13px]">${heading.textContent}</span>`;
             }
 
-            const a = document.createElement('a');
-            a.href = `#${id}`;
-            a.textContent = heading.textContent;
-            a.className = 'block text-zinc-500 hover:text-primary-900 transition-colors leading-tight';
-            a.setAttribute('data-target', id);
-
-            // Smooth scroll click event
-            a.addEventListener('click', function (e) {
+            a.addEventListener('click', e => {
                 e.preventDefault();
-                const navbar = document.querySelector('header');
-                const navbarHeight = navbar ? navbar.offsetHeight : 90;
-                const headingPosition = heading.getBoundingClientRect().top + window.scrollY;
-                const offsetPosition = headingPosition - navbarHeight - 24; // Beri jarak aman 24px
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+                scrollToHeading(heading);
                 history.pushState(null, null, `#${id}`);
+                // Force scrollspy update after smooth-scroll animation settles
+                setTimeout(() => window.dispatchEvent(new Event('scroll')), 700);
             });
-
             li.appendChild(a);
             tocList.appendChild(li);
+
+            /* -- Mobile TOC -- */
+            if (mobileTocList) {
+                const mLi = document.createElement('li');
+                const mA  = document.createElement('a');
+                mA.href = `#${id}`;
+                mA.dataset.mobileTarget = id;
+
+                if (isH3) {
+                    mLi.className = 'pl-4';
+                    mA.className = 'flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm text-zinc-500 transition-all duration-200';
+                    mA.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${heading.textContent}</span>`;
+                } else {
+                    mLi.className = '';
+                    mA.className = 'flex items-center w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-zinc-700 transition-all duration-200';
+                    mA.textContent = heading.textContent;
+                }
+
+                mA.addEventListener('click', e => {
+                    e.preventDefault();
+                    closeMobileToc();
+                    setTimeout(() => {
+                        scrollToHeading(heading);
+                        history.pushState(null, null, `#${id}`);
+                        // Force scrollspy update after smooth-scroll animation settles
+                        setTimeout(() => window.dispatchEvent(new Event('scroll')), 700);
+                    }, 60);
+                });
+
+                mLi.appendChild(mA);
+                mobileTocList.appendChild(mLi);
+            }
         });
 
-        // Scrollspy Logic
-        const tocLinks = tocList.querySelectorAll('a');
-        
-        function scrollspy() {
-            let activeId = null;
-            const navbar = document.querySelector('header');
-            const navbarHeight = navbar ? navbar.offsetHeight : 90;
-            const scrollBuffer = navbarHeight + 40; // Buffer dinamis di bawah navbar
+        /* Show inline TOC only when article has enough headings */
+        const inlineToc     = document.getElementById('inline-toc');
+        const inlineTocList = document.getElementById('inline-toc-list');
+        if (inlineToc && inlineTocList && headings.length >= 2) {
+            let h2Counter = 0;
+            headings.forEach((heading, index) => {
+                const id   = heading.id; // already set above
+                const isH3 = heading.tagName === 'H3';
+                const iLi  = document.createElement('li');
+                const iA   = document.createElement('a');
+                iA.href = `#${id}`;
 
-            // Cari heading yang saat ini aktif di viewport
-            for (let i = 0; i < headings.length; i++) {
-                const heading = headings[i];
-                const top = heading.getBoundingClientRect().top;
-                
-                if (top <= scrollBuffer) {
-                    activeId = heading.id;
-                }
-            }
-
-            // Jika scroll sudah di mentok paling bawah halaman, sorot item terakhir
-            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-                if (headings.length > 0) {
-                    activeId = headings[headings.length - 1].id;
-                }
-            }
-
-            tocLinks.forEach(link => {
-                const targetId = link.getAttribute('data-target');
-                const parentLi = link.parentElement;
-                
-                if (targetId === activeId) {
-                    link.classList.add('text-primary-900', 'font-semibold');
-                    link.classList.remove('text-zinc-500');
-                    parentLi.classList.add('border-primary-500');
-                    parentLi.classList.remove('border-zinc-200', 'border-zinc-100');
+                if (isH3) {
+                    iLi.className = 'pl-5 text-zinc-500';
+                    iA.className = 'flex items-start gap-2 hover:text-primary-900 transition-colors leading-snug';
+                    iA.innerHTML = `<span class="mt-[5px] w-1 h-1 rounded-full bg-zinc-400 flex-shrink-0"></span><span>${heading.textContent}</span>`;
                 } else {
-                    link.classList.remove('text-primary-900', 'font-semibold');
-                    link.classList.add('text-zinc-500');
-                    parentLi.classList.remove('border-primary-500');
-                    if (parentLi.classList.contains('pl-4')) {
-                        parentLi.classList.add('border-zinc-100');
-                    } else {
-                        parentLi.classList.add('border-zinc-200');
-                    }
+                    h2Counter++;
+                    iLi.className = 'text-zinc-700 font-medium';
+                    iA.className = 'flex items-start gap-2 hover:text-primary-900 transition-colors leading-snug';
+                    iA.innerHTML = `<span class="flex-shrink-0 font-bold text-primary-900 tabular-nums">${h2Counter}.</span><span>${heading.textContent}</span>`;
                 }
+
+                iA.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetHeading = document.getElementById(id);
+                    if (targetHeading) {
+                        scrollToHeading(targetHeading);
+                        history.pushState(null, null, `#${id}`);
+                        setTimeout(() => window.dispatchEvent(new Event('scroll')), 700);
+                    }
+                });
+
+                iLi.appendChild(iA);
+                inlineTocList.appendChild(iLi);
             });
+            inlineToc.classList.remove('hidden');
         }
 
-        window.addEventListener('scroll', scrollspy);
+        /* Show / hide mobile TOC bar based on article position */
+        function updateMobileTocVisibility() {
+            if (!mobileTocBar) return;
+            const rect = article.getBoundingClientRect();
+            if (rect.top < 64 && rect.bottom > 120) {
+                mobileTocBar.classList.remove('hidden');
+            } else {
+                mobileTocBar.classList.add('hidden');
+                closeMobileToc();
+            }
+        }
+
+        /* Scrollspy */
+        const tocLinks       = tocList.querySelectorAll('a');
+        const mobileTocLinks = mobileTocList ? mobileTocList.querySelectorAll('a') : [];
+
+        function scrollspy() {
+            let activeId   = null;
+            let activeText = 'Daftar Isi';
+
+            // Dynamic buffer = navbar height + mobile TOC bar height + padding
+            // Must match the offset used in scrollToHeading() so headings land inside the buffer
+            const stickyNav    = document.querySelector('nav.sticky');
+            const scrollBuffer = (stickyNav ? stickyNav.offsetHeight : 64)
+                               + ((mobileTocBar && !mobileTocBar.classList.contains('hidden')) ? mobileTocBar.offsetHeight : 0)
+                               + 24;
+
+            headings.forEach(h => {
+                if (h.getBoundingClientRect().top <= scrollBuffer) {
+                    activeId   = h.id;
+                    activeText = h.textContent;
+                }
+            });
+
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50 && headings.length) {
+                const last = headings[headings.length - 1];
+                activeId   = last.id;
+                activeText = last.textContent;
+            }
+
+            /* Desktop active state */
+            tocLinks.forEach(link => {
+                const dot      = link.querySelector('span.rounded-full');
+                const isActive = link.dataset.target === activeId;
+                if (isActive) {
+                    link.style.color      = primaryColor;
+                    link.style.fontWeight = '700';
+                    if (dot) dot.style.backgroundColor = primaryColor;
+                } else {
+                    link.style.color      = '';
+                    link.style.fontWeight = '';
+                    if (dot) dot.style.backgroundColor = '';
+                }
+            });
+
+            /* Mobile label */
+            if (mobileTocLabel) {
+                mobileTocLabel.textContent = activeId ? activeText : 'Daftar Isi';
+            }
+
+            /* Mobile active state */
+            mobileTocLinks.forEach(link => {
+                const isActive = link.dataset.mobileTarget === activeId;
+                link.dataset.active = isActive ? 'true' : 'false';
+                const dot = link.querySelector('span.rounded-full');
+                if (isActive) {
+                    link.style.backgroundColor = primaryColor;
+                    link.style.color = '#fff';
+                    link.style.fontWeight = '600';
+                    if (dot) dot.style.backgroundColor = 'rgba(255,255,255,0.7)';
+                } else {
+                    link.style.backgroundColor = '';
+                    link.style.color = '';
+                    link.style.fontWeight = '';
+                    if (dot) dot.style.backgroundColor = '';
+                }
+            });
+
+            updateMobileTocVisibility();
+        }
+
+        window.addEventListener('scroll', scrollspy, { passive: true });
         scrollspy();
     });
 </script>
