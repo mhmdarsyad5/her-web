@@ -51,6 +51,7 @@ class ContactMessagesTable
                     ->weight(fn (ContactMessage $record) => $record->is_read ? null : 'bold'),
             ])
             ->defaultSort('created_at', 'desc')
+            ->poll('15s')
             ->filters([
                 SelectFilter::make('is_read')
                     ->label('Status Baca')
