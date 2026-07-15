@@ -25,7 +25,7 @@
             </div>
 
             {{-- ================= NAVIGASI ================= --}}
-            <div class="col-span-1 flex flex-col items-start text-left">
+            <nav class="col-span-1 flex flex-col items-start text-left" aria-label="Footer Navigation">
                 <h3 class="mb-5 text-sm font-semibold uppercase tracking-wider
                            text-neutral-900">
                     {{ strip_tags(setting('footer_nav_title', 'Navigasi')) }}
@@ -48,9 +48,9 @@
                             {{ strip_tags(setting('nav_gallery', 'Galeri')) }}
                         </a></li> -->
                 </ul>
-            </div>
+            </nav>
             {{-- ================ BANTUAN ================= --}}
-            <div class="col-span-1 flex flex-col items-start text-left">
+            <nav class="col-span-1 flex flex-col items-start text-left" aria-label="Footer Support">
                 <h3 class="mb-5 text-sm font-semibold uppercase tracking-wider
                            text-neutral-900">
                     {{ strip_tags(setting('footer_help_title', 'Bantuan')) }}
@@ -70,7 +70,7 @@
                             {{ strip_tags(setting('nav_contact', 'Hubungi Kami')) }}
                         </a></li>
                 </ul>
-            </div>
+            </nav>
 
             {{-- ================= KONTAK ================= --}}
             <div class="col-span-2 md:col-span-2 flex flex-col items-start

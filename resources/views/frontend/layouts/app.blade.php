@@ -101,6 +101,14 @@
     <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
+      "@@type": "WebSite",
+      "name": "{{ $siteName }}",
+      "url": "{{ url('/') }}"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
       "@@type": "Organization",
       "name": "{{ $siteName }}",
       "image": "{{ setting_url('logo', setting_url('favicon', 'favicon.svg')) }}",
