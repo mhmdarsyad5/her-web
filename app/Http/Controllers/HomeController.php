@@ -54,7 +54,9 @@ class HomeController extends Controller
                 return response()->json(['success' => true]);
             }
 
-            return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')->withFragment('form');
+            return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')
+                ->withFragment('form')
+                ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
         }
 
         $validated = $request->validate([
@@ -71,6 +73,8 @@ class HomeController extends Controller
             return response()->json(['success' => true]);
         }
 
-        return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')->withFragment('form');
+        return back()->with('success', 'Terima kasih, pesan Anda telah berhasil dikirim.')
+            ->withFragment('form')
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 }

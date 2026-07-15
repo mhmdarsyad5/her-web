@@ -126,7 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         },
-        body: new FormData(form)
+        body: new FormData(form),
+        cache: 'no-cache'
       })
 
       const data = await res.json()
