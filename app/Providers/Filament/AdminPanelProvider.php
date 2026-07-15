@@ -84,6 +84,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandLogo(setting_url('logo_light'))
+            ->brandLogoHeight('2.5rem')
             ->defaultThemeMode(ThemeMode::Light)
             ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
