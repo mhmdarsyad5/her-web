@@ -157,6 +157,11 @@
     #mobile-toc-bar {
         top: 64px !important;
     }
+    #mobile-toc-bar > div {
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+    }
 </style>
 @endpush
 
