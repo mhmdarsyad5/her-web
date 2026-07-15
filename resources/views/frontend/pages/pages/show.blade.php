@@ -147,6 +147,11 @@
         color: #2563eb !important; /* bright blue on hover */
         text-decoration: underline !important;
     }
+
+    /* Inline TOC hanya tampil di mobile/tablet — desktop sudah ada sidebar TOC */
+    @media (min-width: 1024px) {
+        #inline-toc { display: none !important; }
+    }
 </style>
 @endpush
 
@@ -240,7 +245,7 @@
 
 
                 {{-- ================= INLINE TABLE OF CONTENTS ================= --}}
-                <div id="inline-toc" class="mt-6 hidden lg:!hidden">
+                <div id="inline-toc" class="mt-6 hidden">
                     <div class="rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden">
                         <button
                             id="inline-toc-toggle"
