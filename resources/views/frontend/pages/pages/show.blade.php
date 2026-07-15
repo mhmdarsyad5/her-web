@@ -665,6 +665,12 @@
         }
     }
 
+    /* Strip leading number prefix from heading text
+       Handles: "1. ", "2) ", "10. " — prevents double numbering in TOC */
+    function stripLeadingNumber(text) {
+        return text.replace(/^\s*\d+[\.)\]]\s+/, '').trim();
+    }
+
     /* ============================================================
        TABLE OF CONTENTS GENERATOR & SCROLLSPY
        ============================================================ */
@@ -700,7 +706,8 @@
                 heading.id = id;
             }
 
-            const isH3 = heading.tagName === 'H3';
+            const isH3      = heading.tagName === 'H3';
+            const cleanText = stripLeadingNumber(heading.textContent);
 
             /* -- Desktop TOC (numbered) -- */
             const li = document.createElement('li');
@@ -709,16 +716,16 @@
             a.dataset.target = id;
 
             if (isH3) {
-                li.className           = 'pl-4 py-0.5';
+                li.className            = 'pl-4 py-0.5';
                 li.dataset.headingLevel = 'h3';
                 a.className = 'flex items-center gap-2 text-zinc-500 hover:text-primary-900 transition-colors leading-snug text-xs';
-                a.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${heading.textContent}</span>`;
+                a.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${cleanText}</span>`;
             } else {
                 desktopH2Counter++;
-                li.className           = 'py-1';
+                li.className            = 'py-1';
                 li.dataset.headingLevel = 'h2';
                 a.className = 'flex items-start gap-2 text-zinc-500 hover:text-primary-900 transition-colors leading-snug';
-                a.innerHTML = `<span class="flex-shrink-0 font-bold tabular-nums text-xs" style="color:${primaryColor};min-width:1.25rem">${desktopH2Counter}.</span><span class="font-semibold text-[13px]">${heading.textContent}</span>`;
+                a.innerHTML = `<span class="flex-shrink-0 font-bold tabular-nums text-xs" style="color:${primaryColor};min-width:1.25rem">${desktopH2Counter}.</span><span class="font-semibold text-[13px]">${cleanText}</span>`;
             }
 
             a.addEventListener('click', e => {
@@ -741,11 +748,11 @@
                 if (isH3) {
                     mLi.className = 'pl-4';
                     mA.className = 'flex items-center gap-2.5 w-full px-3 py-2.5 rounded-xl text-sm text-zinc-500 transition-all duration-200';
-                    mA.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${heading.textContent}</span>`;
+                    mA.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-zinc-300 flex-shrink-0"></span><span>${cleanText}</span>`;
                 } else {
                     mLi.className = '';
                     mA.className = 'flex items-center w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-zinc-700 transition-all duration-200';
-                    mA.textContent = heading.textContent;
+                    mA.textContent = cleanText;
                 }
 
                 mA.addEventListener('click', e => {
@@ -770,8 +777,9 @@
         if (inlineToc && inlineTocList && headings.length >= 2) {
             let h2Counter = 0;
             headings.forEach((heading, index) => {
-                const id   = heading.id; // already set above
-                const isH3 = heading.tagName === 'H3';
+                const id        = heading.id; // already set above
+                const isH3      = heading.tagName === 'H3';
+                const cleanText = stripLeadingNumber(heading.textContent);
                 const iLi  = document.createElement('li');
                 const iA   = document.createElement('a');
                 iA.href = `#${id}`;
@@ -779,12 +787,12 @@
                 if (isH3) {
                     iLi.className = 'pl-5 text-zinc-500';
                     iA.className = 'flex items-start gap-2 hover:text-primary-900 transition-colors leading-snug';
-                    iA.innerHTML = `<span class="mt-[5px] w-1 h-1 rounded-full bg-zinc-400 flex-shrink-0"></span><span>${heading.textContent}</span>`;
+                    iA.innerHTML = `<span class="mt-[5px] w-1 h-1 rounded-full bg-zinc-400 flex-shrink-0"></span><span>${cleanText}</span>`;
                 } else {
                     h2Counter++;
                     iLi.className = 'text-zinc-700 font-medium';
                     iA.className = 'flex items-start gap-2 hover:text-primary-900 transition-colors leading-snug';
-                    iA.innerHTML = `<span class="flex-shrink-0 font-bold text-primary-900 tabular-nums">${h2Counter}.</span><span>${heading.textContent}</span>`;
+                    iA.innerHTML = `<span class="flex-shrink-0 font-bold text-primary-900 tabular-nums">${h2Counter}.</span><span>${cleanText}</span>`;
                 }
 
                 iA.addEventListener('click', e => {
@@ -833,14 +841,14 @@
             headings.forEach(h => {
                 if (h.getBoundingClientRect().top <= scrollBuffer) {
                     activeId   = h.id;
-                    activeText = h.textContent;
+                    activeText = stripLeadingNumber(h.textContent);
                 }
             });
 
             if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50 && headings.length) {
                 const last = headings[headings.length - 1];
                 activeId   = last.id;
-                activeText = last.textContent;
+                activeText = stripLeadingNumber(last.textContent);
             }
 
             /* Desktop active state */
