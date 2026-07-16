@@ -11,8 +11,8 @@ git pull origin main
 echo "--> Menjalankan migrasi database..."
 php artisan migrate --force
 
-# 3. Bersihkan cache Laravel
-echo "--> Membersihkan cache..."
-php artisan cache:clear
+# 3. Bersihkan seluruh cache Laravel
+echo "--> Membersihkan seluruh cache..."
+php artisan optimize:clear
 
 echo "=== DEPLOYMENT SELESAI! ==="
