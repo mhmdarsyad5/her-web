@@ -6,6 +6,8 @@
     $desc = $firstHero?->description ?? 'Herro Equipment Rentals hadir sebagai solusi total logistik internal melalui penyediaan HANGCHA forklift & Warehouse Equipment tangguh untuk gudang Anda dengan jaminan anti downtime.';
     $btnText = $firstHero?->button_text ?? 'Kontak Kami';
     $btnUrl = $firstHero?->button_url ?? '#contactmessage';
+    $secBtnText = $firstHero?->secondary_button_text ?? 'Layanan Kami';
+    $secBtnUrl = $firstHero?->secondary_button_url ?? '#dssSection';
 
     // Retrieve multiple images array
     $images = $firstHero?->image ?? [];
@@ -24,118 +26,170 @@
             return is_array($dec) ? ($dec[0] ?? null) : $img;
         })->filter()->values()->toArray();
     }
+
+    // Chunk the images into groups of 3 for the dynamic background grid slides
+    $imageChunks = collect($images)->chunk(3);
 @endphp
 
 <section id="hero" class="py-6 bg-white select-none">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {{-- CURVED HERO CONTAINER --}}
+        {{-- CURVED HERO CONTAINER (Aspect ratio locked to 2.13/1 on desktop, compact padding on mobile) --}}
         <div
-            class="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-zinc-950 w-full md:aspect-[16/9] flex items-start justify-center shadow-lg shadow-zinc-950/10 py-8 sm:py-12 md:py-0">
+            class="hero-ratio-container relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-zinc-950 w-full flex items-center justify-center shadow-xl shadow-zinc-950/10 py-10 sm:py-14 md:py-0 px-4 sm:px-12 md:px-16 lg:px-20"
+            style="aspect-ratio: auto;">
+            
+            <style>
+                @media (min-width: 768px) {
+                    .hero-ratio-container {
+                        aspect-ratio: 2.13 / 1 !important;
+                    }
+                }
+            </style>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const container = document.querySelector('.hero-ratio-container');
+                    if (container) {
+                        const setRatio = () => {
+                            if (window.innerWidth >= 768) {
+                                container.style.aspectRatio = '2.13 / 1';
+                            } else {
+                                container.style.aspectRatio = 'auto';
+                            }
+                        };
+                        setRatio();
+                        window.addEventListener('resize', setRatio);
+                    }
+                });
+            </script>
 
-            {{-- BACKGROUND SWIPER SLIDER WRAPPER --}}
+            {{-- BACKGROUND SWIPER SLIDER WRAPPER (Chunked into dynamic 3-column grids) --}}
             <div class="absolute inset-0 z-0 pointer-events-none">
                 <div class="swiper heroSwiper h-full w-full">
                     <div class="swiper-wrapper">
-                        @foreach ($images as $img)
+                        @foreach ($imageChunks as $chunk)
                             <div class="swiper-slide h-full w-full">
-                                <img src="{{ asset('storage/' . $img) }}" alt="Background Slide" loading="eager"
-                                    decoding="async"
-                                    class="h-full w-full object-cover object-center brightness-[0.50] contrast-[1.05]" />
+                                <div class="grid h-full w-full gap-[3px]" style="grid-template-columns: repeat({{ $chunk->count() }}, minmax(0, 1fr));">
+                                    @foreach ($chunk as $img)
+                                        <div class="h-full w-full overflow-hidden">
+                                            <img src="{{ asset('storage/' . $img) }}" alt="Background Slide Item" loading="eager"
+                                                decoding="async"
+                                                class="h-full w-full object-cover object-center brightness-[0.80] contrast-[1.02]" />
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
 
-            {{-- DARK GRADIENT OVERLAY --}}
-            <div class="absolute inset-0 z-10 pointer-events-none"
-                style="background: radial-gradient(circle, rgba(9,9,11,0.65) 0%, rgba(9,9,11,0.3) 65%, rgba(9,9,11,0.1) 100%);">
-            </div>
+            {{-- SOFT DARK OVERLAY (Slight dark background for readability) --}}
+            <div class="absolute inset-0 z-10 pointer-events-none bg-black/40"></div>
 
             {{-- STATIC OVERLAY CONTENT --}}
             <div
-                class="relative z-20 flex flex-col items-center justify-start text-center max-w-6xl px-4 sm:px-6 md:px-12 pt-4 sm:pt-24 md:pt-28 lg:pt-32 pb-4 sm:pb-8">
+                class="relative z-20 w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl flex flex-col items-center text-center space-y-3 sm:space-y-4 lg:space-y-5 py-4 md:py-6 mx-auto">
 
-                {{-- SUBTLE BADGE --}}
-                <span
-                    class="mb-4 sm:mb-5 inline-flex items-center gap-1.5 rounded-full bg-zinc-950/40 border border-white/20 px-3 py-1 sm:px-4 sm:py-1.5 lg:px-5 lg:py-2 text-[9px] sm:text-xs lg:text-sm font-medium text-zinc-200 shadow-sm">
-                    <span class="relative flex h-1.5 w-1.5 sm:h-2 sm:w-2 lg:h-2.5 lg:w-2.5">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                        <span
-                            class="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 lg:h-2.5 lg:w-2.5 bg-green-500"></span>
-                    </span>
-                    HANGCHA Authorized Rental Indonesia
+            {{-- SUBTLE BADGE --}}
+            <span
+                class="hero-badge inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3.5 py-1.5 text-[10px] sm:text-sm font-semibold text-zinc-200 shadow-sm backdrop-blur-sm">
+                <span class="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-500"></span>
                 </span>
+                HANGCHA Authorized Rental Indonesia
+            </span>
 
-                {{-- TITLE --}}
-                @php
-                    $primaryColor = setting('primary_color', '#F5A21C');
-                    $highlightSpan = '<span class="relative inline-block px-3.5 py-0.5 mx-1 rounded-xl text-white font-black" style="background-color: ' . $primaryColor . '; text-shadow: none; transform: rotate(-0.5deg);">' . 'Tanpa Downtime' . '</span>';
-                    $highlightSpanLower = '<span class="relative inline-block px-3.5 py-0.5 mx-1 rounded-xl text-white font-black" style="background-color: ' . $primaryColor . '; text-shadow: none; transform: rotate(-0.5deg);">' . 'tanpa downtime' . '</span>';
+            {{-- TITLE --}}
+            @php
+                $primaryColor = setting('primary_color', '#F5A21C');
+                $highlightSpan = '<span class="relative inline-block px-2.5 py-0.5 mx-1 rounded-lg text-white font-bold" style="background-color: ' . $primaryColor . '; transform: rotate(-0.5deg); text-shadow: none;">' . 'Tanpa Downtime' . '</span>';
+                $highlightSpanLower = '<span class="relative inline-block px-2.5 py-0.5 mx-1 rounded-lg text-white font-bold" style="background-color: ' . $primaryColor . '; transform: rotate(-0.5deg); text-shadow: none;">' . 'tanpa downtime' . '</span>';
 
-                    $highlightedTitle = str_replace(
-                        ['Tanpa Downtime', 'tanpa downtime'],
-                        [$highlightSpan, $highlightSpanLower],
-                        e($title)
-                    );
-                @endphp
-                <h1 class="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-normal text-white leading-[1.35] max-w-6xl"
-                    style="text-shadow: 0 4px 16px rgba(0,0,0,0.95), 0 2px 4px rgba(0,0,0,0.85);">
-                    {!! $highlightedTitle !!}
-                </h1>
+                $highlightedTitle = str_replace(
+                    ['Tanpa Downtime', 'tanpa downtime'],
+                    [$highlightSpan, $highlightSpanLower],
+                    e($title)
+                );
+            @endphp
+            <h1 class="font-display text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight text-white leading-[1.2]"
+                style="text-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+                {!! $highlightedTitle !!}
+            </h1>
 
-                {{-- DESCRIPTION --}}
-                @if ($desc)
-                    <p class="mt-4 sm:mt-6 text-[11px] sm:text-base md:text-lg lg:text-xl text-zinc-200 leading-relaxed font-regular max-w-4xl"
-                        style="text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 1px 2px rgba(0,0,0,0.8);">
-                        {{ $desc }}
-                    </p>
+            {{-- DESCRIPTION --}}
+            @if ($desc)
+                <p class="hero-desc text-[11px] sm:text-sm md:text-base text-zinc-200 leading-relaxed font-normal max-w-3xl lg:max-w-4xl 2xl:max-w-6xl"
+                    style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+                    {{ $desc }}
+                </p>
+            @endif
+
+            {{-- KEY POINT LISTS (Horizontal on desktop, clean vertical list on mobile) --}}
+            @php
+                $points = $firstHero?->key_points ?? [
+                    'Layanan Rental Forklift Terpercaya & Profesional',
+                    'Jaminan Unit Prima & Dukungan Teknisi Siaga',
+                    'Pilihan Kapasitas Lengkap (1.5 - 16 Ton)'
+                ];
+            @endphp
+            @if(!empty($points))
+                <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-y-1.5 sm:gap-y-2 gap-x-6 pt-0.5 w-full max-w-4xl lg:max-w-5xl 2xl:max-w-6xl">
+                    @foreach($points as $point)
+                        @if(filled($point))
+                            <div class="hero-point flex items-center gap-2 text-[10px] sm:text-xs md:text-sm font-bold text-zinc-100 whitespace-nowrap"
+                                style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+                                <x-heroicon-s-check-circle class="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" style="color: {{ $primaryColor }};" />
+                                {{ $point }}
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            @endif
+
+            {{-- BUTTONS CTA --}}
+            <div class="flex flex-row flex-wrap gap-2.5 sm:gap-3 items-center justify-center w-full pt-1">
+                @if ($btnText)
+                    <a href="{{ $btnUrl }}" class="hero-btn group inline-flex items-center gap-2
+                                                           rounded-xl px-5 py-2.5 sm:px-7 sm:py-3.5
+                                                           text-xs sm:text-base font-bold
+                                                           text-white
+                                                           shadow-md shadow-zinc-950/20
+                                                           hover:brightness-95 hover:-translate-y-0.5
+                                                           active:translate-y-0
+                                                           transition-all duration-200"
+                         style="background-color: {{ setting('primary_color', '#F5A21C') }};">
+                        {{ $btnText }}
+                        <x-heroicon-o-arrow-right
+                            class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </a>
                 @endif
 
-                {{-- BUTTONS CTA --}}
-                <div class="mt-6 sm:mt-8 flex flex-row flex-wrap gap-3 sm:gap-4 justify-center items-center">
-                    @if ($btnText)
-                        <a href="{{ $btnUrl }}" class="group inline-flex items-center gap-2
-                                                               rounded-xl px-5 py-2.5 sm:px-8 sm:py-4
-                                                               text-xs sm:text-base font-bold
-                                                               text-white
-                                                               shadow-md shadow-zinc-950/20
-                                                               hover:brightness-95 hover:-translate-y-0.5
-                                                               active:translate-y-0
-                                                               transition-all duration-200"
-                            style="background-color: {{ setting('primary_color', '#F5A21C') }};">
-                            {{ $btnText }}
-                            <x-heroicon-o-arrow-right
-                                class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
-                        </a>
-                    @endif
-
-                    <a href="#dssSection" class="group inline-flex items-center gap-2
-                                rounded-xl px-5 py-2.5 sm:px-8 sm:py-4
+                @if ($secBtnText)
+                    <a href="{{ $secBtnUrl }}" class="hero-btn group inline-flex items-center gap-2
+                                rounded-xl px-5 py-2.5 sm:px-7 sm:py-3.5
                                 text-xs sm:text-base font-bold
-                                bg-white shadow-md shadow-zinc-950/10
-                                hover:bg-zinc-50 hover:-translate-y-0.5
+                                bg-white shadow-md
+                                hover:brightness-95 hover:-translate-y-0.5
                                 active:translate-y-0
-                                transition-all duration-200" style="color: {{ setting('primary_color', '#F5A21C') }};">
-                        {{ strip_tags(setting('about_cta_primary', 'Layanan kami')) }}
+                                transition-all duration-200"
+                        style="color: {{ setting('primary_color', '#F5A21C') }};">
+                        {{ $secBtnText }}
                         <x-heroicon-o-arrow-right
-                            class="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1"
+                            class="h-4 w-4 transition-transform group-hover:translate-x-1"
                             style="color: {{ setting('primary_color', '#F5A21C') }};" />
                     </a>
-                </div>
-
-            </div>
-
-
-
-            {{-- PAGINATION --}}
-            <div class="absolute bottom-6 inset-x-0 z-30 flex justify-center pointer-events-none">
-                <div class="swiper-pagination !static pointer-events-auto"></div>
+                @endif
             </div>
 
         </div>
-
     </div>
+
+    {{-- PAGINATION --}}
+    <div class="absolute bottom-6 inset-x-0 z-30 flex justify-center pointer-events-none">
+        <div class="swiper-pagination !static pointer-events-auto"></div>
+    </div>
+
 </section>

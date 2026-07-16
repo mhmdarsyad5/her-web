@@ -83,9 +83,15 @@ class SettingForm
                 ->visible(fn ($get) => $get('type') === 'text' && \Illuminate\Support\Str::contains($get('key'), 'script'))
                 ->columnSpanFull(),
 
+            TextInput::make('value.id')
+                ->label('URL / Value')
+                ->visible(fn ($get) => $get('type') === 'text' && \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
+                ->required()
+                ->columnSpanFull(),
+
             TinyEditor::make('value.id')
                 ->label('Content / Value')
-                ->visible(fn ($get) => $get('type') === 'text' && ! in_array($get('key'), ['service_show_image', 'service_show_desc']) && ! \Illuminate\Support\Str::contains($get('key'), 'script'))
+                ->visible(fn ($get) => $get('type') === 'text' && ! in_array($get('key'), ['service_show_image', 'service_show_desc']) && ! \Illuminate\Support\Str::contains($get('key'), 'script') && ! \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
                 ->required()
                 ->columnSpanFull(),
 

@@ -99,6 +99,7 @@ class ProductForm
                 FileUpload::make('images')
                     ->label('Gambar Produk')
                     ->multiple()
+                    ->reorderable()
                     ->optimizeToWebp()
                     ->imageEditor()
                     ->disk('public')

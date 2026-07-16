@@ -404,3 +404,88 @@ html {
     @apply my-10 border-zinc-200;
 }
 
+/* ==========================
+   HEADING FONTS - POPPINS
+   ========================== */
+h1, h2, h3, h4, h5, h6, .font-display {
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* ==========================
+   2K & 4K MONITOR OPTIMIZATIONS (Wider Containers)
+   ========================== */
+@media (min-width: 1536px) {
+    .max-w-7xl {
+        max-width: 1440px !important;
+    }
+    
+    /* Hero scaling on 2K */
+    #hero h1 {
+        font-size: 3.5rem !important;
+    }
+    #hero .hero-desc {
+        font-size: 1.125rem !important;
+        max-width: 56rem !important;
+    }
+    #hero .hero-badge {
+        font-size: 0.95rem !important;
+        padding: 0.5rem 1.25rem !important;
+    }
+    #hero .hero-badge span.relative {
+        width: 0.625rem !important;
+        height: 0.625rem !important;
+    }
+    #hero .hero-point {
+        font-size: 1rem !important;
+    }
+    #hero .hero-point svg {
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+    }
+    #hero .hero-btn {
+        font-size: 1.125rem !important;
+        padding: 1rem 2rem !important;
+    }
+    #hero .hero-btn svg {
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+    }
+}
+@media (min-width: 1920px) {
+    .max-w-7xl {
+        max-width: 1680px !important;
+    }
+    
+    /* Hero scaling on 4K */
+    #hero h1 {
+        font-size: 4.25rem !important;
+    }
+    #hero .hero-desc {
+        font-size: 1.25rem !important;
+        max-width: 64rem !important;
+    }
+    #hero .hero-badge {
+        font-size: 1.05rem !important;
+        padding: 0.625rem 1.5rem !important;
+    }
+    #hero .hero-badge span.relative {
+        width: 0.75rem !important;
+        height: 0.75rem !important;
+    }
+    #hero .hero-point {
+        font-size: 1.125rem !important;
+    }
+    #hero .hero-point svg {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+    #hero .hero-btn {
+        font-size: 1.25rem !important;
+        padding: 1.125rem 2.5rem !important;
+    }
+    #hero .hero-btn svg {
+        width: 1.5rem !important;
+        height: 1.5rem !important;
+    }
+}
+

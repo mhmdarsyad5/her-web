@@ -18,7 +18,7 @@
     <div class="absolute bottom-1/4 right-0 w-80 h-80 bg-primary-900/5 rounded-full blur-[100px] pointer-events-none">
     </div>
 
-    <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20 relative z-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 

@@ -21,13 +21,11 @@ class HeroSectionForm
                     ->label('Hero Description')
                     ->columnSpanFull(),
 
-                TextInput::make('button_text')
-                    ->label('Button Text'),
-
                 FileUpload::make('image')
                     ->label('Hero Images')
                     ->image()
                     ->multiple()
+                    ->reorderable()
                     ->disk('public')
                     ->directory('hero')
                     ->preserveFilenames()
@@ -35,8 +33,37 @@ class HeroSectionForm
                     ->enableDownload()
                     ->columnSpanFull(),
 
+                TextInput::make('button_text')
+                    ->label('Button Kontak Kami Text')
+                    ->placeholder('Contoh: Kontak Kami'),
+
                 TextInput::make('button_url')
-                    ->label('Button URL'),
+                    ->label('Button Kontak Kami URL')
+                    ->placeholder('Contoh: #contactmessage'),
+
+                TextInput::make('secondary_button_text')
+                    ->label('Button Layanan Kami Text')
+                    ->placeholder('Contoh: Layanan Kami')
+                    ->default('Layanan Kami'),
+
+                TextInput::make('secondary_button_url')
+                    ->label('Button Layanan Kami URL')
+                    ->placeholder('Contoh: #dssSection')
+                    ->default('#dssSection'),
+
+                \Filament\Forms\Components\Repeater::make('key_points')
+                    ->label('Poin-Poin Fitur Utama')
+                    ->simple(
+                        TextInput::make('point')
+                            ->placeholder('Contoh: Layanan Rental Forklift Terpercaya & Profesional')
+                            ->required()
+                    )
+                    ->default([
+                        'Layanan Rental Forklift Terpercaya & Profesional',
+                        'Jaminan Unit Prima & Dukungan Teknisi Siaga',
+                        'Pilihan Kapasitas Lengkap (1.5 - 16 Ton)',
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 }

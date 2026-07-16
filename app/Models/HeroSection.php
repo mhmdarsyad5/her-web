@@ -12,9 +12,13 @@ class HeroSection extends Model
         'image',
         'button_text',
         'button_url',
+        'secondary_button_text',
+        'secondary_button_url',
+        'key_points',
     ];
 
     protected $casts = [
         'image' => 'array',
+        'key_points' => 'array',
     ];
 }
