@@ -36,9 +36,9 @@ return [
                 'statusbar' => true,
                 'resize' => true,
                 'content_style' => '
-                    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+                    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap");
                     body {
-                        font-family: "Poppins", sans-serif !important;
+                        font-family: "Inter", sans-serif !important;
                         font-size: 15px;
                         line-height: 1.7;
                         color: #4b5563;
@@ -111,7 +111,7 @@ return [
 
     'extra' => [
         'toolbar' => [
-            'fontfamily' => 'Poppins=poppins,sans-serif;Arial=arial,helvetica,sans-serif;Georgia=georgia,palatino,serif;Times New Roman=times new roman,times,serif;Courier New=courier new,courier,monospace;',
+            'fontfamily' => 'Inter=inter,sans-serif;Poppins=poppins,sans-serif;Arial=arial,helvetica,sans-serif;Georgia=georgia,palatino,serif;Times New Roman=times new roman,times,serif;Courier New=courier new,courier,monospace;',
         ],
     ],
 ];
