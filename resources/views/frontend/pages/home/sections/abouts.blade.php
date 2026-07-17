@@ -12,7 +12,7 @@
 @endphp
 
 <section
-    class="py-8 sm:py-10 lg:py-12 bg-gradient-to-b from-white via-zinc-50/20 to-white relative overflow-hidden border-b border-zinc-200/80">
+    class="py-8 sm:py-10 lg:py-12 bg-gradient-to-b from-white via-zinc-50/20 to-white relative overflow-hidden">
 
     {{-- Glowing side light --}}
     <div class="absolute bottom-1/4 right-0 w-80 h-80 bg-primary-900/5 rounded-full blur-[100px] pointer-events-none">

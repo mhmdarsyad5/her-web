@@ -2,7 +2,7 @@
     $primaryColor = setting('primary_color', '#F5A21C');
 @endphp
 <section
-    class="pt-8 pb-16 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24 relative overflow-hidden border-b border-zinc-200/80 select-none"
+    class="pt-8 pb-16 sm:pt-10 sm:pb-20 lg:pt-12 lg:pb-24 relative overflow-hidden select-none"
     style="background-color: {{ $primaryColor }};">
 
     <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20 relative z-10">
@@ -13,10 +13,10 @@
             {{-- BADGE --}}
             @if(setting('service_badge'))
                 <span class="inline-flex items-center rounded-full
-                               bg-white/20 border border-white/30
-                               px-3.5 py-1
-                               text-xs font-bold tracking-wide
-                               text-white">
+                                   bg-white/20 border border-white/30
+                                   px-3.5 py-1
+                                   text-xs font-bold tracking-wide
+                                   text-white">
                     {{ strip_tags(setting('service_badge')) }}
                 </span>
             @endif

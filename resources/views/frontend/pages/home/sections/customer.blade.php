@@ -1,4 +1,4 @@
-<section class="py-8 sm:py-10 lg:py-12 bg-white relative overflow-hidden border-b border-zinc-200/80 select-none">
+<section class="py-8 sm:py-10 lg:py-12 bg-white relative overflow-hidden select-none">
 
     {{-- Subtle glowing background backing --}}
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary-900/5 rounded-full blur-[150px] pointer-events-none"></div>

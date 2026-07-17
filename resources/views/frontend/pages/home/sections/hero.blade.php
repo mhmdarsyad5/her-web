@@ -36,7 +36,7 @@
 
         {{-- CURVED HERO CONTAINER (Aspect ratio locked to 2.13/1 on desktop, compact padding on mobile) --}}
         <div
-            class="hero-ratio-container relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-zinc-950 w-full flex items-center justify-center shadow-xl shadow-zinc-950/10 py-10 sm:py-14 md:py-0 px-4 sm:px-12 md:px-16 lg:px-20"
+            class="hero-ratio-container relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-zinc-950 w-full flex items-center justify-center py-10 sm:py-14 md:py-0 px-4 sm:px-12 md:px-16 lg:px-20"
             style="aspect-ratio: auto;">
             
             <style>
@@ -86,7 +86,7 @@
             </div>
 
             {{-- SOFT DARK OVERLAY (Slight dark background for readability) --}}
-            <div class="absolute inset-0 z-10 pointer-events-none bg-black/40"></div>
+            <div class="absolute inset-0 z-10 pointer-events-none bg-black/55"></div>
 
             {{-- STATIC OVERLAY CONTENT --}}
             <div

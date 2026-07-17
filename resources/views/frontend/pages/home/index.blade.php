@@ -7,6 +7,9 @@
     {{-- Hero Section --}}
     @include('frontend.pages.home.sections.hero')
 
+    {{-- Rental Steps Section --}}
+    {{-- @include('frontend.pages.home.sections.rental_steps') --}}
+
     {{-- Product Section --}}
     @include('frontend.pages.home.sections.product')
 

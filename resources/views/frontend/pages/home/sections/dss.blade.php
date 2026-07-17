@@ -437,7 +437,7 @@
 
 @php
     $isHome = request()->routeIs('home');
-    $dssBgClass = $isHome ? 'bg-zinc-50 border-t border-zinc-200/80' : 'bg-white';
+    $dssBgClass = $isHome ? 'bg-zinc-50' : 'bg-white';
 @endphp
 <section class="pt-6 pb-12 sm:pt-10 sm:pb-16 {{ $dssBgClass }} relative overflow-hidden" id="dssSection">
 
@@ -542,7 +542,15 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label>Kapasitas Beban (Load Capacity)</label>
+                        <label class="flex items-center gap-1.5">
+                            <span>Kapasitas Beban (Load Capacity)</span>
+                            <span class="group/tip relative cursor-help">
+                                <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
+                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 p-3 rounded-xl bg-zinc-900 text-zinc-100 text-xs font-normal normal-case text-left shadow-xl border border-zinc-800 opacity-0 group-hover/tip:opacity-100 transition-all duration-200 pointer-events-none z-50">
+                                    Pilih kapasitas maksimum berat barang yang akan diangkat forklift.
+                                </span>
+                            </span>
+                        </label>
                         <select id="berat">
                             <option value="">-- Pilih Kapasitas Beban --</option>
                             @foreach($weights as $weight)
@@ -551,7 +559,15 @@
                         </select>
                     </div>
                     <div class="field full">
-                        <label>Tinggi Angkat yang Dibutuhkan (Lifting Height)</label>
+                        <label class="flex items-center gap-1.5">
+                            <span>Tinggi Angkat yang Dibutuhkan (Lifting Height)</span>
+                            <span class="group/tip relative cursor-help">
+                                <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
+                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 rounded-xl bg-zinc-900 text-zinc-100 text-xs font-normal normal-case text-left shadow-xl border border-zinc-800 opacity-0 group-hover/tip:opacity-100 transition-all duration-200 pointer-events-none z-50">
+                                    Tentukan jangkauan vertikal tiang mast forklift (tinggi rak gudang tertinggi Anda).
+                                </span>
+                            </span>
+                        </label>
                         <select id="tinggi">
                             <option value="">-- Pilih Tinggi Angkat --</option>
                             @foreach($heights as $height)

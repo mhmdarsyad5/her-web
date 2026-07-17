@@ -11,26 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
     new Swiper('.productSwiper', {
         modules: [Autoplay, Pagination, Navigation],
         
-        slidesPerView: 1.2,
+        slidesPerView: 1.3,
         spaceBetween: 16,
         grabCursor: true,
         
         breakpoints: {
             // mobile / tablet
             640: {
-                slidesPerView: 2,
-                spaceBetween: 24,
+                slidesPerView: 2.5,
+                spaceBetween: 20,
             },
             // desktop
             1024: {
-                slidesPerView: 3,
-                spaceBetween: 32,
+                slidesPerView: 4,
+                spaceBetween: 24,
             }
         },
 
         // Dynamic config based on slide count
-        loop: slideCount > 3,
-        autoplay: slideCount > 3 ? {
+        loop: slideCount > 4,
+        autoplay: slideCount > 4 ? {
             delay: 5000,
             disableOnInteraction: false,
         } : false,
