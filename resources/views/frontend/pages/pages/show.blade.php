@@ -153,9 +153,9 @@
         #inline-toc { display: none !important; }
     }
 
-    /* Force top offset for sticky mobile TOC bar to work on VPS (fixes missing top-16 utility) */
+    /* Force top offset for sticky mobile TOC bar to work on VPS (fixes missing top-20 utility) */
     #mobile-toc-bar {
-        top: 64px !important;
+        top: 80px !important;
     }
     #mobile-toc-bar > div {
         background-color: rgba(255, 255, 255, 0.8) !important;
@@ -177,7 +177,7 @@
 ])
 
 {{-- ================= MOBILE STICKY TOC BAR (mobile/tablet only) ================= --}}
-<div id="mobile-toc-bar" class="lg:hidden sticky top-16 z-40 hidden">
+<div id="mobile-toc-bar" class="lg:hidden sticky top-20 z-40 hidden">
     <div class="bg-white/90 backdrop-blur-md border-b border-zinc-200/80 shadow-sm">
         <div class="mx-auto max-w-7xl px-4 sm:px-6">
             <button
