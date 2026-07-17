@@ -95,10 +95,7 @@
             {{-- SUBTLE BADGE --}}
             <span
                 class="hero-badge inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-3.5 py-1.5 text-[10px] sm:text-sm font-semibold text-zinc-200 shadow-sm backdrop-blur-sm">
-                <span class="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 sm:h-2.5 sm:w-2.5 bg-green-500"></span>
-                </span>
+                <x-heroicon-s-shield-check class="h-4 w-4 sm:h-5 sm:w-5 text-emerald-400 flex-shrink-0" />
                 HANGCHA Authorized Rental Indonesia
             </span>
 
