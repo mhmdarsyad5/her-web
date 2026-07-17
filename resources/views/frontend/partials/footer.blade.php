@@ -128,7 +128,7 @@
                 <div class="flex items-center gap-3.5 sm:gap-4 text-neutral-500">
                     @if(setting('social_facebook'))
                         <a href="{{ strip_tags(setting('social_facebook')) }}" target="_blank" rel="noopener noreferrer"
-                            class="hover:text-neutral-955 transition-colors" title="Facebook">
+                            class="hover:text-neutral-950 transition-colors" title="Facebook">
                             <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24">
                                 <path
                                     d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-1.924c-.615 0-1.076.252-1.076.885v1.115h3l-.5 3h-2.5v8h-3v-8h-2v-3h2v-2.07c0-2.062 1.343-3.18 3.5-3.18 1.053 0 1.956.08 2.222.11v2.585z" />
