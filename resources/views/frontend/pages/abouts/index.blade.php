@@ -10,11 +10,11 @@
 
     {{-- ================= SECTION 1: INTRODUCTION & VISION MISSION ================= --}}
     <section class="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-white">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 fade-slide opacity-0 translate-y-4">
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20 mb-16 fade-slide opacity-0 translate-y-4">
             <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-955">INTRODUCTION</h2>
             <p class="text-xs sm:text-sm font-bold tracking-wider text-primary-900 uppercase mt-1">Tentang Kami</p>
 
-            <div class="mt-8 space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed">
+            <div class="mt-8 space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed text-justify">
                 <p>
                     PT Herro Equipment Rentals adalah penyedia layanan material handling yang berfokus secara eksklusif pada
                     solusi sewa forklift tahunan untuk kebutuhan skala industri dan pergudangan di Indonesia. Kami
@@ -33,7 +33,7 @@
         </div>
 
         {{-- Vision & Mission (Premium Dark Zinc Card) --}}
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
             <div
                 class="relative overflow-hidden rounded-[2rem] bg-zinc-900 text-white p-8 sm:p-12 shadow-2xl border border-zinc-800/80 fade-slide opacity-0 translate-y-4">
                 {{-- Skewed Orange Gradient Overlay --}}
@@ -83,7 +83,7 @@
 
     {{-- ================= SECTION 2: WHY US ================= --}}
     <section class="py-16 sm:py-20 bg-zinc-50 border-t border-zinc-200/80">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
 
             {{-- Title --}}
             <div class="mb-10 fade-slide opacity-0 translate-y-4">
@@ -98,7 +98,7 @@
             </div>
 
             {{-- Text Columns --}}
-            <div class="space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed fade-slide opacity-0 translate-y-4">
+            <div class="space-y-6 text-zinc-650 text-sm sm:text-base leading-relaxed text-justify fade-slide opacity-0 translate-y-4">
                 <p>
                     Memilih PT Herro Equipment Rental (PT HER) sebagai mitra berarti Anda mengamankan efisiensi operasional
                     jangka panjang tanpa terbebani pengeluaran modal besar untuk pembelian dan penyusutan aset. Kami secara
@@ -119,13 +119,13 @@
 
     {{-- ================= SECTION 3: WHO WE ARE ================= --}}
     <section class="py-16 sm:py-20 bg-white border-t border-zinc-200/80">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-20">
 
             {{-- Header --}}
             <div class="mb-8 fade-slide opacity-0 translate-y-4">
                 <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-955">WHO WE ARE</h2>
                 <p class="text-sm sm:text-base font-bold text-zinc-800 mt-2">Spesialisasi Unit HANGCHA</p>
-                <p class="mt-4 max-w-3xl text-sm sm:text-base leading-relaxed text-zinc-600">
+                <p class="mt-4 max-w-3xl text-sm sm:text-base leading-relaxed text-zinc-600 text-justify">
                     Kami fokus pada penyediaan armada HANGCHA yang telah terbukti tangguh, andal, dan memiliki efisiensi
                     tinggi untuk mendukung berbagai skala operasional industri dan pergudangan.
                 </p>
