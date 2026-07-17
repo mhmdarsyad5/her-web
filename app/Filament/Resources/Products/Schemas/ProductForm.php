@@ -100,11 +100,12 @@ class ProductForm
                     ->label('Gambar Produk')
                     ->multiple()
                     ->reorderable()
+                    ->maxSize(5120) // 5MB
                     ->optimizeToWebp()
                     ->imageEditor()
                     ->disk('public')
                     ->directory('products')
-                    ->helperText('Upload satu atau beberapa gambar produk.')
+                    ->helperText('Upload satu atau beberapa gambar produk. Maks: 5MB per file.')
                     ->columnSpanFull(),
 
                 Repeater::make('specifications')

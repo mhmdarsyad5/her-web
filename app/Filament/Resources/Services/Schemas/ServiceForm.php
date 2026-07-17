@@ -52,7 +52,9 @@ class ServiceForm
                     ->directory('services/icons')
                     ->image()
                     ->disk('public')
-                    ->helperText('Icon layanan (PNG / SVG).')
+                    ->maxSize(5120) // 5MB
+                    ->optimizeToWebp(600, 90)
+                    ->helperText('Icon layanan (PNG / SVG). Maks: 5MB.')
                     ->columnSpan(1),
 
                 FileUpload::make('image')
@@ -61,7 +63,9 @@ class ServiceForm
                     ->image()
                     ->imageEditor()
                     ->disk('public')
-                    ->helperText('Gambar utama layanan.')
+                    ->maxSize(5120) // 5MB
+                    ->optimizeToWebp(1200, 80)
+                    ->helperText('Gambar utama layanan. Maks: 5MB.')
                     ->columnSpan(1),
 
                 /* =====================

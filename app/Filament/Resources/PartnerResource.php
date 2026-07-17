@@ -55,9 +55,9 @@ class PartnerResource extends Resource
                         ->image()
                         ->disk('public')
                         ->directory('partners')
-                        ->getUploadedFileNameForStorageUsing(function ($file) {
-                            return 'partner-'.now()->timestamp.'.'.$file->getClientOriginalExtension();
-                        })
+                        ->maxSize(5120) // 5MB
+                        ->optimizeToWebp(600, 90)
+                        ->helperText('Logo perusahaan/instansi. Maks: 5MB.')
                         ->required(),
 
                     TextInput::make('sort_order')

@@ -169,6 +169,9 @@ class EquipmentResource extends Resource
                                 ->maxFiles(10)
                                 ->disk('public')
                                 ->directory('equipment')
+                                ->maxSize(5120) // 5MB
+                                ->optimizeToWebp(1200, 80)
+                                ->helperText('Upload foto-foto unit alat berat. Maks: 5MB per file.')
                                 ->columnSpanFull(),
                         ]),
 

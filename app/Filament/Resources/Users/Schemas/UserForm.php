@@ -19,8 +19,9 @@ class UserForm
                     ->image()
                     ->avatar()
                     ->directory('users')
-                    ->maxSize(2048) // 2MB
-                    ->helperText('Format: JPG, PNG, WEBP. Maks: 2MB.')
+                    ->maxSize(5120) // 5MB
+                    ->optimizeToWebp(400, 80)
+                    ->helperText('Format: JPG, PNG, WEBP. Maks: 5MB.')
                     ->columnSpanFull(),
                 TextInput::make('name')
                     ->required(),

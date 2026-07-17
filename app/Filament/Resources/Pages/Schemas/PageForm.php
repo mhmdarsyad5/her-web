@@ -119,9 +119,10 @@ class PageForm
                                     ->label('Thumbnail')
                                     ->directory('pages')
                                     ->disk('public')
+                                    ->maxSize(5120) // 5MB
                                     ->optimizeToWebp()
                                     ->imageEditor()
-                                    ->helperText('Thumbnail halaman'),
+                                    ->helperText('Thumbnail halaman. Maks: 5MB.'),
                             ]),
 
                         Section::make('SEO Content')

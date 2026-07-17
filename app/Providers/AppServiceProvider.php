@@ -65,7 +65,11 @@ class AppServiceProvider extends ServiceProvider
                     }
 
                     $webpData = $image->toWebp($quality)->toString();
-                    $filename = \Illuminate\Support\Str::random(40).'.webp';
+
+                    // Rapi & SEO Friendly Naming: [original-name-slug]-[timestamp]-[random].webp
+                    $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $slugifiedName = \Illuminate\Support\Str::slug($originalName);
+                    $filename = $slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.webp';
 
                     $directory = $component->getDirectory() ?? 'uploads';
                     $directory = rtrim($directory, '/').'/'.date('Y/F');

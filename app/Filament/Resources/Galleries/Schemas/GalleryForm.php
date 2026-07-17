@@ -41,9 +41,9 @@ class GalleryForm
                 ->optimizeToWebp()
                 ->disk('public')
                 ->directory('galleries/thumbnails')
-                ->helperText('Thumbnail / cover gallery.')
+                ->helperText('Thumbnail / cover gallery. Maks: 5MB.')
                 ->imageEditor()
-                ->maxSize(2048),
+                ->maxSize(5120),
 
             FileUpload::make('images')
                 ->label('Foto Gallery')
@@ -53,8 +53,8 @@ class GalleryForm
                 ->multiple()
                 ->reorderable()
                 ->appendFiles()
-                ->helperText('Unggah beberapa gambar gallery.')
-                ->maxSize(5048)
+                ->helperText('Unggah beberapa gambar gallery. Maks: 5MB per file.')
+                ->maxSize(5120)
                 ->columnSpanFull(),
 
             // ================= SETTINGS =================

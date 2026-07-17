@@ -28,7 +28,9 @@ class HeroSectionForm
                     ->reorderable()
                     ->disk('public')
                     ->directory('hero')
-                    ->preserveFilenames()
+                    ->maxSize(5120) // 5MB
+                    ->optimizeToWebp(1920, 85) // 1920px lebar untuk gambar banner full-width
+                    ->helperText('Gambar latar belakang hero banner. Ukuran ideal: 1920x900px. Maks: 5MB per file.')
                     ->enableOpen()
                     ->enableDownload()
                     ->columnSpanFull(),
