@@ -120,7 +120,7 @@ class PageForm
                                     ->directory('pages')
                                     ->disk('public')
                                     ->maxSize(5120) // 5MB
-                                    ->optimizeToWebp()
+                                    ->optimizeToWebp(prefix: 'blog')
                                     ->imageEditor()
                                     ->helperText('Thumbnail halaman. Maks: 5MB.'),
                             ]),

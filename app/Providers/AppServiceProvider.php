@@ -48,37 +48,94 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Register Filament FileUpload WebP Optimization Macro
-        \Filament\Forms\Components\FileUpload::macro('optimizeToWebp', function (int $maxWidth = 1200, int $quality = 80) {
+        \Filament\Forms\Components\FileUpload::macro('optimizeToWebp', function (int $maxWidth = 1200, int $quality = 80, string $prefix = '', bool $isPurePrefix = false) {
             return $this
                 ->image()
-                ->saveUploadedFileUsing(function ($file, $state, $component) use ($maxWidth, $quality) {
+                ->saveUploadedFileUsing(function ($file, $state, $component) use ($maxWidth, $quality, $prefix, $isPurePrefix) {
                     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
                     $filePath = $file->getRealPath();
+                    $disk = $component->getDiskName() ?? 'public';
 
-                    $manager = \Intervention\Image\ImageManager::gd();
-                    $image = $manager->read($filePath);
-
-                    $image->orient();
-
-                    if ($image->width() > $maxWidth) {
-                        $image->scale(width: $maxWidth);
+                    // Tentukan direktori
+                    $directory = $component->getDirectory() ?? 'uploads';
+                    if (! $isPurePrefix) {
+                        $directory = rtrim($directory, '/').'/'.date('Y/F');
+                    } else {
+                        $directory = rtrim($directory, '/');
                     }
 
-                    $webpData = $image->toWebp($quality)->toString();
-
-                    // Rapi & SEO Friendly Naming: [original-name-slug]-[timestamp]-[random].webp
+                    // Siapkan nama slug asli dan string prefix
                     $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                     $slugifiedName = \Illuminate\Support\Str::slug($originalName);
-                    $filename = $slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.webp';
+                    $prefixString = $prefix ? \Illuminate\Support\Str::slug($prefix).'-' : '';
 
-                    $directory = $component->getDirectory() ?? 'uploads';
-                    $directory = rtrim($directory, '/').'/'.date('Y/F');
-                    $disk = $component->getDiskName() ?? 'public';
-                    $targetPath = $directory.'/'.$filename;
+                    try {
+                        $manager = \Intervention\Image\ImageManager::gd();
+                        $image = $manager->read($filePath);
 
-                    \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
+                        $image->orient();
 
-                    return $targetPath;
+                        if ($image->width() > $maxWidth) {
+                            $image->scale(width: $maxWidth);
+                        }
+
+                        $webpData = $image->toWebp($quality)->toString();
+
+                        if ($isPurePrefix) {
+                            if ($component->isMultiple()) {
+                                // Cari nomor indeks urutan berikutnya
+                                $existingFiles = \Illuminate\Support\Facades\Storage::disk($disk)->files($directory);
+                                $pattern = '/^'.preg_quote($prefix, '/').'-(\d+)\.webp$/i';
+                                $maxIndex = 0;
+                                foreach ($existingFiles as $existingFile) {
+                                    $basename = basename($existingFile);
+                                    if (preg_match($pattern, $basename, $matches)) {
+                                        $maxIndex = max($maxIndex, (int) $matches[1]);
+                                    }
+                                }
+                                $nextIndex = $maxIndex + 1;
+                                $filename = $prefix.'-'.$nextIndex.'.webp';
+                            } else {
+                                $filename = $prefix.'.webp';
+                            }
+                        } else {
+                            $filename = $prefixString.$slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.webp';
+                        }
+
+                        $targetPath = $directory.'/'.$filename;
+                        \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
+
+                        return $targetPath;
+                    } catch (\Throwable $e) {
+                        // Log warning jika gagal decode (misal .heic dari iPhone)
+                        \Illuminate\Support\Facades\Log::warning('Gagal kompresi WebP, menggunakan file asli: '.$e->getMessage());
+
+                        // Fallback: simpan file asli dengan nama terstruktur
+                        $extension = $file->getClientOriginalExtension();
+                        if ($isPurePrefix) {
+                            if ($component->isMultiple()) {
+                                $existingFiles = \Illuminate\Support\Facades\Storage::disk($disk)->files($directory);
+                                $pattern = '/^'.preg_quote($prefix, '/').'-(\d+)\.'.preg_quote($extension, '/').'$/i';
+                                $maxIndex = 0;
+                                foreach ($existingFiles as $existingFile) {
+                                    $basename = basename($existingFile);
+                                    if (preg_match($pattern, $basename, $matches)) {
+                                        $maxIndex = max($maxIndex, (int) $matches[1]);
+                                    }
+                                }
+                                $nextIndex = $maxIndex + 1;
+                                $filename = $prefix.'-'.$nextIndex.'.'.$extension;
+                            } else {
+                                $filename = $prefix.'.'.$extension;
+                            }
+                        } else {
+                            $filename = $prefixString.$slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.'.$extension;
+                        }
+
+                        $targetPath = $directory.'/'.$filename;
+
+                        return $file->storeAs($directory, $filename, $disk);
+                    }
                 });
         });
     }

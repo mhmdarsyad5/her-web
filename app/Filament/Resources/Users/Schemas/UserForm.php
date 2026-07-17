@@ -20,7 +20,7 @@ class UserForm
                     ->avatar()
                     ->directory('users')
                     ->maxSize(5120) // 5MB
-                    ->optimizeToWebp(400, 80)
+                    ->optimizeToWebp(400, 80, 'avatar')
                     ->helperText('Format: JPG, PNG, WEBP. Maks: 5MB.')
                     ->columnSpanFull(),
                 TextInput::make('name')

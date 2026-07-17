@@ -101,7 +101,7 @@ class ProductForm
                     ->multiple()
                     ->reorderable()
                     ->maxSize(5120) // 5MB
-                    ->optimizeToWebp()
+                    ->optimizeToWebp(prefix: 'product')
                     ->imageEditor()
                     ->disk('public')
                     ->directory('products')

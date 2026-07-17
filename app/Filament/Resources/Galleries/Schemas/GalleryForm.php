@@ -38,7 +38,7 @@ class GalleryForm
             // ================= MEDIA =================
             FileUpload::make('thumbnail')
                 ->label('Thumbnail')
-                ->optimizeToWebp()
+                ->optimizeToWebp(prefix: 'gallery-cover')
                 ->disk('public')
                 ->directory('galleries/thumbnails')
                 ->helperText('Thumbnail / cover gallery. Maks: 5MB.')
@@ -47,7 +47,7 @@ class GalleryForm
 
             FileUpload::make('images')
                 ->label('Foto Gallery')
-                ->optimizeToWebp()
+                ->optimizeToWebp(prefix: 'gallery')
                 ->disk('public')
                 ->directory('galleries/images')
                 ->multiple()
