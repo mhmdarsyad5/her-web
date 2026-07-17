@@ -17,11 +17,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-{{-- ================= READING PROGRESS ================= --}}
-<div
-    id="readingProgress"
-    class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-primary-900 transition-all duration-300">
-</div>
+
 
 @include('frontend.components.breadcrumb', [
     'items' => [
@@ -328,27 +324,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
             });
     }
 
-    window.addEventListener("scroll", () => {
-        const content = document.getElementById("productContent");
-        const bar = document.getElementById("readingProgress");
 
-        if (!content || !bar) return;
-
-        const contentTop = content.offsetTop;
-        const contentHeight = content.offsetHeight;
-        const scrollPosition = window.scrollY + window.innerHeight;
-        const windowHeight = window.innerHeight;
-
-        let progress = 0;
-        if (scrollPosition > contentTop) {
-            progress = Math.min(
-                ((scrollPosition - contentTop) / (contentHeight + windowHeight - 100)) * 100,
-                100
-            );
-        }
-
-        bar.style.width = progress + "%";
-    });
 
     // Initialize Swiper
     document.addEventListener("DOMContentLoaded", () => {

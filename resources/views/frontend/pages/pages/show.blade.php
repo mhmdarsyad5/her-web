@@ -167,11 +167,7 @@
 
 @section('content')
 
-{{-- ================= READING PROGRESS BAR ================= --}}
-<div
-    id="readingProgress"
-    class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-primary-900 transition-all duration-300">
-</div>
+
 
 @include('frontend.components.breadcrumb', [
     'items' => [
@@ -580,27 +576,7 @@
         }, 2500);
     }
 
-    /* Reading Progress Bar */
-    window.addEventListener("scroll", () => {
-        const article = document.getElementById("articleContent");
-        const bar = document.getElementById("readingProgress");
 
-        if (!article || !bar) return;
-
-        const articleTop = article.offsetTop;
-        const articleHeight = article.offsetHeight;
-        const scrollPosition = window.scrollY + window.innerHeight;
-
-        let progress = 0;
-        if (scrollPosition > articleTop) {
-            progress = Math.min(
-                ((scrollPosition - articleTop) / (articleHeight + window.innerHeight - 100)) * 100,
-                100
-            );
-        }
-
-        bar.style.width = progress + "%";
-    });
 
     /* ============================================================
        GLOBAL TOC HELPERS — harus di luar DOMContentLoaded
