@@ -2,7 +2,7 @@
            border-t border-neutral-200
            bg-white">
 
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10 sm:pb-12">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-32 sm:pb-12">
 
         {{-- ================= MAIN GRID ================= --}}
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-y-12 gap-x-8 mt-12 md:mt-16">
