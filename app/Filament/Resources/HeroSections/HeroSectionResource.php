@@ -27,6 +27,8 @@ class HeroSectionResource extends Resource
 
     protected static ?string $navigationLabel = 'Hero Sections';
 
+    protected static ?string $modelLabel = 'Hero Sections';
+
     protected static ?string $pluralModelLabel = 'Hero Sections';
 
     protected static ?int $navigationSort = 1;

@@ -27,6 +27,8 @@ class ContactMessageResource extends Resource
 
     protected static ?string $navigationLabel = 'Pesan Masuk';
 
+    protected static ?string $modelLabel = 'Pesan Masuk';
+
     protected static ?string $pluralModelLabel = 'Pesan Masuk';
 
     protected static UnitEnum|string|null $navigationGroup = 'Pesan & Komunikasi';

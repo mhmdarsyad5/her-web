@@ -27,6 +27,8 @@ class ProductResource extends Resource
 
     protected static ?string $navigationLabel = 'Produk';
 
+    protected static ?string $modelLabel = 'Data Produk';
+
     protected static ?string $pluralModelLabel = 'Data Produk';
 
     protected static ?int $navigationSort = 3;

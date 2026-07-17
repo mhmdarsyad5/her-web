@@ -31,7 +31,7 @@ class EquipmentMaintenanceResource extends Resource
 
     protected static ?string $navigationLabel = 'Maintenance Alat';
 
-    protected static ?string $modelLabel = 'Maintenance';
+    protected static ?string $modelLabel = 'Maintenance Alat';
 
     protected static ?string $pluralModelLabel = 'Maintenance Alat';
 

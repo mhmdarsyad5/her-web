@@ -40,7 +40,7 @@ class RentalResource extends Resource
 
     protected static ?string $navigationLabel = 'Data Penyewaan';
 
-    protected static ?string $modelLabel = 'Penyewaan';
+    protected static ?string $modelLabel = 'Data Penyewaan';
 
     protected static ?string $pluralModelLabel = 'Data Penyewaan';
 

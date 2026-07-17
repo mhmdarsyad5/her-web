@@ -27,6 +27,10 @@ class SettingResource extends Resource
 
     protected static ?string $navigationLabel = 'Settings';
 
+    protected static ?string $modelLabel = 'Settings';
+
+    protected static ?string $pluralModelLabel = 'Settings';
+
     public static function form(Schema $schema): Schema
     {
         return SettingForm::configure($schema);

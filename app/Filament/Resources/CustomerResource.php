@@ -36,7 +36,7 @@ class CustomerResource extends Resource
 
     protected static ?string $navigationLabel = 'Data Pelanggan';
 
-    protected static ?string $modelLabel = 'Pelanggan';
+    protected static ?string $modelLabel = 'Data Pelanggan';
 
     protected static ?string $pluralModelLabel = 'Data Pelanggan';
 

@@ -32,7 +32,7 @@ class PartnerResource extends Resource
 
     protected static ?string $navigationLabel = 'Customer / Partner';
 
-    protected static ?string $modelLabel = 'Partner / Customer';
+    protected static ?string $modelLabel = 'Customer & Partner';
 
     protected static ?string $pluralModelLabel = 'Customer & Partner';
 

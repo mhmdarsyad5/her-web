@@ -39,7 +39,7 @@ class EquipmentResource extends Resource
 
     protected static ?string $navigationLabel = 'Data Alat';
 
-    protected static ?string $modelLabel = 'Alat';
+    protected static ?string $modelLabel = 'Data Alat';
 
     protected static ?string $pluralModelLabel = 'Data Alat';
 
