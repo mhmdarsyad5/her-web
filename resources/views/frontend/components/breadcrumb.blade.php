@@ -42,9 +42,9 @@ $breadcrumbs[] = [
 }
 @endphp
 
-<section class="py-8 bg-neutral-50">
+<section class="py-2.5 sm:py-3 bg-neutral-50/50 border-b border-zinc-200/40">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <nav class="flex flex-wrap items-center text-sm text-neutral-600 gap-1">
+        <nav class="flex flex-wrap items-center text-xs sm:text-sm text-neutral-600 gap-1">
 
             {{-- HOME --}}
             <a href="{{ route('home') }}"
