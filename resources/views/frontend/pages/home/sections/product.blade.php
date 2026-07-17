@@ -1,5 +1,5 @@
 <section
-    class="py-8 sm:py-10 lg:py-12 bg-gradient-to-b from-white via-zinc-50/30 to-white relative overflow-hidden">
+    class="pt-1 pb-8 sm:pt-2 sm:pb-10 lg:pt-3 lg:pb-12 bg-gradient-to-b from-white via-zinc-50/30 to-white relative overflow-hidden">
 
     {{-- Glowing side light --}}
     <div class="absolute top-1/3 left-0 w-80 h-80 bg-primary-900/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -7,7 +7,7 @@
     <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-20 relative z-10">
 
         {{-- ================= HEADER ================= --}}
-        <div class="mb-6 sm:mb-12 lg:mb-16">
+        <div class="mb-2 sm:mb-3 lg:mb-4">
 
             {{-- BADGE --}}
             @if(setting('product_badge'))
@@ -56,7 +56,7 @@
 
         {{-- ================= PRODUCTS SLIDER ================= --}}
         <div class="relative fade-slide opacity-0 translate-y-4">
-            <div class="swiper productSwiper !pb-14">
+            <div class="swiper productSwiper !pt-4 !pb-14">
                 <div class="swiper-wrapper">
                     @forelse ($products as $product)
                         <div class="swiper-slide flex">
