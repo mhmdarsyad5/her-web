@@ -105,8 +105,8 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         {{-- ================= GRID ================= --}}
         <div
             id="productGrid"
-            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                   gap-6 lg:gap-8
+            class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3
+                   gap-4 sm:gap-6 lg:gap-8
                    fade-slide opacity-0 translate-y-4">
 
             @include('frontend.pages.products.partials.products-list')
