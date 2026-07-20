@@ -20,6 +20,15 @@ class UsersTable
                     ->circular(),
                 TextColumn::make('name')
                     ->searchable(),
+                TextColumn::make('is_online')
+                    ->label('Status')
+                    ->badge()
+                    ->state(fn (\App\Models\User $record): string => $record->isOnline() ? 'Online' : 'Offline')
+                    ->color(fn (\App\Models\User $record): string => $record->isOnline() ? 'success' : 'gray')
+                    ->description(fn (\App\Models\User $record): ?string => $record->isOnline()
+                        ? null
+                        : ($record->last_seen_at ? 'Terakhir aktif: '.$record->last_seen_at->diffForHumans() : 'Belum pernah aktif')
+                    ),
                 TextColumn::make('email')
                     ->label('Email address')
                     ->searchable(),

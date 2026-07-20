@@ -23,6 +23,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'email',
         'password',
         'avatar',
+        'last_seen_at',
     ];
 
     protected $hidden = [
@@ -34,8 +35,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_seen_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isOnline(): bool
+    {
+        return \Illuminate\Support\Facades\Cache::has('user-is-online-'.$this->id);
     }
 
     public function canAccessPanel(Panel $panel): bool
