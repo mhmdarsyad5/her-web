@@ -62,6 +62,18 @@
         });
     },
 
+    page: 1,
+    perPage: 24,
+
+    get totalPages() {
+        return Math.max(1, Math.ceil(this.filteredFiles.length / this.perPage));
+    },
+
+    get paginatedFiles() {
+        const start = (this.page - 1) * this.perPage;
+        return this.filteredFiles.slice(start, start + this.perPage);
+    },
+
     toggleFile(path) {
         if (this.multiple) {
             if (this.selectedFiles.includes(path)) {
@@ -704,7 +716,7 @@
                     </div>
 
                     <div x-show="filteredFiles.length > 0" class="gm-grid">
-                        <template x-for="file in filteredFiles" :key="file.path">
+                        <template x-for="file in paginatedFiles" :key="file.path">
                             <div @click="toggleFile(file.path)"
                                 @dblclick="selectedFiles = [file.path]; confirmSelection()" class="gm-item"
                                 :class="selectedFiles.includes(file.path) ? 'active' : ''">
@@ -733,13 +745,20 @@
             </div>
 
             <!-- Footer Action -->
-            <div class="gm-footer">
-                <button type="button" @click="isOpen = false" class="gm-btn gm-btn-secondary">
-                    Batal
-                </button>
-                <button type="button" @click="confirmSelection" class="gm-btn gm-btn-primary">
-                    Konfirmasi Pilihan (<span x-text="selectedFiles.length"></span>)
-                </button>
+            <div class="gm-footer" style="justify-content: space-between !important;">
+                <div x-show="totalPages > 1" class="flex items-center gap-2 text-xs" style="display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: #71717a;">
+                    <span>Halaman <strong x-text="page"></strong> dari <strong x-text="totalPages"></strong></span>
+                    <button type="button" @click="page = Math.max(1, page - 1)" :disabled="page <= 1" class="gm-btn gm-btn-secondary" style="padding: 0.25rem 0.5rem !important;">&larr; Prev</button>
+                    <button type="button" @click="page = Math.min(totalPages, page + 1)" :disabled="page >= totalPages" class="gm-btn gm-btn-secondary" style="padding: 0.25rem 0.5rem !important;">Next &rarr;</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-left: auto;">
+                    <button type="button" @click="isOpen = false" class="gm-btn gm-btn-secondary">
+                        Batal
+                    </button>
+                    <button type="button" @click="confirmSelection" class="gm-btn gm-btn-primary">
+                        Konfirmasi Pilihan (<span x-text="selectedFiles.length"></span>)
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use App\Jobs\SendContactMessageNotification;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactMessage extends Model
 {
+    use \App\Traits\LogsModelActivity;
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'email',

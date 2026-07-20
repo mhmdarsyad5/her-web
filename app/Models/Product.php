@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     /**

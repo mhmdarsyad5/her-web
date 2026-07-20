@@ -527,7 +527,7 @@
                     <div class="media-grid">
                         
                         {{-- Render Directories --}}
-                        @foreach($this->directories as $dir)
+                        @foreach($this->paginatedDirectories as $dir)
                             @php 
                                 $isSelected = in_array($dir['path'], $selectedItems);
                             @endphp
@@ -548,7 +548,7 @@
                         @endforeach
 
                         {{-- Render Files --}}
-                        @foreach($this->files as $file)
+                        @foreach($this->paginatedFiles as $file)
                             @php 
                                 $isSelected = in_array($file['path'], $selectedItems);
                                 $isImage = in_array($file['extension'], ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
@@ -575,6 +575,21 @@
                         @endforeach
 
                     </div>
+
+                    {{-- Pagination Controls --}}
+                    @if($this->totalPages > 1)
+                        <div class="flex items-center justify-between pt-4 mt-4 border-t border-zinc-200 dark:border-zinc-800 text-xs">
+                            <span class="text-zinc-500 font-medium">Halaman {{ $this->page }} dari {{ $this->totalPages }}</span>
+                            <div class="flex items-center gap-1">
+                                <button type="button" wire:click="previousPage" {{ $this->page <= 1 ? 'disabled' : '' }} class="px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-semibold disabled:opacity-40 hover:bg-zinc-200 transition-colors">
+                                    &larr; Prev
+                                </button>
+                                <button type="button" wire:click="nextPage" {{ $this->page >= $this->totalPages ? 'disabled' : '' }} class="px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-semibold disabled:opacity-40 hover:bg-zinc-200 transition-colors">
+                                    Next &rarr;
+                                </button>
+                            </div>
+                        </div>
+                    @endif
                 @endif
 
             </div>

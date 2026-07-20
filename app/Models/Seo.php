@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Seo extends Model
 {
+    use \App\Traits\LogsModelActivity;
+    use HasFactory;
+
     protected $fillable = [
         'page',
         'meta_title',

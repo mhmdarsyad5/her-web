@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     protected $fillable = [

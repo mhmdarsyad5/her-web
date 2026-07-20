@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EquipmentMaintenance extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     protected $table = 'equipment_maintenances';

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Partner extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     protected $fillable = [

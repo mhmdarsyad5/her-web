@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DSSRule extends Model
 {
+    use \App\Traits\LogsModelActivity;
+    use HasFactory;
+
     protected $table = 'dss_rules';
 
     protected $fillable = [

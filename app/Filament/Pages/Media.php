@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Support\ActivityLogger;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Storage;
@@ -45,6 +46,21 @@ class Media extends Page
     public $isMoving = false;
 
     public $targetFolder = '';
+
+    // Pagination state
+    public $perPage = 24;
+
+    public $page = 1;
+
+    public function updatedSearch()
+    {
+        $this->page = 1;
+    }
+
+    public function updatedFilterType()
+    {
+        $this->page = 1;
+    }
 
     public function mount()
     {
@@ -263,6 +279,8 @@ class Media extends Page
 
         Storage::disk('public')->makeDirectory($targetPath);
 
+        ActivityLogger::log('create', 'Membuat folder baru: '.$targetPath, 'Media', $targetPath);
+
         Notification::make()
             ->title('Folder berhasil dibuat')
             ->success()
@@ -307,6 +325,8 @@ class Media extends Page
 
             $file->storeAs($this->currentPath, $cleanName, 'public');
             $uploadedCount++;
+
+            ActivityLogger::log('upload', 'Mengunggah file: '.$cleanName.' ke folder '.($this->currentPath ?: 'root'), 'Media', $cleanName);
         }
 
         if ($uploadedCount > 0) {
@@ -340,6 +360,8 @@ class Media extends Page
                 }
             }
         }
+
+        ActivityLogger::log('delete', 'Menghapus '.$deletedCount.' item media dari storage', 'Media', null, ['items' => $this->selectedItems]);
 
         Notification::make()
             ->title($deletedCount.' item berhasil dihapus')
@@ -410,6 +432,8 @@ class Media extends Page
             }
         }
 
+        ActivityLogger::log('move', 'Memindahkan '.$movedCount.' item media ke folder '.($this->targetFolder ?: 'root'), 'Media', null, ['items' => $this->selectedItems, 'target' => $this->targetFolder]);
+
         Notification::make()
             ->title($movedCount.' item berhasil dipindahkan')
             ->success()
@@ -418,6 +442,55 @@ class Media extends Page
         $this->selectedItems = [];
         $this->selectedItem = null;
         $this->isMoving = false;
-        $this->targetFolder = '';
+    }
+
+    // Pagination Computed Properties & Methods
+    public function getTotalPagesProperty()
+    {
+        $total = count($this->directories) + count($this->files);
+
+        return max(1, (int) ceil($total / $this->perPage));
+    }
+
+    public function getPaginatedDirectoriesProperty()
+    {
+        $dirs = $this->directories;
+        $start = ($this->page - 1) * $this->perPage;
+
+        return array_slice($dirs, max(0, $start), $this->perPage);
+    }
+
+    public function getPaginatedFilesProperty()
+    {
+        $dirCount = count($this->directories);
+        $files = $this->files;
+        $start = ($this->page - 1) * $this->perPage - $dirCount;
+
+        if ($start < 0) {
+            $length = $this->perPage - count($this->paginatedDirectories);
+
+            return array_slice($files, 0, max(0, $length));
+        }
+
+        return array_slice($files, $start, $this->perPage);
+    }
+
+    public function nextPage()
+    {
+        if ($this->page < $this->totalPages) {
+            $this->page++;
+        }
+    }
+
+    public function previousPage()
+    {
+        if ($this->page > 1) {
+            $this->page--;
+        }
+    }
+
+    public function gotoPage($page)
+    {
+        $this->page = max(1, min((int) $page, $this->totalPages));
     }
 }

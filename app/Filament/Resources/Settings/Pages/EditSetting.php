@@ -40,11 +40,15 @@ class EditSetting extends EditRecord
     {
         Cache::forget('settings.all');
         Cache::forget('settings.url.'.$this->record->key);
+
+        \App\Support\ActivityLogger::log('update', 'Mengubah setting key: '.$this->record->key, 'Setting', (string) $this->record->key);
     }
 
     protected function afterDelete(): void
     {
         Cache::forget('settings.all');
         Cache::forget('settings.url.'.$this->record->key);
+
+        \App\Support\ActivityLogger::log('delete', 'Menghapus setting key: '.$this->record->key, 'Setting', (string) $this->record->key);
     }
 }

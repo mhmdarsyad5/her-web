@@ -25,6 +25,40 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+        // Event listeners untuk Spatie Laravel Backup Logging
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Backup\Events\BackupWasSuccessful::class,
+            function ($event) {
+                \App\Support\ActivityLogger::log('create', 'Backup database & storage berhasil dibuat', 'Backup', 'Backup');
+            }
+        );
+
+        \Illuminate\Support\Facades\Event::listen(
+            \Spatie\Backup\Events\BackupHasFailed::class,
+            function ($event) {
+                \App\Support\ActivityLogger::log('delete', 'Backup database gagal: '.$event->exception->getMessage(), 'Backup', 'Backup');
+            }
+        );
+
+        // Event listeners untuk Auth Login & Logout Logging
+        \Illuminate\Support\Facades\Event::listen(
+            \Illuminate\Auth\Events\Login::class,
+            function ($event) {
+                if ($event->user) {
+                    \App\Support\ActivityLogger::log('login', 'User berhasil login ke panel admin: '.$event->user->name, 'Auth', (string) $event->user->id);
+                }
+            }
+        );
+
+        \Illuminate\Support\Facades\Event::listen(
+            \Illuminate\Auth\Events\Logout::class,
+            function ($event) {
+                if ($event->user) {
+                    \App\Support\ActivityLogger::log('logout', 'User logout dari panel admin: '.$event->user->name, 'Auth', (string) $event->user->id);
+                }
+            }
+        );
+
         Filament::serving(function () {
             Filament::registerRenderHook(
                 'panels::auth.login.form.before',

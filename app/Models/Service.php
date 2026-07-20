@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class Service extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     protected $fillable = [

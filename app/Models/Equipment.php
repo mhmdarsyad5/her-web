@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Equipment extends Model
 {
+    use \App\Traits\LogsModelActivity;
     use HasFactory;
 
     protected $table = 'equipment';
