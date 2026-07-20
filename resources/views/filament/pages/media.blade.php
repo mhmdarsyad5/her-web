@@ -144,7 +144,7 @@
         }
         .media-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 12px;
         }
         
@@ -152,8 +152,8 @@
         .media-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
+            gap: 12px;
+            padding: 12px 14px;
             border-radius: 8px;
             border: 1px solid #e4e4e7;
             background: white;
@@ -178,7 +178,7 @@
             justify-content: center;
         }
         .media-item-name {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: #27272a;
             white-space: nowrap;
@@ -193,9 +193,9 @@
         
         /* File thumb inside item */
         .media-item-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             overflow: hidden;
             border: 1px solid #e4e4e7;
             background: #f4f4f5;
@@ -475,34 +475,37 @@
                         @endif
                     @endif
 
-                    {{-- Move Selected Button --}}
-                    @if(!empty($selectedItems))
+                </div>
+            </div>
+
+            {{-- BREADCRUMBS & ACTIONS --}}
+            <div style="display: flex; justify-content: space-between; align-items: center; height: 38px !important; padding: 0 !important; margin-bottom: 8px !important; box-sizing: border-box !important;">
+                <div class="media-breadcrumbs" style="margin: 0; display: flex; align-items: center;">
+                    <span class="media-breadcrumb-item" wire:click="navigateTo('')">Media Library</span>
+                    @if($currentPath)
+                        @php $parts = explode('/', $currentPath); $tempPath = ''; @endphp
+                        @foreach($parts as $part)
+                            @php $tempPath = $tempPath ? $tempPath . '/' . $part : $part; @endphp
+                            <span class="media-breadcrumb-separator">></span>
+                            <span class="media-breadcrumb-item" wire:click="navigateTo('{{ $tempPath }}')">{{ $part }}</span>
+                        @endforeach
+                    @endif
+                </div>
+
+                @if(!empty($selectedItems))
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        {{-- Move Selected Button --}}
                         <button wire:click="startMove" class="media-btn media-btn-secondary">
                             <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
                             Pindahkan ({{ count($selectedItems) }})
                         </button>
-                    @endif
 
-                    {{-- Delete Selected Button --}}
-                    @if(!empty($selectedItems))
+                        {{-- Delete Selected Button --}}
                         <button wire:click="deleteSelected" onclick="confirm('Apakah Anda yakin ingin menghapus ' + {{ count($selectedItems) }} + ' item terpilih?') || event.stopImmediatePropagation()" class="media-btn media-btn-danger">
                             <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             Hapus ({{ count($selectedItems) }})
                         </button>
-                    @endif
-                </div>
-            </div>
-
-            {{-- BREADCRUMBS --}}
-            <div class="media-breadcrumbs">
-                <span class="media-breadcrumb-item" wire:click="navigateTo('')">Media Library</span>
-                @if($currentPath)
-                    @php $parts = explode('/', $currentPath); $tempPath = ''; @endphp
-                    @foreach($parts as $part)
-                        @php $tempPath = $tempPath ? $tempPath . '/' . $part : $part; @endphp
-                        <span class="media-breadcrumb-separator">></span>
-                        <span class="media-breadcrumb-item" wire:click="navigateTo('{{ $tempPath }}')">{{ $part }}</span>
-                    @endforeach
+                    </div>
                 @endif
             </div>
 
@@ -529,13 +532,14 @@
                                 $isSelected = in_array($dir['path'], $selectedItems);
                             @endphp
                             <div 
+                                wire:key="dir-item-{{ $dir['path'] }}-{{ $isSelected ? 'selected' : 'unselected' }}"
                                 wire:click="selectItem('{{ $dir['name'] }}', 'folder')"
                                 wire:dblclick="navigateTo('{{ $dir['path'] }}')"
                                 class="media-item {{ $isSelected ? 'media-item-selected' : '' }}"
                             >
                                 <input type="checkbox" wire:click.stop="toggleSelect('{{ $dir['path'] }}', 'folder', '{{ $dir['name'] }}')" {{ $isSelected ? 'checked' : '' }} class="media-checkbox">
                                 <div class="media-item-icon">
-                                    <svg style="width: 20px; height: 20px; color: #f59e0b;" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path></svg>
+                                    <svg style="width: 32px; height: 32px; color: #f59e0b;" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"></path></svg>
                                 </div>
                                 <span class="media-item-name" title="{{ $dir['name'] }}">
                                     {{ $dir['name'] }}
@@ -550,6 +554,7 @@
                                 $isImage = in_array($file['extension'], ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);
                             @endphp
                             <div 
+                                wire:key="file-item-{{ $file['path'] }}-{{ $isSelected ? 'selected' : 'unselected' }}"
                                 wire:click="selectItem('{{ $file['name'] }}', 'file')"
                                 class="media-item {{ $isSelected ? 'media-item-selected' : '' }}"
                             >
@@ -560,7 +565,7 @@
                                             <img src="{{ $file['url'] }}" alt="{{ $file['name'] }}">
                                         </div>
                                     @else
-                                        <svg style="width: 20px; height: 20px; color: #a1a1aa;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                        <svg style="width: 32px; height: 32px; color: #a1a1aa;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                     @endif
                                 </div>
                                 <span class="media-item-name" title="{{ $file['name'] }}">

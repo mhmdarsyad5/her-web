@@ -11,7 +11,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -161,18 +160,13 @@ class EquipmentResource extends Resource
                     Tab::make('Foto')
                         ->icon('heroicon-o-photo')
                         ->schema([
-                            FileUpload::make('images')
-                                ->label('Foto Alat')
-                                ->image()
-                                ->multiple()
-                                ->reorderable()
-                                ->maxFiles(10)
-                                ->disk('public')
-                                ->directory('equipment')
-                                ->maxSize(5120) // 5MB
-                                ->optimizeToWebp(1200, 80)
-                                ->helperText('Upload foto-foto unit alat berat. Maks: 5MB per file.')
-                                ->columnSpanFull(),
+                            \App\Support\FilamentImagePicker::make(
+                                fieldName: 'images',
+                                label: 'Foto Alat',
+                                directory: 'equipment',
+                                multiple: true,
+                                helperText: 'Pilih dari galeri atau upload baru. Maks: 5MB per file.'
+                            )->columnSpanFull(),
                         ]),
 
                     Tab::make('Status')

@@ -8,7 +8,6 @@ use App\Traits\HasShieldAccess;
 use BackedEnum;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -50,15 +49,15 @@ class PartnerResource extends Resource
                         ->required()
                         ->maxLength(150),
 
-                    FileUpload::make('logo')
-                        ->label('Logo Partner')
-                        ->image()
-                        ->disk('public')
-                        ->directory('partners')
-                        ->maxSize(5120) // 5MB
-                        ->optimizeToWebp(600, 90)
-                        ->helperText('Logo perusahaan/instansi. Maks: 5MB.')
-                        ->required(),
+                    \App\Support\FilamentImagePicker::make(
+                        fieldName: 'logo',
+                        label: 'Logo Partner',
+                        directory: 'partners',
+                        maxWidth: 600,
+                        quality: 90,
+                        helperText: 'Logo perusahaan/instansi. Maks: 5MB.',
+                        required: true
+                    ),
 
                     TextInput::make('sort_order')
                         ->label('Urutan Tampilan')

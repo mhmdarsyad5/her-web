@@ -273,23 +273,48 @@ class Media extends Page
 
     public function updatedUploadedFiles()
     {
-        $this->validate([
-            'uploadedFiles.*' => 'image|max:10240', // Max 10MB per image
-        ]);
+        $supportedExtensions = ['webp', 'jpg', 'jpeg', 'png', 'gif'];
+        $uploadedCount = 0;
 
         foreach ($this->uploadedFiles as $file) {
+            $ext = strtolower($file->getClientOriginalExtension() ?: pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION));
+
+            // Rejeksi format heic dan format lain yang tidak terdaftar
+            if (empty($ext) || ! in_array($ext, $supportedExtensions)) {
+                Notification::make()
+                    ->title('Gagal mengunggah file')
+                    ->body('Format file tidak didukung: .'.($ext ?: 'unknown').' ('.$file->getClientOriginalName().')')
+                    ->danger()
+                    ->send();
+
+                continue;
+            }
+
+            // Batasi ukuran maksimal 10MB (10240 KB)
+            if ($file->getSize() > 10485760) {
+                Notification::make()
+                    ->title('Gagal mengunggah file')
+                    ->body('Ukuran file melebihi batas 10MB: '.$file->getClientOriginalName())
+                    ->danger()
+                    ->send();
+
+                continue;
+            }
+
             $originalName = $file->getClientOriginalName();
             $name = pathinfo($originalName, PATHINFO_FILENAME);
-            $ext = pathinfo($originalName, PATHINFO_EXTENSION);
             $cleanName = Str::slug($name).'.'.$ext;
 
             $file->storeAs($this->currentPath, $cleanName, 'public');
+            $uploadedCount++;
         }
 
-        Notification::make()
-            ->title('File berhasil diunggah')
-            ->success()
-            ->send();
+        if ($uploadedCount > 0) {
+            Notification::make()
+                ->title($uploadedCount.' file berhasil diunggah')
+                ->success()
+                ->send();
+        }
 
         $this->reset('uploadedFiles');
     }

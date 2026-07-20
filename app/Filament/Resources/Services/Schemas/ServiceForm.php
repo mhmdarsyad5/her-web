@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Services\Schemas;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -47,26 +46,23 @@ class ServiceForm
                 /* =====================
                  * MEDIA
                  * ===================== */
-                FileUpload::make('icon')
-                    ->label('Icon')
-                    ->directory('services/icons')
-                    ->image()
-                    ->disk('public')
-                    ->maxSize(5120) // 5MB
-                    ->optimizeToWebp(600, 90)
-                    ->helperText('Icon layanan (PNG / SVG). Maks: 5MB.')
-                    ->columnSpan(1),
+                \App\Support\FilamentImagePicker::make(
+                    fieldName: 'icon',
+                    label: 'Icon',
+                    directory: 'services/icons',
+                    maxWidth: 600,
+                    quality: 90,
+                    helperText: 'Icon layanan (PNG / SVG). Maks: 5MB.'
+                )->columnSpan(1),
 
-                FileUpload::make('image')
-                    ->label('Thumbnail / Featured Image')
-                    ->directory('services')
-                    ->image()
-                    ->imageEditor()
-                    ->disk('public')
-                    ->maxSize(5120) // 5MB
-                    ->optimizeToWebp(1200, 80)
-                    ->helperText('Gambar utama layanan. Maks: 5MB.')
-                    ->columnSpan(1),
+                \App\Support\FilamentImagePicker::make(
+                    fieldName: 'image',
+                    label: 'Thumbnail / Featured Image',
+                    directory: 'services',
+                    maxWidth: 1200,
+                    quality: 80,
+                    helperText: 'Gambar utama layanan. Maks: 5MB.'
+                )->columnSpan(1),
 
                 /* =====================
                  * STATUS & SORT

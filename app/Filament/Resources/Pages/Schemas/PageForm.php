@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Pages\Schemas;
 
 use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -115,14 +114,13 @@ class PageForm
 
                         Section::make('Gambar Post')
                             ->schema([
-                                FileUpload::make('thumbnail')
-                                    ->label('Thumbnail')
-                                    ->directory('pages')
-                                    ->disk('public')
-                                    ->maxSize(5120) // 5MB
-                                    ->optimizeToWebp(prefix: 'blog')
-                                    ->imageEditor()
-                                    ->helperText('Thumbnail halaman. Maks: 5MB.'),
+                                \App\Support\FilamentImagePicker::make(
+                                    fieldName: 'thumbnail',
+                                    label: 'Thumbnail',
+                                    directory: 'pages',
+                                    prefix: 'blog',
+                                    helperText: 'Thumbnail halaman. Maks: 5MB.'
+                                ),
                             ]),
 
                         Section::make('SEO Content')

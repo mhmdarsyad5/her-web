@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -96,17 +95,14 @@ class ProductForm
                     ->helperText('Opsional. Isi jika produk sedang promo.')
                     ->columnSpan(1),
 
-                FileUpload::make('images')
-                    ->label('Gambar Produk')
-                    ->multiple()
-                    ->reorderable()
-                    ->maxSize(5120) // 5MB
-                    ->optimizeToWebp(prefix: 'product')
-                    ->imageEditor()
-                    ->disk('public')
-                    ->directory('products')
-                    ->helperText('Upload satu atau beberapa gambar produk. Maks: 5MB per file.')
-                    ->columnSpanFull(),
+                \App\Support\FilamentImagePicker::make(
+                    fieldName: 'images',
+                    label: 'Gambar Produk',
+                    directory: 'products',
+                    prefix: 'product',
+                    multiple: true,
+                    helperText: 'Pilih dari galeri atau upload baru. Maks: 5MB per file.'
+                )->columnSpanFull(),
 
                 Repeater::make('specifications')
                     ->label('Spesifikasi Lengkap')

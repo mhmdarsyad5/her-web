@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Galleries\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -36,26 +35,22 @@ class GalleryForm
                 ->columnSpanFull(),
 
             // ================= MEDIA =================
-            FileUpload::make('thumbnail')
-                ->label('Thumbnail')
-                ->optimizeToWebp(prefix: 'gallery-cover')
-                ->disk('public')
-                ->directory('galleries/thumbnails')
-                ->helperText('Thumbnail / cover gallery. Maks: 5MB.')
-                ->imageEditor()
-                ->maxSize(5120),
+            \App\Support\FilamentImagePicker::make(
+                fieldName: 'thumbnail',
+                label: 'Thumbnail',
+                directory: 'galleries/thumbnails',
+                prefix: 'gallery-cover',
+                helperText: 'Thumbnail / cover gallery. Maks: 5MB.'
+            ),
 
-            FileUpload::make('images')
-                ->label('Foto Gallery')
-                ->optimizeToWebp(prefix: 'gallery')
-                ->disk('public')
-                ->directory('galleries/images')
-                ->multiple()
-                ->reorderable()
-                ->appendFiles()
-                ->helperText('Unggah beberapa gambar gallery. Maks: 5MB per file.')
-                ->maxSize(5120)
-                ->columnSpanFull(),
+            \App\Support\FilamentImagePicker::make(
+                fieldName: 'images',
+                label: 'Foto Gallery',
+                directory: 'galleries/images',
+                prefix: 'gallery',
+                multiple: true,
+                helperText: 'Unggah beberapa gambar gallery. Maks: 5MB per file.'
+            )->columnSpanFull(),
 
             // ================= SETTINGS =================
             Toggle::make('is_published')

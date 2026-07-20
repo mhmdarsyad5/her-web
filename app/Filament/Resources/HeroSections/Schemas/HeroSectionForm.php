@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\HeroSections\Schemas;
 
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -21,19 +20,17 @@ class HeroSectionForm
                     ->label('Hero Description')
                     ->columnSpanFull(),
 
-                FileUpload::make('image')
-                    ->label('Hero Images')
-                    ->image()
-                    ->multiple()
-                    ->reorderable()
-                    ->disk('public')
-                    ->directory('hero')
-                    ->maxSize(5120) // 5MB
-                    ->optimizeToWebp(1920, 85, 'hero', isPurePrefix: true) // 1920px lebar untuk gambar banner full-width
-                    ->helperText('Gambar latar belakang hero banner. Ukuran ideal: 1920x900px. Maks: 5MB per file.')
-                    ->enableOpen()
-                    ->enableDownload()
-                    ->columnSpanFull(),
+                \App\Support\FilamentImagePicker::make(
+                    fieldName: 'image',
+                    label: 'Hero Images',
+                    directory: 'hero',
+                    maxWidth: 1920,
+                    quality: 85,
+                    prefix: 'hero',
+                    isPurePrefix: true,
+                    multiple: true,
+                    helperText: 'Gambar latar belakang hero banner. Ukuran ideal: 1920x900px. Maks: 5MB per file.'
+                )->columnSpanFull(),
 
                 TextInput::make('button_text')
                     ->label('Button Kontak Kami Text')
