@@ -23,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
                 'panels::head.start',
                 fn () => view('filament.favicon')
             );
+            Filament::registerRenderHook(
+                'panels::head.end',
+                fn () => view('filament.components.admin-custom-css')
+            );
         });
 
         // Event listeners untuk Spatie Laravel Backup Logging

@@ -88,6 +88,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2.5rem')
             ->defaultThemeMode(ThemeMode::Light)
             ->sidebarCollapsibleOnDesktop()
+            ->maxContentWidth(\Filament\Support\Enums\Width::Full)
             ->databaseNotifications()
 
             ->colors([
