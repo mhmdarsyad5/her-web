@@ -51,6 +51,11 @@ class AppServiceProvider extends ServiceProvider
         \Filament\Forms\Components\FileUpload::macro('optimizeToWebp', function (int $maxWidth = 1200, int $quality = 80, string $prefix = '', bool $isPurePrefix = false) {
             return $this
                 ->image()
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                ->validationMessages([
+                    'mimetypes' => 'Format file tidak didukung.',
+                    'mimes' => 'Format file tidak didukung.',
+                ])
                 ->saveUploadedFileUsing(function ($file, $state, $component) use ($maxWidth, $quality, $prefix, $isPurePrefix) {
                     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
                     $filePath = $file->getRealPath();

@@ -53,6 +53,10 @@ class FilamentImagePicker
                     ->directory($directory)
                     ->disk('public')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                    ->validationMessages([
+                        'mimetypes' => 'Format file tidak didukung.',
+                        'mimes' => 'Format file tidak didukung.',
+                    ])
                     ->maxSize(5120) // 5MB
                     ->optimizeToWebp($maxWidth, $quality, $prefix, $isPurePrefix)
                     ->multiple($multiple)

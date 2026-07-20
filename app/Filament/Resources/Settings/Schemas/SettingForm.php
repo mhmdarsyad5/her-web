@@ -103,6 +103,11 @@ class SettingForm
                 ->visible(fn ($get) => in_array($get('type'), ['image', 'video']))
                 ->disk('public')
                 ->directory('settings')
+                ->acceptedFileTypes(fn ($get) => $get('type') === 'video' ? ['video/*'] : ['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                ->validationMessages([
+                    'mimetypes' => 'Format file tidak didukung.',
+                    'mimes' => 'Format file tidak didukung.',
+                ])
                 ->maxSize(5120) // 5MB
                 ->saveUploadedFileUsing(function ($file, $state, $component, \Filament\Forms\Get $get) {
                     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
