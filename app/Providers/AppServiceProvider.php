@@ -98,12 +98,29 @@ class AppServiceProvider extends ServiceProvider
                             } else {
                                 $filename = $prefix.'.webp';
                             }
+                            $targetPath = $directory.'/'.$filename;
+                            \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
                         } else {
-                            $filename = $prefixString.$slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.webp';
-                        }
+                            $baseName = $prefixString.$slugifiedName;
+                            $filename = $baseName.'.webp';
+                            $targetPath = $directory.'/'.$filename;
 
-                        $targetPath = $directory.'/'.$filename;
-                        \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
+                            $uploadedHash = md5_file($filePath);
+                            $index = 1;
+
+                            while (\Illuminate\Support\Facades\Storage::disk($disk)->exists($targetPath)) {
+                                $existingContent = \Illuminate\Support\Facades\Storage::disk($disk)->get($targetPath);
+                                if ($uploadedHash === md5($existingContent)) {
+                                    // File identik sudah ada, langsung gunakan file tersebut
+                                    return $targetPath;
+                                }
+                                $filename = $baseName.'-'.$index.'.webp';
+                                $targetPath = $directory.'/'.$filename;
+                                $index++;
+                            }
+
+                            \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
+                        }
 
                         return $targetPath;
                     } catch (\Throwable $e) {
@@ -128,13 +145,30 @@ class AppServiceProvider extends ServiceProvider
                             } else {
                                 $filename = $prefix.'.'.$extension;
                             }
+                            $targetPath = $directory.'/'.$filename;
+
+                            return $file->storeAs($directory, $filename, $disk);
                         } else {
-                            $filename = $prefixString.$slugifiedName.'-'.time().'-'.\Illuminate\Support\Str::random(5).'.'.$extension;
+                            $baseName = $prefixString.$slugifiedName;
+                            $filename = $baseName.'.'.$extension;
+                            $targetPath = $directory.'/'.$filename;
+
+                            $uploadedHash = md5_file($filePath);
+                            $index = 1;
+
+                            while (\Illuminate\Support\Facades\Storage::disk($disk)->exists($targetPath)) {
+                                $existingContent = \Illuminate\Support\Facades\Storage::disk($disk)->get($targetPath);
+                                if ($uploadedHash === md5($existingContent)) {
+                                    // File identik sudah ada, langsung gunakan file tersebut
+                                    return $targetPath;
+                                }
+                                $filename = $baseName.'-'.$index.'.'.$extension;
+                                $targetPath = $directory.'/'.$filename;
+                                $index++;
+                            }
+
+                            return $file->storeAs($directory, $filename, $disk);
                         }
-
-                        $targetPath = $directory.'/'.$filename;
-
-                        return $file->storeAs($directory, $filename, $disk);
                     }
                 });
         });
