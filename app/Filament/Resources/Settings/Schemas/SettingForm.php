@@ -109,7 +109,7 @@ class SettingForm
                     'mimes' => 'Format file tidak didukung.',
                 ])
                 ->maxSize(5120) // 5MB
-                ->saveUploadedFileUsing(function ($file, $state, $component, \Filament\Forms\Get $get) {
+                ->saveUploadedFileUsing(function ($file, $state, $component, $get) {
                     /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
                     $mime = $file->getMimeType();
                     $filePath = $file->getRealPath();
