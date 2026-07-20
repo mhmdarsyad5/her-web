@@ -103,7 +103,7 @@ class SettingForm
                 ->visible(fn ($get) => in_array($get('type'), ['image', 'video']))
                 ->disk('public')
                 ->directory('settings')
-                ->acceptedFileTypes(fn ($get) => $get('type') === 'video' ? ['video/*'] : ['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+                ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'video/mp4', 'video/mpeg', 'video/ogg', 'video/webm', 'video/quicktime'])
                 ->validationMessages([
                     'mimetypes' => 'Format file tidak didukung.',
                     'mimes' => 'Format file tidak didukung.',
