@@ -71,7 +71,7 @@ class SettingForm
             \Filament\Forms\Components\ColorPicker::make('value.color')
                 ->label('Color')
                 ->visible(fn ($get) => $get('type') === 'color')
-                ->required(),
+                ->required(fn ($get) => $get('type') === 'color'),
 
             /**
              * ========= TEXT (INDONESIAN ONLY) =========
@@ -86,13 +86,13 @@ class SettingForm
             TextInput::make('value.id')
                 ->label('URL / Value')
                 ->visible(fn ($get) => $get('type') === 'text' && \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
-                ->required()
+                ->required(fn ($get) => $get('type') === 'text' && \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
                 ->columnSpanFull(),
 
             TinyEditor::make('value.id')
                 ->label('Content / Value')
                 ->visible(fn ($get) => $get('type') === 'text' && ! in_array($get('key'), ['service_show_image', 'service_show_desc']) && ! \Illuminate\Support\Str::contains($get('key'), 'script') && ! \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
-                ->required()
+                ->required(fn ($get) => $get('type') === 'text' && ! in_array($get('key'), ['service_show_image', 'service_show_desc']) && ! \Illuminate\Support\Str::contains($get('key'), 'script') && ! \Illuminate\Support\Str::startsWith($get('key'), 'social_'))
                 ->columnSpanFull(),
 
             /**
