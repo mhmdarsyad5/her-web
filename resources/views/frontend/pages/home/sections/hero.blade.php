@@ -95,7 +95,7 @@
                                 <div class="grid h-full w-full gap-[3px]" style="grid-template-columns: repeat({{ $chunk->count() }}, minmax(0, 1fr));">
                                     @foreach ($chunk as $img)
                                         <div class="h-full w-full overflow-hidden">
-                                            <img src="{{ asset('storage/' . $img) }}" alt="Background Slide Item" loading="eager"
+                                            <img src="{{ asset('storage/' . $img) }}" alt="{{ strip_tags($title) }} - HANGCHA Authorized Rental Indonesia" loading="eager"
                                                 decoding="async"
                                                 class="h-full w-full object-cover object-center brightness-[0.80] contrast-[1.02]" />
                                         </div>

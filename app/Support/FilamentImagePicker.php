@@ -62,6 +62,14 @@ class FilamentImagePicker
                     ->multiple($multiple)
                     ->reorderable()
                     ->imageEditor()
+                    ->imageEditorAspectRatios([
+                        '2.13:1' => 'Hero Banner (1920:900)',
+                        '16:9' => 'Widescreen (16:9)',
+                        '4:3' => 'Standar Foto (4:3)',
+                        '1:1' => 'Persegi / Square (1:1)',
+                        null => 'Bebas / Free',
+                    ])
+                    ->imageEditorEmptyFillColor('rgba(0, 0, 0, 0)')
                     ->helperText($helperText)
                     ->dehydrated(false)
                     ->afterStateHydrated(function ($component, $get, $set) use ($fieldName) {
