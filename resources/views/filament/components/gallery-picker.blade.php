@@ -52,6 +52,7 @@
     files: [],
     folders: [],
     selectedFiles: [],
+    tempSelectedFiles: [],
     multiple: false,
 
     get filteredFiles() {
@@ -74,29 +75,94 @@
         return this.filteredFiles.slice(start, start + this.perPage);
     },
 
+    openModal() {
+        this.isOpen = true;
+        let currentVal = null;
+        try {
+            currentVal = this.$wire.get('{{ $statePath }}');
+        } catch (e) {}
+
+        if (!currentVal || (Array.isArray(currentVal) && currentVal.length === 0)) {
+            try {
+                currentVal = this.$wire.get('data.{{ $fieldName }}');
+            } catch (e) {}
+        }
+
+        if (currentVal) {
+            if (typeof currentVal === 'object' && currentVal !== null && !Array.isArray(currentVal)) {
+                currentVal = Object.values(currentVal);
+            }
+            let parsed = Array.isArray(currentVal) ? currentVal : [currentVal];
+            parsed = parsed.map(p => {
+                if (typeof p === 'object' && p !== null) {
+                    return p.path || p.name || p.url || '';
+                }
+                return String(p || '').trim();
+            }).filter(p => p.length > 0);
+
+            if (parsed.length > 0) {
+                this.selectedFiles = parsed;
+            }
+        }
+
+        this.tempSelectedFiles = [...this.selectedFiles];
+    },
+
+    cancelModal() {
+        this.tempSelectedFiles = [];
+        this.isOpen = false;
+    },
+
+    isSelected(path) {
+        if (!path) return false;
+        let cleanPath = String(path).trim().replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+        return this.tempSelectedFiles.some(sp => {
+            if (!sp) return false;
+            if (typeof sp === 'object') {
+                sp = sp.path || sp.name || sp.url || '';
+            }
+            let cleanSp = String(sp).trim().replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+            return cleanSp === cleanPath || cleanSp.endsWith('/' + cleanPath) || cleanPath.endsWith('/' + cleanSp);
+        });
+    },
+
     toggleFile(path) {
+        let cleanPath = String(path).trim().replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+        let existingIndex = this.tempSelectedFiles.findIndex(sp => {
+            if (!sp) return false;
+            if (typeof sp === 'object') {
+                sp = sp.path || sp.name || sp.url || '';
+            }
+            let cleanSp = String(sp).trim().replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+            return cleanSp === cleanPath || cleanSp.endsWith('/' + cleanPath) || cleanPath.endsWith('/' + cleanSp);
+        });
+
         if (this.multiple) {
-            if (this.selectedFiles.includes(path)) {
-                this.selectedFiles = this.selectedFiles.filter(p => p !== path);
+            if (existingIndex !== -1) {
+                this.tempSelectedFiles.splice(existingIndex, 1);
             } else {
-                this.selectedFiles.push(path);
+                this.tempSelectedFiles.push(path);
             }
         } else {
-            // Mode Tunggal: Toggle seleksi
-            if (this.selectedFiles.includes(path)) {
-                this.selectedFiles = [];
+            if (existingIndex !== -1) {
+                this.tempSelectedFiles = [];
             } else {
-                this.selectedFiles = [path];
+                this.tempSelectedFiles = [path];
             }
         }
     },
 
-    removeSelected(path) {
-        this.selectedFiles = this.selectedFiles.filter(p => p !== path);
+    removeSelected(indexOrPath) {
+        if (typeof indexOrPath === 'number') {
+            this.selectedFiles.splice(indexOrPath, 1);
+        } else {
+            this.selectedFiles = this.selectedFiles.filter(p => p !== indexOrPath);
+        }
         this.updateWireState();
     },
 
     confirmSelection() {
+        this.selectedFiles = [...this.tempSelectedFiles];
         this.updateWireState();
         this.isOpen = false;
     },
@@ -108,6 +174,41 @@
         }
         this.$wire.set('{{ $statePath }}', value);
         this.$wire.set('{{ $uploadStatePath }}', value);
+    },
+
+    getFileUrl(path) {
+        if (!path) return '';
+        if (typeof path === 'object' && path !== null) {
+            path = path.path || path.name || path.url || '';
+        }
+        path = String(path).trim();
+        if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
+            return path;
+        }
+        let cleanPath = path.replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+        let found = this.files.find(f => f.path === cleanPath || f.path === 'public/' + cleanPath || f.name === cleanPath || f.path.endsWith(cleanPath));
+        if (found && found.url) {
+            return found.url;
+        }
+        return '/storage/' + cleanPath;
+    },
+
+    getFileName(path) {
+        if (!path) return '';
+        if (typeof path === 'object' && path !== null) {
+            path = path.path || path.name || path.url || '';
+        }
+        return String(path).trim().split('/').pop();
+    },
+
+    getFileSize(path) {
+        if (!path) return '';
+        if (typeof path === 'object' && path !== null) {
+            path = path.path || path.name || path.url || '';
+        }
+        let cleanPath = String(path).trim().replace(/^\/+/, '').replace(/^storage\//, '').replace(/^public\//, '');
+        let found = this.files.find(f => f.path === cleanPath || f.path === 'public/' + cleanPath || f.name === cleanPath || f.path.endsWith(cleanPath));
+        return (found && found.size) ? found.size : '';
     }
 }" x-init='
     files = {{ json_encode($files) }};
@@ -223,10 +324,10 @@
             left: 0.75rem !important;
             top: 50% !important;
             transform: translateY(-50%) !important;
+            width: 0.875rem !important;
+            height: 0.875rem !important;
             color: #a1a1aa !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            pointer-events: none !important;
         }
 
         /* Close */
@@ -287,11 +388,11 @@
             padding-left: 0.5rem !important;
         }
 
-        .gm-folder-item {
+        .gm-folder-btn, .gm-folder-item {
             width: 100% !important;
             display: flex !important;
             align-items: center !important;
-            gap: 0.75rem !important;
+            gap: 0.6rem !important;
             padding: 0.55rem 0.75rem !important;
             font-size: 0.75rem !important;
             font-weight: 500 !important;
@@ -304,27 +405,34 @@
             transition: all 0.2s !important;
         }
 
-        .dark .gm-folder-item {
+        .dark .gm-folder-btn, .dark .gm-folder-item {
             color: #a1a1aa !important;
         }
 
-        .gm-folder-item:hover {
+        .gm-folder-btn:hover, .gm-folder-item:hover {
             background-color: #f4f4f5 !important;
             color: #18181b !important;
         }
 
-        .dark .gm-folder-item:hover {
+        .dark .gm-folder-btn:hover, .dark .gm-folder-item:hover {
             background-color: #18181b !important;
             color: #ffffff !important;
         }
 
-        .gm-folder-item.active {
+        .gm-folder-btn.active, .gm-folder-item.active {
             background-color: #F5A21C !important;
             color: #ffffff !important;
             font-weight: 600 !important;
         }
 
-        .gm-folder-item.active svg {
+        .gm-folder-icon {
+            width: 1rem !important;
+            height: 1rem !important;
+            flex-shrink: 0 !important;
+            color: #71717a !important;
+        }
+
+        .gm-folder-btn.active .gm-folder-icon, .gm-folder-item.active .gm-folder-icon {
             color: #ffffff !important;
         }
 
@@ -599,16 +707,16 @@
 
     <!-- PREVIEW AREA: Tampilan persis seperti Gambar 2 (FilePond/Filament Native FileUpload) -->
     <div x-show="selectedFiles.length > 0" class="gm-native-preview-container">
-        <template x-for="path in selectedFiles" :key="path">
+        <template x-for="(path, index) in selectedFiles" :key="path + '-' + index">
             <div class="gm-native-preview-card">
                 <!-- Overlay gelap atas -->
                 <div class="gm-native-preview-overlay"></div>
 
                 <!-- Gambar -->
-                <img :src="files.find(f => f.path === path)?.url || '/storage/' + path" />
+                <img :src="getFileUrl(path)" />
 
                 <!-- Tombol Hapus Bulat Kiri Atas -->
-                <button type="button" @click="removeSelected(path)" class="gm-native-remove-btn">
+                <button type="button" @click="removeSelected(index)" class="gm-native-remove-btn">
                     <svg style="width: 12px; height: 12px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="3">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -617,9 +725,10 @@
 
                 <!-- Nama File & Ukuran -->
                 <div class="gm-native-info-wrapper">
-                    <span class="gm-native-filename" x-text="path.split('/').pop()"></span>
-                    <span class="gm-native-filesize"
-                        x-text="files.find(f => f.path === path)?.size || 'Unknown Size'"></span>
+                    <span class="gm-native-filename" x-text="getFileName(path)"></span>
+                    <template x-if="getFileSize(path)">
+                        <span class="gm-native-filesize" x-text="getFileSize(path)"></span>
+                    </template>
                 </div>
             </div>
         </template>
@@ -627,11 +736,7 @@
 
     <!-- Tombol Trigger -->
     <div class="flex items-center gap-2">
-        <button type="button" @click="
-                isOpen = true;
-                const val = $wire.get('{{ $statePath }}');
-                selectedFiles = val ? (Array.isArray(val) ? val : [val]) : [];
-            "
+        <button type="button" @click="openModal()"
             class="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-zinc-700 bg-white border border-zinc-300 rounded-lg hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition"
             style="border: 1px solid #d4d4d8; padding: 0.5rem 0.75rem; border-radius: 0.5rem; background: #fff; cursor: pointer;">
             <svg style="width: 16px; height: 16px; color: #71717a;" fill="none" viewBox="0 0 24 24"
@@ -650,7 +755,7 @@
         x-transition:leave-end="opacity-0">
 
         <!-- Modal Box -->
-        <div @click.away="isOpen = false" class="gm-modal-box" x-transition:enter="ease-out duration-300"
+        <div @click.away="cancelModal()" class="gm-modal-box" x-transition:enter="ease-out duration-300"
             x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
             x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95">
@@ -664,18 +769,15 @@
 
                 <!-- Search Input -->
                 <div class="gm-search-wrapper">
+                    <svg style="width: 14px; height: 14px;" class="gm-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
                     <input type="text" x-model="search" placeholder="Cari nama file..." class="gm-search-input">
-                    <span class="gm-search-icon">
-                        <svg style="width: 14px; height: 14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </span>
                 </div>
 
                 <!-- Tombol Close -->
-                <button type="button" @click="isOpen = false" class="gm-close-btn">
+                <button type="button" @click="cancelModal()" class="gm-close-btn">
                     <svg style="width: 18px; height: 18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                         stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -687,11 +789,11 @@
             <div class="gm-body">
                 <!-- Sidebar Folder (Left) -->
                 <div class="gm-sidebar">
-                    <span class="gm-sidebar-title">Daftar Folder</span>
+                    <p class="gm-sidebar-title">Daftar Folder</p>
                     <template x-for="folder in folders" :key="folder">
-                        <button type="button" @click="currentFolder = folder" class="gm-folder-item"
+                        <button type="button" @click="currentFolder = folder; page = 1" class="gm-folder-btn"
                             :class="currentFolder === folder ? 'active' : ''">
-                            <svg style="width: 16px; height: 16px; shrink: 0; color: #a1a1aa;" fill="none"
+                            <svg style="width: 16px; height: 16px; flex-shrink: 0;" class="gm-folder-icon" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
@@ -718,8 +820,8 @@
                     <div x-show="filteredFiles.length > 0" class="gm-grid">
                         <template x-for="file in paginatedFiles" :key="file.path">
                             <div @click="toggleFile(file.path)"
-                                @dblclick="selectedFiles = [file.path]; confirmSelection()" class="gm-item"
-                                :class="selectedFiles.includes(file.path) ? 'active' : ''">
+                                @dblclick="tempSelectedFiles = [file.path]; confirmSelection()" class="gm-item"
+                                :class="isSelected(file.path) ? 'active' : ''">
 
                                 <!-- Image Wrapper -->
                                 <div class="gm-item-image-wrapper">
@@ -732,7 +834,7 @@
                                 </div>
 
                                 <!-- Checkmark -->
-                                <div x-show="selectedFiles.includes(file.path)" class="gm-checkmark">
+                                <div x-show="isSelected(file.path)" class="gm-checkmark">
                                     <svg style="width: 10px; height: 10px;" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor" stroke-width="3.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -752,11 +854,11 @@
                     <button type="button" @click="page = Math.min(totalPages, page + 1)" :disabled="page >= totalPages" class="gm-btn gm-btn-secondary" style="padding: 0.25rem 0.5rem !important;">Next &rarr;</button>
                 </div>
                 <div style="display: flex; align-items: center; gap: 0.75rem; margin-left: auto;">
-                    <button type="button" @click="isOpen = false" class="gm-btn gm-btn-secondary">
+                    <button type="button" @click="cancelModal()" class="gm-btn gm-btn-secondary">
                         Batal
                     </button>
                     <button type="button" @click="confirmSelection" class="gm-btn gm-btn-primary">
-                        Konfirmasi Pilihan (<span x-text="selectedFiles.length"></span>)
+                        Konfirmasi Pilihan (<span x-text="tempSelectedFiles.length"></span>)
                     </button>
                 </div>
             </div>

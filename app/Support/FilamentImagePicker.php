@@ -21,22 +21,10 @@ class FilamentImagePicker
         bool $required = false
     ): Grid {
         $sourceFieldName = $fieldName.'_source';
-        $uploadFieldName = $fieldName.'_upload';
         $selectFieldName = $fieldName.'_select';
 
         return Grid::make(1)
             ->schema([
-                // Hidden field untuk menyimpan nilai asli ke database
-                \Filament\Forms\Components\Hidden::make($fieldName)
-                    ->reactive()
-                    ->required($required)
-                    ->afterStateHydrated(function ($component, $state, $set) use ($sourceFieldName, $uploadFieldName) {
-                        if ($state) {
-                            $set($uploadFieldName, $state);
-                            $set($sourceFieldName, 'upload');
-                        }
-                    }),
-
                 Radio::make($sourceFieldName)
                     ->label($label.' - Sumber')
                     ->options([
@@ -44,11 +32,16 @@ class FilamentImagePicker
                         'server' => 'Pilih dari Galeri (Gambar yang Sudah Ada)',
                     ])
                     ->default('upload')
+                    ->afterStateHydrated(function ($component, $state, $set) {
+                        if (blank($state)) {
+                            $set($component->getName(), 'upload');
+                        }
+                    })
                     ->reactive()
                     ->helperText($helperText)
                     ->dehydrated(false),
 
-                FileUpload::make($uploadFieldName)
+                FileUpload::make($fieldName)
                     ->label($label)
                     ->directory($directory)
                     ->disk('public')
@@ -63,19 +56,16 @@ class FilamentImagePicker
                     ->reorderable()
                     ->imageEditor()
                     ->helperText($helperText)
-                    ->dehydrated(false)
-                    ->visible(fn ($get) => $get($sourceFieldName) === 'upload')
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, $set) use ($fieldName) {
-                        $set($fieldName, $state);
-                    }),
+                    ->required($required)
+                    ->visible(fn ($get) => ($get($sourceFieldName) ?? 'upload') === 'upload'),
 
                 \Filament\Forms\Components\Placeholder::make($selectFieldName)
                     ->hiddenLabel()
                     ->content(fn ($component) => view('filament.components.gallery-picker', [
                         'statePath' => $component->getContainer()->getStatePath().'.'.$fieldName,
-                        'uploadStatePath' => $component->getContainer()->getStatePath().'.'.$uploadFieldName,
+                        'uploadStatePath' => $component->getContainer()->getStatePath().'.'.$fieldName,
                         'stateValue' => $component->evaluate(fn ($get) => $get($fieldName)),
+                        'fieldName' => $fieldName,
                         'directory' => $directory,
                         'multiple' => $multiple,
                     ]))

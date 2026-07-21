@@ -125,10 +125,10 @@ class AppServiceProvider extends ServiceProvider
                         $webpData = $image->toWebp($quality)->toString();
 
                         if ($isPurePrefix) {
+                            $basePrefix = $prefix ? \Illuminate\Support\Str::slug($prefix) : 'file';
                             if ($component->isMultiple()) {
-                                // Cari nomor indeks urutan berikutnya
                                 $existingFiles = \Illuminate\Support\Facades\Storage::disk($disk)->files($directory);
-                                $pattern = '/^'.preg_quote($prefix, '/').'-(\d+)\.webp$/i';
+                                $pattern = '/^'.preg_quote($basePrefix, '/').'-(\d+)\.webp$/i';
                                 $maxIndex = 0;
                                 foreach ($existingFiles as $existingFile) {
                                     $basename = basename($existingFile);
@@ -137,26 +137,27 @@ class AppServiceProvider extends ServiceProvider
                                     }
                                 }
                                 $nextIndex = $maxIndex + 1;
-                                $filename = $prefix.'-'.$nextIndex.'.webp';
+                                $filename = $basePrefix.'-'.$nextIndex.'.webp';
+                                $targetPath = $directory.'/'.$filename;
+
+                                while (\Illuminate\Support\Facades\Storage::disk($disk)->exists($targetPath)) {
+                                    $nextIndex++;
+                                    $filename = $basePrefix.'-'.$nextIndex.'.webp';
+                                    $targetPath = $directory.'/'.$filename;
+                                }
                             } else {
-                                $filename = $prefix.'.webp';
+                                $filename = $basePrefix.'.webp';
+                                $targetPath = $directory.'/'.$filename;
                             }
-                            $targetPath = $directory.'/'.$filename;
                             \Illuminate\Support\Facades\Storage::disk($disk)->put($targetPath, $webpData);
                         } else {
                             $baseName = $prefixString.$slugifiedName;
                             $filename = $baseName.'.webp';
                             $targetPath = $directory.'/'.$filename;
 
-                            $uploadedHash = md5_file($filePath);
                             $index = 1;
 
                             while (\Illuminate\Support\Facades\Storage::disk($disk)->exists($targetPath)) {
-                                $existingContent = \Illuminate\Support\Facades\Storage::disk($disk)->get($targetPath);
-                                if ($uploadedHash === md5($existingContent)) {
-                                    // File identik sudah ada, langsung gunakan file tersebut
-                                    return $targetPath;
-                                }
                                 $filename = $baseName.'-'.$index.'.webp';
                                 $targetPath = $directory.'/'.$filename;
                                 $index++;

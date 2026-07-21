@@ -9,22 +9,44 @@
     $secBtnText = $firstHero?->secondary_button_text ?? 'Layanan Kami';
     $secBtnUrl = $firstHero?->secondary_button_url ?? '#dssSection';
 
-    // Retrieve multiple images array
-    $images = $firstHero?->image ?? [];
-    if (is_string($images)) {
-        $images = json_decode($images, true) ?: (empty($images) ? [] : [$images]);
+    // Retrieve multiple images array with robust parsing
+    $rawImages = $firstHero?->image ?? [];
+    if (is_string($rawImages)) {
+        $rawImages = json_decode($rawImages, true) ?: (empty($rawImages) ? [] : [$rawImages]);
+    }
+    if (!is_array($rawImages)) {
+        $rawImages = [$rawImages];
     }
 
-    // Fallback: If no images on first record, collect images from all hero records
+    $images = [];
+    foreach ($rawImages as $img) {
+        if (empty($img)) continue;
+        if (is_array($img)) {
+            $img = $img['path'] ?? $img[0] ?? reset($img);
+        }
+        if (is_string($img) && filled($img)) {
+            $images[] = ltrim(str_replace(['public/', 'storage/'], '', $img), '/');
+        }
+    }
+
+    // Fallback: If no valid images on first record, collect images from all hero records
     if (empty($images)) {
-        $images = $heroes->map(function ($h) {
-            $img = $h->image;
-            if (is_array($img)) {
-                return $img[0] ?? null;
+        foreach ($heroes as $h) {
+            $rawHImg = $h->image;
+            if (is_string($rawHImg)) {
+                $rawHImg = json_decode($rawHImg, true) ?: [$rawHImg];
             }
-            $dec = json_decode($img ?? '', true);
-            return is_array($dec) ? ($dec[0] ?? null) : $img;
-        })->filter()->values()->toArray();
+            if (is_array($rawHImg)) {
+                foreach ($rawHImg as $img) {
+                    if (is_array($img)) {
+                        $img = $img['path'] ?? $img[0] ?? reset($img);
+                    }
+                    if (is_string($img) && filled($img)) {
+                        $images[] = ltrim(str_replace(['public/', 'storage/'], '', $img), '/');
+                    }
+                }
+            }
+        }
     }
 
     // Chunk the images into groups of 3 for the dynamic background grid slides
@@ -126,22 +148,34 @@
 
             {{-- KEY POINT LISTS (Horizontal on desktop, clean vertical list on mobile) --}}
             @php
-                $points = $firstHero?->key_points ?? [
+                $rawPoints = $firstHero?->key_points ?? [
                     'Layanan Rental Forklift Terpercaya & Profesional',
                     'Jaminan Unit Prima & Dukungan Teknisi Siaga',
-                    'Pilihan Kapasitas Lengkap (1.5 - 16 Ton)'
+                    'Pilihan Kapasitas Lengkap (1.5 - 16 Ton)',
                 ];
+                if (is_string($rawPoints)) {
+                    $rawPoints = json_decode($rawPoints, true) ?: [$rawPoints];
+                }
+                $points = [];
+                if (is_array($rawPoints)) {
+                    foreach ($rawPoints as $pt) {
+                        if (is_array($pt)) {
+                            $pt = $pt['point'] ?? reset($pt);
+                        }
+                        if (is_string($pt) && filled($pt)) {
+                            $points[] = $pt;
+                        }
+                    }
+                }
             @endphp
             @if(!empty($points))
                 <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-y-1.5 sm:gap-y-2 gap-x-6 pt-0.5 w-full max-w-4xl lg:max-w-5xl 2xl:max-w-6xl">
                     @foreach($points as $point)
-                        @if(filled($point))
-                            <div class="hero-point flex items-center gap-2 text-[10px] sm:text-xs md:text-sm font-bold text-zinc-100 whitespace-nowrap"
-                                style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
-                                <x-heroicon-s-check-circle class="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" style="color: {{ $primaryColor }};" />
-                                {{ $point }}
-                            </div>
-                        @endif
+                        <div class="hero-point flex items-center gap-2 text-[10px] sm:text-xs md:text-sm font-bold text-zinc-100 whitespace-nowrap"
+                            style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);">
+                            <x-heroicon-s-check-circle class="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" style="color: {{ $primaryColor }};" />
+                            {{ $point }}
+                        </div>
                     @endforeach
                 </div>
             @endif
