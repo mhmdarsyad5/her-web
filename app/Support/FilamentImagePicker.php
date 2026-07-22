@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Radio;
 use Filament\Schemas\Components\Grid;
 
@@ -22,15 +21,10 @@ class FilamentImagePicker
         bool $required = false
     ): Grid {
         $sourceFieldName = $fieldName.'_source';
-        $uploadFieldName = $fieldName.'_upload';
         $selectFieldName = $fieldName.'_select';
 
         return Grid::make(1)
             ->schema([
-                Hidden::make($fieldName)
-                    ->reactive()
-                    ->required($required),
-
                 Radio::make($sourceFieldName)
                     ->label($label.' - Sumber')
                     ->options([
@@ -47,7 +41,9 @@ class FilamentImagePicker
                     ->helperText($helperText)
                     ->dehydrated(false),
 
-                FileUpload::make($uploadFieldName)
+                // FileUpload langsung menggunakan nama field database ($fieldName)
+                // agar Filament menangani penyimpanan & optimasi WebP secara native
+                FileUpload::make($fieldName)
                     ->label($label)
                     ->directory($directory)
                     ->disk('public')
@@ -62,24 +58,16 @@ class FilamentImagePicker
                     ->reorderable()
                     ->imageEditor()
                     ->helperText($helperText)
-                    ->dehydrated(false)
-                    ->reactive()
-                    ->afterStateHydrated(function ($component, $get, $set) use ($fieldName) {
-                        $val = $get($fieldName);
-                        if ($val) {
-                            $set($component->getName(), $val);
-                        }
-                    })
-                    ->afterStateUpdated(function ($state, $set) use ($fieldName) {
-                        $set($fieldName, $state);
-                    })
-                    ->visible(fn ($get) => ($get($sourceFieldName) ?? 'upload') === 'upload'),
+                    ->required($required)
+                    // Gunakan extraAttributes untuk menyembunyikan secara visual dari user saat memilih mode Galeri,
+                    // namun tetap dibiarkan "visible" secara logical bagi Filament agar proses penyimpanan (dehydration) tetap berjalan.
+                    ->extraAttributes(fn ($get) => ($get($sourceFieldName) ?? 'upload') === 'server' ? ['style' => 'display: none !important;'] : []),
 
                 \Filament\Forms\Components\Placeholder::make($selectFieldName)
                     ->hiddenLabel()
                     ->content(fn ($component) => view('filament.components.gallery-picker', [
                         'statePath' => $component->getContainer()->getStatePath().'.'.$fieldName,
-                        'uploadStatePath' => $component->getContainer()->getStatePath().'.'.$uploadFieldName,
+                        'uploadStatePath' => $component->getContainer()->getStatePath().'.'.$fieldName,
                         'stateValue' => $component->evaluate(fn ($get) => $get($fieldName)),
                         'fieldName' => $fieldName,
                         'directory' => $directory,
