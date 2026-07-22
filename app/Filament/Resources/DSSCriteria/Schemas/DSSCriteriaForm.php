@@ -11,11 +11,6 @@ class DSSCriteriaForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            TextInput::make('field_type')
-                ->default('industry')
-                ->hidden()
-                ->required(),
-
             TextInput::make('code')
                 ->label('Kode Kriteria')
                 ->placeholder('Contoh: retail, logistics, factory')
