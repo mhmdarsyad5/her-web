@@ -81,8 +81,8 @@ class ProductForm
                         ]),
                     ]),
 
-                // SECTION 2: KRITERIA DSS (UNTUK MESIN PENCARI AUTOMATIS)
-                Section::make('Kriteria Rekomenasi')
+                // SECTION 2: KRITERIA REKOMENDASI (SISTEM REKOMENDASI)
+                Section::make('Kriteria Rekomendasi')
                     ->description('Isi data spesifikasi angka murni di bawah ini agar produk dapat dicocokkan secara otomatis.')
                     ->collapsible()
                     ->schema([

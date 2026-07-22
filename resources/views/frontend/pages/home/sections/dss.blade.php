@@ -664,7 +664,7 @@
         // Generate WhatsApp link
         const waNumber = '{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number', '6281234567890')) }}';
         const kotaVal = document.getElementById('kota').value;
-        const productMessage = encodeURIComponent(`Halo Herro Equipment Rentals, saya tertarik untuk menyewa unit rekomendasi DSS: ${prod.name} untuk operasional di kota ${kotaVal}.`);
+        const productMessage = encodeURIComponent(`Halo Herro Equipment Rentals, saya tertarik untuk menyewa unit rekomendasi: ${prod.name} untuk operasional di kota ${kotaVal}.`);
         const waUrl = "https://wa.me/" + waNumber + "?text=" + productMessage;
 
         let cardHtml = '<div class="flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl border border-zinc-150 bg-white transition-all duration-300 hover:shadow-2xl hover:border-primary-300">';
