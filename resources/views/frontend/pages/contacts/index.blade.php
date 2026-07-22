@@ -70,6 +70,7 @@
                                         @endphp
                                         @if($mapUrl && filter_var($mapUrl, FILTER_VALIDATE_URL))
                                             <iframe src="{{ $mapUrl }}" frameborder="0" allowfullscreen="" loading="lazy"
+                                                title="Peta Lokasi Cabang PT Herro Equipment Rentals"
                                                 referrerpolicy="no-referrer-when-downgrade"
                                                 class="w-full h-full"></iframe>
                                         @else

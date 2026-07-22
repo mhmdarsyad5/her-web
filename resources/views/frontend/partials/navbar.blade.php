@@ -143,7 +143,8 @@
 
                 {{-- MOBILE BUTTON --}}
                 <button @click="mobileOpen = !mobileOpen" class="lg:hidden inline-flex h-9 w-9 items-center justify-center
-                           rounded-md border border-zinc-200">
+                           rounded-md border border-zinc-200"
+                           aria-label="Menu Utama">
 
                     <x-heroicon-o-bars-3 x-show="!mobileOpen" class="h-5 w-5" />
                     <x-heroicon-o-x-mark x-show="mobileOpen" class="h-5 w-5" />
