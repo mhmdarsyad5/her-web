@@ -21,25 +21,23 @@ class DSSController extends Controller
      */
     public function processForm(Request $request): JsonResponse
     {
-        // Validate simplified inputs
+        // Validate inputs
         $validated = $request->validate([
             'industri' => 'nullable|string',
-            'product_type' => 'nullable|string',
-            'energi' => 'nullable|string',
-            'berat' => 'nullable|string',
-            'tinggi' => 'nullable|string',
+            'kota' => 'nullable|string',
+            'berat' => 'required|numeric|min:1',
+            'tinggi' => 'required|numeric|min:0.1',
         ]);
 
         // Map form input to DSS field names
         $userInput = [
             'industry' => $validated['industri'] ?? null,
-            'product_type' => $validated['product_type'] ?? null,
-            'energy' => $validated['energi'] ?? null,
+            'city' => $validated['kota'] ?? null,
             'weight' => $validated['berat'] ?? null,
             'height' => $validated['tinggi'] ?? null,
         ];
 
-        // Remove null and empty values
+        // Filter out null and empty values
         $userInput = array_filter($userInput, function ($value) {
             if ($value === null || $value === '') {
                 return false;
@@ -48,7 +46,7 @@ class DSSController extends Controller
             return true;
         });
 
-        // Get recommendations (1 Utama & 1 Alternatif)
+        // Get recommendations dynamically matching product specs
         $results = $this->dssService->getFormattedResults($userInput);
 
         return response()->json($results);

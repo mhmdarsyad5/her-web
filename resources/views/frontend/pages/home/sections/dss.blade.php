@@ -186,39 +186,6 @@
         background: #ffffff;
     }
 
-    .chip-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 4px;
-    }
-
-    .chip {
-        padding: 10px 18px;
-        border-radius: 9999px;
-        border: 1px solid #e4e4e7;
-        font-size: 13px;
-        cursor: pointer;
-        color: #3f3f46;
-        background: #ffffff;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        font-weight: 500;
-    }
-
-    .chip:hover {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-        background: rgba(255, 127, 0, 0.04);
-    }
-
-    .chip.selected {
-        background: var(--primary-color);
-        border-color: var(--primary-color);
-        color: white;
-        font-weight: 600;
-        box-shadow: 0 4px 12px rgba(255, 127, 0, 0.2);
-    }
-
     .btn-row {
         display: flex;
         gap: 12px;
@@ -287,86 +254,6 @@
         margin-bottom: 2rem;
     }
 
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 20px;
-    }
-
-    .product-card {
-        background: #ffffff;
-        border: 1px solid #e4e4e7;
-        border-radius: 16px;
-        padding: 1.5rem;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .product-card:hover {
-        border-color: var(--primary-color);
-        box-shadow: 0 12px 24px -10px rgba(255, 127, 0, 0.2);
-        transform: translateY(-2px);
-    }
-
-    .product-card.top {
-        border: 2px solid var(--primary-color);
-        background: linear-gradient(180deg, #fffaf5 0%, #ffffff 100%);
-        box-shadow: 0 12px 30px -10px rgba(255, 127, 0, 0.25);
-    }
-
-    .badge {
-        display: inline-block;
-        font-size: 11px;
-        padding: 4px 12px;
-        border-radius: 9999px;
-        margin-bottom: 12px;
-        font-weight: 600;
-    }
-
-    .badge-top {
-        background: rgba(255, 127, 0, 0.1);
-        color: var(--primary-color);
-    }
-
-    .badge-match {
-        background: #f4f4f5;
-        color: #3f3f46;
-    }
-
-    .badge-type {
-        background: #eff6ff;
-        color: #1e40af;
-    }
-
-    .product-name {
-        font-size: 15px;
-        font-weight: 700;
-        color: #09090b;
-        margin-bottom: 12px;
-        line-height: 1.4;
-    }
-
-    .product-meta {
-        font-size: 13px;
-        color: #71717a;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .meta-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px dashed #f4f4f5;
-        padding-bottom: 4px;
-    }
-
-    .meta-val {
-        color: var(--primary-color);
-        font-weight: 700;
-    }
-
     .no-result {
         text-align: center;
         padding: 3rem 1.5rem;
@@ -395,6 +282,18 @@
         font-weight: 500;
     }
 
+    #cityDropdown {
+        border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e4e4e7;
+        background: #ffffff;
+    }
+
+    #cityDropdown div:hover {
+        background-color: rgba(255, 127, 0, 0.05);
+        color: var(--primary-color);
+    }
+
     @media (max-width: 768px) {
         .dss-wrap {
             padding: 0 0 1.5rem 0;
@@ -418,10 +317,6 @@
         .step-label {
             font-size: 10px;
             max-width: 80px;
-        }
-
-        .product-grid {
-            grid-template-columns: 1fr;
         }
 
         .btn-row {
@@ -484,7 +379,7 @@
             <div class="step-bar fade-slide opacity-0 translate-y-4" id="stepBar">
                 <div class="step-item">
                     <div class="step-circle active" id="sc1">1</div>
-                    <div class="step-label active" id="sl1">Industri & Unit</div>
+                    <div class="step-label active" id="sl1">Industri & Kota</div>
                 </div>
                 <div class="step-item">
                     <div class="step-circle" id="sc2">2</div>
@@ -498,9 +393,8 @@
 
             {{-- Step 1 --}}
             <div id="step1" class="form-card fade-slide opacity-0 translate-y-4">
-                <div class="form-title">Industri & Jenis Unit</div>
-                <div class="form-sub">Tentukan sektor usaha Anda dan tipe alat material handling yang ingin Anda cari.
-                </div>
+                <div class="form-title">Industri & Lokasi</div>
+                <div class="form-sub">Tentukan sektor usaha Anda dan lokasi kota operasional Anda.</div>
                 <div class="field-group">
                     <div class="field">
                         <label for="industri">Sektor Industri Anda</label>
@@ -511,69 +405,45 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="field">
-                        <label for="product_type">Jenis Unit yang Dibutuhkan</label>
-                        <select id="product_type">
-                            <option value="">-- Pilih Jenis Unit --</option>
-                            @foreach($productTypes as $pt)
-                                <option value="{{ $pt['code'] }}">{{ $pt['name'] }}</option>
-                            @endforeach
-                        </select>
+                    <div class="field relative">
+                        <label for="kota">Lokasi Kota Operasional</label>
+                        <input type="text" id="kota" placeholder="Cari kota di Indonesia..." autocomplete="off">
+                        <div id="cityDropdown" class="absolute top-full left-0 w-full bg-white border border-zinc-200 rounded-xl shadow-lg mt-1 max-h-48 overflow-y-auto z-50 hidden">
+                            <!-- Populated dynamically via JS -->
+                        </div>
                     </div>
                 </div>
                 <div class="btn-row">
-                    <button class="btn btn-primary" onclick="goStep(2)">Lanjut &rarr;</button>
+                    <button class="btn btn-primary" onclick="goStep2()">Lanjut &rarr;</button>
                 </div>
             </div>
 
             {{-- Step 2 --}}
             <div id="step2" class="form-card" style="display:none">
-                <div class="form-title">Spesifikasi Produk</div>
-                <div class="form-sub">Tentukan preferensi energi penggerak, estimasi beban maksimum, dan jangkauan
-                    angkat unit.</div>
+                <div class="form-title">Spesifikasi Kebutuhan</div>
+                <div class="form-sub">Tentukan beban maksimum yang akan diangkat dan jangkauan tinggi angkat yang dibutuhkan.</div>
                 <div class="field-group">
-                    <div class="field">
-                        <label for="energi">Energi Penggerak (Drive Type)</label>
-                        <select id="energi">
-                            <option value="">-- Pilih Tipe Energi --</option>
-                            @foreach($energies as $energy)
-                                <option value="{{ $energy['code'] }}">{{ $energy['name'] }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     <div class="field">
                         <label for="berat" class="flex items-center gap-1.5">
                             <span>Kapasitas Beban (Load Capacity)</span>
-                            <span class="group/tip relative cursor-help">
-                                <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
-                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 p-3 rounded-xl bg-zinc-900 text-zinc-100 text-xs font-normal normal-case text-left shadow-xl border border-zinc-800 opacity-0 group-hover/tip:opacity-100 transition-all duration-200 pointer-events-none z-50">
-                                    Pilih kapasitas maksimum berat barang yang akan diangkat forklift.
-                                </span>
-                            </span>
                         </label>
-                        <select id="berat">
-                            <option value="">-- Pilih Kapasitas Beban --</option>
-                            @foreach($weights as $weight)
-                                <option value="{{ $weight['code'] }}">{{ $weight['name'] }}</option>
-                            @endforeach
-                        </select>
+                        <div class="relative">
+                            <input type="number" id="berat" placeholder="Contoh: 2000" min="1" step="50" required
+                                class="w-full px-4 py-3 pr-12 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-medium">kg</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-1">Masukkan berat maksimal beban dalam satuan kilogram (kg).</p>
                     </div>
-                    <div class="field full">
+                    <div class="field">
                         <label for="tinggi" class="flex items-center gap-1.5">
-                            <span>Tinggi Angkat yang Dibutuhkan (Lifting Height)</span>
-                            <span class="group/tip relative cursor-help">
-                                <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
-                                <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 p-3 rounded-xl bg-zinc-900 text-zinc-100 text-xs font-normal normal-case text-left shadow-xl border border-zinc-800 opacity-0 group-hover/tip:opacity-100 transition-all duration-200 pointer-events-none z-50">
-                                    Tentukan jangkauan vertikal tiang mast forklift (tinggi rak gudang tertinggi Anda).
-                                </span>
-                            </span>
+                            <span>Tinggi Angkat (Lifting Height)</span>
                         </label>
-                        <select id="tinggi">
-                            <option value="">-- Pilih Tinggi Angkat --</option>
-                            @foreach($heights as $height)
-                                <option value="{{ $height['code'] }}">{{ $height['name'] }}</option>
-                            @endforeach
-                        </select>
+                        <div class="relative">
+                            <input type="number" id="tinggi" placeholder="Contoh: 4.5 atau 6" min="0.1" step="0.1" required
+                                class="w-full px-4 py-3 pr-12 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-medium">meter</span>
+                        </div>
+                        <p class="text-xs text-zinc-400 mt-1">Masukkan tinggi angkat maksimal dalam satuan meter (bisa desimal).</p>
                     </div>
                 </div>
                 <div class="btn-row">
@@ -600,70 +470,57 @@
 
 <script>
     let currentStep = 1;
+    let cities = [];
 
-    // Load criteria lists from PHP with equipment_map values
-    const rawEnergies = @json($energies);
-    const rawWeights = @json($weights);
-    const rawHeights = @json($heights);
+    // Fetch Indonesia cities list dynamically
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch('/js/indonesia-cities.json')
+            .then(response => response.json())
+            .then(data => {
+                cities = data;
+                initCityAutocomplete();
+            })
+            .catch(err => console.error('Error loading cities:', err));
+    });
 
-    // Dynamic dropdown filtering
-    function filterDssDropdown(fieldId, criteriaList, selectedUnitType) {
-        const selectEl = document.getElementById(fieldId);
-        if (!selectEl) return;
+    function initCityAutocomplete() {
+        const input = document.getElementById('kota');
+        const dropdown = document.getElementById('cityDropdown');
+        if (!input || !dropdown) return;
 
-        const currentValue = selectEl.value;
-        selectEl.innerHTML = '';
-
-        // Add default placeholder option
-        const placeholderOpt = document.createElement('option');
-        placeholderOpt.value = '';
-        if (fieldId === 'energi') {
-            placeholderOpt.textContent = '-- Pilih Tipe Energi --';
-        } else if (fieldId === 'berat') {
-            placeholderOpt.textContent = '-- Pilih Kapasitas Beban --';
-        } else {
-            placeholderOpt.textContent = '-- Pilih Tinggi Angkat --';
-        }
-        selectEl.appendChild(placeholderOpt);
-
-        criteriaList.forEach(opt => {
-            // Option is allowed if:
-            // 1. selectedUnitType is empty (show all)
-            // 2. opt.equipment_map is null or empty array (no restriction)
-            // 3. opt.equipment_map includes selectedUnitType
-            const isAllowed = !selectedUnitType || 
-                              !opt.equipment_map || 
-                              opt.equipment_map.length === 0 || 
-                              opt.equipment_map.includes(selectedUnitType);
-
-            if (isAllowed) {
-                const newOpt = document.createElement('option');
-                newOpt.value = opt.code;
-                newOpt.textContent = opt.name;
-                selectEl.appendChild(newOpt);
+        input.addEventListener('input', function() {
+            const val = this.value.trim().toLowerCase();
+            dropdown.innerHTML = '';
+            if (!val) {
+                dropdown.classList.add('hidden');
+                return;
             }
+
+            const filtered = cities.filter(c => c.toLowerCase().includes(val)).slice(0, 10);
+            if (filtered.length === 0) {
+                dropdown.classList.add('hidden');
+                return;
+            }
+
+            filtered.forEach(city => {
+                const item = document.createElement('div');
+                item.className = 'px-4 py-2 hover:bg-zinc-50 cursor-pointer text-sm text-zinc-700 transition-colors';
+                item.textContent = city;
+                item.addEventListener('click', function() {
+                    input.value = city;
+                    dropdown.classList.add('hidden');
+                });
+                dropdown.appendChild(item);
+            });
+            dropdown.classList.remove('hidden');
         });
 
-        // Restore previously selected value if still valid
-        if (Array.from(selectEl.options).some(opt => opt.value === currentValue)) {
-            selectEl.value = currentValue;
-        } else {
-            selectEl.value = '';
-        }
+        document.addEventListener('click', function(e) {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
     }
-
-    // Attach listener to product_type selection change
-    document.addEventListener("DOMContentLoaded", () => {
-        const productTypeSelect = document.getElementById('product_type');
-        if (productTypeSelect) {
-            productTypeSelect.addEventListener('change', function() {
-                const selectedType = this.value;
-                filterDssDropdown('energi', rawEnergies, selectedType);
-                filterDssDropdown('berat', rawWeights, selectedType);
-                filterDssDropdown('tinggi', rawHeights, selectedType);
-            });
-        }
-    });
 
     function goStep(n) {
         document.getElementById('step' + currentStep).style.display = 'none';
@@ -683,13 +540,41 @@
         });
     }
 
+    function goStep2() {
+        const industri = document.getElementById('industri').value;
+        const kota = document.getElementById('kota').value.trim();
+
+        if (!industri) {
+            alert('Silakan pilih sektor industri Anda.');
+            return;
+        }
+        if (!kota) {
+            alert('Silakan masukkan lokasi kota Anda.');
+            return;
+        }
+
+        // If user selects "others" (Lainnya), we still let them proceed to Stage 2 to specify specs
+        goStep(2);
+    }
+
     function runDSS() {
+        const beratVal = document.getElementById('berat').value;
+        const tinggiVal = document.getElementById('tinggi').value;
+
+        if (!beratVal || parseFloat(beratVal) <= 0) {
+            alert('Silakan masukkan berat beban yang valid (min. 1 kg).');
+            return;
+        }
+        if (!tinggiVal || parseFloat(tinggiVal) <= 0) {
+            alert('Silakan masukkan tinggi angkat yang valid (min. 0.1 meter).');
+            return;
+        }
+
         const userInput = {
             industri: document.getElementById('industri').value || null,
-            product_type: document.getElementById('product_type').value || null,
-            energi: document.getElementById('energi').value || null,
-            berat: document.getElementById('berat').value || null,
-            tinggi: document.getElementById('tinggi').value || null,
+            kota: document.getElementById('kota').value || null,
+            berat: beratVal,
+            tinggi: tinggiVal,
         };
 
         goStep(3);
@@ -715,81 +600,81 @@
             })
             .then(data => {
                 if (data.success && data.results) {
-                    renderResults(
-                        data.results.utama,
-                        data.results.alternatif,
-                        data.results.total_found || 0
-                    );
+                    renderResults(data.results.products, data.results.total_found || 0);
                 } else if (data.errors) {
-                    resultSection.innerHTML = '<div class="no-result text-red-500">Error: ' + data.errors.join(', ') + '</div>';
+                    resultSection.innerHTML = '<div class="no-result text-red-500 font-semibold">Error: ' + data.errors.join(', ') + '</div>';
                 } else {
-                    resultSection.innerHTML = '<div class="no-result">Tidak ada rekomendasi yang ditemukan.</div>';
+                    renderEmptyState();
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                resultSection.innerHTML = '<div class="no-result">Terjadi kesalahan: ' + error.message + '</div>';
+                resultSection.innerHTML = '<div class="no-result text-red-500 font-semibold">Terjadi kesalahan: ' + error.message + '</div>';
             });
     }
 
-    function renderResults(utama, alternatif, totalFound) {
+    function renderResults(products, totalFound) {
         const sec = document.getElementById('resultSection');
         let html = '';
 
-        if (!utama) {
-            sec.innerHTML = '<div class="no-result">Tidak ada unit yang cocok dengan kriteria spesifikasi ini.<br><span style="font-size:12px">Coba ubah tipe energi penggerak atau kapasitas beban Anda.</span></div>';
+        if (!products || products.length === 0) {
+            renderEmptyState();
             return;
         }
 
         html += '<div class="result-header">Ditemukan rekomendasi unit yang sesuai</div>';
-        html += '<div class="result-sub" style="margin-bottom:2rem">Berikut adalah unit terbaik dan alternatif untuk kebutuhan Anda:</div>';
+        html += '<div class="result-sub" style="margin-bottom:2rem">Berikut adalah unit terbaik yang memenuhi spesifikasi kebutuhan Anda:</div>';
 
         // Grid Container
         html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">';
 
-        // 1. Rekomendasi Utama Card
-        html += renderUnitCard(utama, 'Rekomendasi Utama', 'border-2 border-primary-500 bg-gradient-to-b from-amber-500/5 via-white to-white');
-
-        // 2. Rekomendasi Alternatif Card
-        if (alternatif) {
-            html += renderUnitCard(alternatif, 'Rekomendasi Alternatif', 'border border-zinc-200 bg-white');
-        } else {
-            // Placeholder empty card if no alternative
-            html += '<div class="flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 text-center">';
-            html += '<svg class="w-12 h-12 mb-3 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
-            html += '<p class="text-sm font-semibold text-zinc-500">Tidak ada unit alternatif</p>';
-            html += '<p class="text-xs text-zinc-400 mt-1">Seluruh kriteria Anda sangat spesifik dan paling cocok dengan pilihan utama.</p>';
-            html += '</div>';
-        }
+        products.forEach((prod) => {
+            html += renderUnitCard(prod);
+        });
 
         html += '</div>'; // End Grid
 
         sec.innerHTML = html;
     }
 
-    function renderUnitCard(eq, badgeTitle, classes) {
-        const isUtama = badgeTitle === 'Rekomendasi Utama';
-        const badgeClass = isUtama ? 'bg-primary-900 text-white' : 'bg-zinc-200 text-zinc-800';
+    function renderEmptyState() {
+        const sec = document.getElementById('resultSection');
+        const waNumber = '{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number', '6281234567890')) }}';
+        
+        const beratVal = document.getElementById('berat').value;
+        const tinggiVal = document.getElementById('tinggi').value;
+        const kotaVal = document.getElementById('kota').value;
+        
+        const message = encodeURIComponent(`Halo Herro Equipment Rentals, saya membutuhkan rekomendasi unit khusus untuk kota ${kotaVal} dengan spesifikasi kapasitas ${beratVal} kg dan tinggi ${tinggiVal} meter.`);
+        const waUrl = "https://wa.me/" + waNumber + "?text=" + message;
 
+        let html = '<div class="no-result flex flex-col items-center justify-center p-8 text-center">';
+        html += '<svg class="w-16 h-16 mb-4 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>';
+        html += '<p class="text-base font-bold text-zinc-800 mb-2">Spesifikasi Tidak Ditemukan</p>';
+        html += '<p class="text-sm text-zinc-500 mb-6 max-w-md">Maaf, tidak ada unit standard kami yang cocok dengan kriteria spesifikasi ini secara tepat. Silakan konsultasikan langsung dengan tim ahli kami untuk solusi khusus.</p>';
+        html += '<a href="' + waUrl + '" target="_blank" class="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white px-6 py-3.5 text-sm font-bold shadow-lg transition duration-200">';
+        html += '<svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.456h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+        html += 'Hubungi Tim Ahli Kami</a>';
+        html += '</div>';
+        
+        sec.innerHTML = html;
+    }
+
+    function renderUnitCard(prod) {
         // Generate WhatsApp link
         const waNumber = '{{ preg_replace('/[^0-9]/', '', setting('whatsapp_number', '6281234567890')) }}';
-        const productMessage = encodeURIComponent("Halo Herro Equipment Rentals, saya tertarik untuk menyewa unit rekomendasi SPK: " + eq.name + ".");
+        const kotaVal = document.getElementById('kota').value;
+        const productMessage = encodeURIComponent(`Halo Herro Equipment Rentals, saya tertarik untuk menyewa unit rekomendasi DSS: ${prod.name} untuk operasional di kota ${kotaVal}.`);
         const waUrl = "https://wa.me/" + waNumber + "?text=" + productMessage;
 
-        let cardHtml = '<div class="flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl transition-all duration-300 hover:shadow-2xl ' + classes + '">';
-
-        // Header Row (Badge)
-        cardHtml += '<div class="flex items-center justify-between mb-4">';
-        cardHtml += '<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ' + badgeClass + '">' + badgeTitle + '</span>';
-        cardHtml += '</div>';
+        let cardHtml = '<div class="flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl border border-zinc-150 bg-white transition-all duration-300 hover:shadow-2xl hover:border-primary-300">';
 
         // Image representation
-        if (eq.image) {
+        if (prod.image) {
             cardHtml += '<div class="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-zinc-50 border border-zinc-100 flex items-center justify-center mb-4">';
-            cardHtml += '<img src="' + eq.image + '" alt="' + eq.name + '" class="w-full h-full object-cover">';
+            cardHtml += '<img src="' + prod.image + '" alt="' + prod.name + '" class="w-full h-full object-cover">';
             cardHtml += '</div>';
         } else {
-            // Default placeholder if image not set
             cardHtml += '<div class="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-150 flex flex-col items-center justify-center mb-4 text-zinc-400">';
             cardHtml += '<svg class="w-8 h-8 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>';
             cardHtml += '<span class="text-[10px]">Belum ada gambar</span>';
@@ -798,14 +683,16 @@
 
         // Title info
         cardHtml += '<div class="flex-1">';
-        cardHtml += '<h3 class="text-sm sm:text-base font-bold text-zinc-955 line-clamp-2 leading-snug">' + eq.name + '</h3>';
-        cardHtml += '<p class="text-[10px] sm:text-xs text-zinc-500 font-semibold mt-1">' + eq.category + ' | ' + eq.type + '</p>';
+        cardHtml += '<h3 class="text-sm sm:text-base font-bold text-zinc-955 line-clamp-2 leading-snug">' + prod.name + '</h3>';
+        cardHtml += '<p class="text-[10px] sm:text-xs text-zinc-500 font-semibold mt-1">' + (prod.type || '-') + '</p>';
+        if (prod.tagline) {
+            cardHtml += '<p class="text-[11px] text-zinc-500 italic mt-2 leading-relaxed">' + prod.tagline + '</p>';
+        }
 
         // Specs list
         cardHtml += '<div class="mt-4 space-y-2 border-t border-zinc-100 pt-3 text-xs text-zinc-650">';
-        cardHtml += '<div class="flex justify-between"><span>Kapasitas Beban</span><strong class="text-zinc-900">' + eq.capacity + '</strong></div>';
-        cardHtml += '<div class="flex justify-between"><span>Tinggi Mast</span><strong class="text-zinc-900">' + eq.mast_height + '</strong></div>';
-        cardHtml += '<div class="flex justify-between"><span>Baterai / Engine</span><strong class="text-zinc-900">' + eq.battery + '</strong></div>';
+        cardHtml += '<div class="flex justify-between"><span>Kapasitas Beban</span><strong class="text-zinc-900">' + prod.capacity + '</strong></div>';
+        cardHtml += '<div class="flex justify-between"><span>Tinggi Maksimal</span><strong class="text-zinc-900">' + prod.lift_height + '</strong></div>';
         cardHtml += '</div>';
         cardHtml += '</div>';
 
@@ -818,8 +705,8 @@
         cardHtml += 'Sewa Unit</a>';
 
         // Detail page button
-        if (eq.slug) {
-            const detailUrl = "/produk/" + eq.slug;
+        if (prod.slug) {
+            const detailUrl = "/produk/" + prod.slug;
             cardHtml += '<a href="' + detailUrl + '" class="inline-flex items-center justify-center gap-1.5 flex-1 rounded-xl bg-zinc-50 border border-zinc-200 text-zinc-800 hover:bg-zinc-100 py-3 text-xs font-bold transition duration-200">';
             cardHtml += '<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>';
             cardHtml += 'Detail Unit</a>';
@@ -833,17 +720,10 @@
 
     function reset() {
         document.getElementById('industri').value = '';
-        document.getElementById('product_type').value = '';
+        document.getElementById('kota').value = '';
         document.getElementById('berat').value = '';
         document.getElementById('tinggi').value = '';
-        document.getElementById('energi').value = '';
         document.getElementById('step3').style.display = 'none';
-
-        // Reset dynamic dropdown filters
-        filterDssDropdown('energi', rawEnergies, '');
-        filterDssDropdown('berat', rawWeights, '');
-        filterDssDropdown('tinggi', rawHeights, '');
-
         goStep(1);
     }
 </script>

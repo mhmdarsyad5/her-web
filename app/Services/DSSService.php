@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\DSSRule;
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 class DSSService
@@ -10,84 +10,139 @@ class DSSService
     protected $userInput = [];
 
     /**
-     * Get recommendations using Standalone DSSRule (rule-centric)
+     * Parse specification range strings (e.g. "1.5 - 3.8 ton" or "3.0 - 6.0 m")
+     * to standard units (kg for weight, mm for height).
+     */
+    public static function parseRange(?string $string, string $defaultUnit): array
+    {
+        if (empty($string)) {
+            return [0, 0];
+        }
+
+        $string = strtolower(trim($string));
+
+        // Determine units
+        $isTon = str_contains($string, 'ton') || str_contains($string, 't');
+        $isMeter = str_contains($string, 'm') && ! str_contains($string, 'mm');
+
+        // Extract all numbers (integers or decimals)
+        preg_match_all('/[0-9]+(?:\.[0-9]+)?/', $string, $matches);
+        $numbers = array_map('floatval', $matches[0]);
+
+        if (empty($numbers)) {
+            return [0, 0];
+        }
+
+        $min = $numbers[0];
+        $max = isset($numbers[1]) ? $numbers[1] : $numbers[0];
+
+        // Normalize units
+        if ($defaultUnit === 'kg') {
+            if ($isTon || $min < 100) {
+                $min *= 1000;
+                $max *= 1000;
+            }
+        } elseif ($defaultUnit === 'mm') {
+            if ($isMeter || $min < 50) {
+                $min *= 1000;
+                $max *= 1000;
+            }
+        }
+
+        // If it is a single value, allow range from 0 to the specified value
+        if ($min === $max) {
+            $min = 0;
+        }
+
+        return [$min, $max];
+    }
+
+    /**
+     * Filter products dynamically by user specification inputs and industry pivot relation.
      */
     public function filterByUserInputs(array $userInput): Collection
     {
         $this->userInput = $userInput;
 
-        // Eager load product relation
-        $rules = DSSRule::where('is_active', true)->with('product')->get();
+        $weightKg = isset($userInput['weight']) ? floatval($userInput['weight']) : null;
+        $heightM = isset($userInput['height']) ? floatval($userInput['height']) : null;
+        $heightMm = $heightM !== null ? $heightM * 1000 : null;
+        $userIndustry = isset($userInput['industry']) ? $userInput['industry'] : null;
 
-        // Tier 1: Strict Match ALL input fields
-        $tier1 = $rules->filter(fn ($rule) => $rule->matchesInput($userInput));
-        if ($tier1->isNotEmpty()) {
-            return $tier1->sortByDesc('priority')->values();
+        // Query active products
+        $query = Product::where('is_active', true);
+
+        // Apply industry relation filter if specified and not "others"
+        if ($userIndustry !== null && $userIndustry !== 'others') {
+            $query->whereHas('dssCriteria', function ($q) use ($userIndustry) {
+                $q->where('code', $userIndustry);
+            });
         }
 
-        // Tier 2: Core fields Match (product_type, energy, weight)
-        $coreFields = ['product_type', 'energy', 'weight'];
-        $coreInput = array_intersect_key($userInput, array_flip($coreFields));
+        $products = $query->get();
 
-        if (! empty($coreInput)) {
-            $tier2 = $rules->filter(fn ($rule) => $this->matchesSubset($rule, $coreInput));
-            if ($tier2->isNotEmpty()) {
-                return $tier2->sortByDesc('priority')->values();
+        return $products->filter(function ($product) use ($weightKg, $heightMm) {
+            // 1. Capacity Range Match
+            if ($weightKg !== null) {
+                // Use new numeric columns if available, otherwise fallback to parsing
+                if ($product->max_capacity_kg !== null) {
+                    $minCap = $product->min_capacity_kg ?? 0;
+                    $maxCap = $product->max_capacity_kg;
+                } else {
+                    [$minCap, $maxCap] = self::parseRange($product->load_capacity, 'kg');
+                }
+
+                if ($minCap > 0 && $maxCap > 0) {
+                    if ($weightKg < $minCap || $weightKg > $maxCap) {
+                        return false;
+                    }
+                } elseif ($maxCap > 0) {
+                    if ($weightKg > $maxCap) {
+                        return false;
+                    }
+                }
             }
-        }
 
-        // Tier 3: Crucial fields Match (product_type, weight)
-        $crucialFields = ['product_type', 'weight'];
-        $crucialInput = array_intersect_key($userInput, array_flip($crucialFields));
+            // 2. Height Match (Product must be able to reach the requested height)
+            if ($heightMm !== null) {
+                // Use new numeric column if available, otherwise fallback to parsing
+                if ($product->max_lift_height_mm !== null) {
+                    $maxHeight = $product->max_lift_height_mm;
+                } else {
+                    [, $maxHeight] = self::parseRange($product->lift_height, 'mm');
+                }
 
-        if (! empty($crucialInput)) {
-            $tier3 = $rules->filter(fn ($rule) => $this->matchesSubset($rule, $crucialInput));
-            if ($tier3->isNotEmpty()) {
-                return $tier3->sortByDesc('priority')->values();
-            }
-        }
-
-        return collect();
-    }
-
-    protected function matchesSubset(DSSRule $rule, array $subsetInput): bool
-    {
-        if (empty($subsetInput)) {
-            return false;
-        }
-
-        foreach ($subsetInput as $field => $userValue) {
-            if (! $rule->matchesSingleField($field, $userValue)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function validateInput(?array $userInput = null): array
-    {
-        $errors = [];
-        $filledFields = array_filter($userInput ?? $this->userInput, function ($value) {
-            if ($value === null || $value === '') {
-                return false;
-            }
-            if (is_array($value) && count($value) === 0) {
-                return false;
+                if ($maxHeight > 0) {
+                    if ($heightMm > $maxHeight) {
+                        return false;
+                    }
+                }
             }
 
             return true;
-        });
+        })->sortBy('sort_order')->values();
+    }
 
-        if (empty($filledFields)) {
-            $errors[] = 'Silakan isi setidaknya satu kriteria pencarian';
+    /**
+     * Validate user input fields.
+     */
+    public function validateInput(?array $userInput = null): array
+    {
+        $errors = [];
+        $input = $userInput ?? $this->userInput;
+
+        if (empty($input['weight'])) {
+            $errors[] = 'Silakan isi kapasitas beban yang dibutuhkan';
+        }
+        if (empty($input['height'])) {
+            $errors[] = 'Silakan isi tinggi angkat yang dibutuhkan';
         }
 
         return ['valid' => empty($errors), 'errors' => $errors];
     }
 
     /**
-     * Get Formatted Results: 1 Utama & 1 Alternatif
+     * Get Formatted Results for API response
      */
     public function getFormattedResults(array $userInput): array
     {
@@ -98,42 +153,33 @@ class DSSService
             return ['success' => false, 'errors' => $validation['errors']];
         }
 
-        $allRules = $this->filterByUserInputs($userInput);
-        $utama = $allRules->first();
-        $alternatif = $allRules->slice(1)->first();
+        $matchingProducts = $this->filterByUserInputs($userInput);
 
         return [
             'success' => true,
             'results' => [
-                'utama' => $utama ? $this->formatRuleResponse($utama) : null,
-                'alternatif' => $alternatif ? $this->formatRuleResponse($alternatif) : null,
-                'total_found' => $allRules->count(),
+                'products' => $matchingProducts->map(fn ($p) => $this->formatProductResponse($p))->toArray(),
+                'total_found' => $matchingProducts->count(),
             ],
         ];
     }
 
     /**
-     * Format Standalone Rule for API response
+     * Format Product model details for API response
      */
-    protected function formatRuleResponse(DSSRule $rule): array
+    protected function formatProductResponse(Product $product): array
     {
-        $conditions = $rule->conditions ?? [];
-        $displaySpecs = $rule->display_specifications ?? [];
-
-        $product = $rule->product;
-
         return [
-            'id' => $rule->id,
-            'name' => $product ? $product->name : $rule->product_name,
-            'slug' => $product ? $product->slug : null,
-            'image' => $product ? asset('storage/'.$product->thumbnail) : null,
-            'type' => $rule->model ?? ($rule->category_name ?? 'Equipment'),
-            'category' => $rule->category_name,
-            'capacity' => $product && $product->load_capacity ? $product->load_capacity : ($displaySpecs['capacity'] ?? '0kg'),
-            'mast_height' => $product && $product->lift_height ? $product->lift_height : ($displaySpecs['mast_height'] ?? '-'),
-            'battery' => $product && $product->energy_type ? $product->energy_type : ($displaySpecs['battery'] ?? ($displaySpecs['engine'] ?? '-')),
-            'energy' => $conditions['energy'] ?? 'electric',
-            'match_score' => $rule->getMatchScore($this->userInput),
+            'id' => $product->id,
+            'name' => $product->name,
+            'slug' => $product->slug,
+            'image' => $product->thumbnail ? asset('storage/'.$product->thumbnail) : null,
+            'type' => $product->energy_type ?? '-',
+            'product_type' => $product->product_type,
+            'capacity' => $product->load_capacity ?? '-',
+            'lift_height' => $product->lift_height ?? '-',
+            'tagline' => $product->tagline,
+            'description' => str($product->description)->stripTags()->limit(120)->toString(),
         ];
     }
 }

@@ -14,27 +14,26 @@ class DSSCriteriaTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->where('field_type', 'industry'))
             ->columns([
-                TextColumn::make('field_type')
-                    ->label('Tipe Field')
-                    ->sortable()
-                    ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'industry' => 'Industri',
-                        'product_type' => 'Jenis Unit (Product Type)',
-                        'energy' => 'Energi (Drive Type)',
-                        'weight' => 'Berat (Load Capacity)',
-                        'height' => 'Ketinggian (Lift Height)',
-                        'location' => 'Lokasi',
-                        'cargo_type' => 'Jenis Barang',
-                        'aisle' => 'Lebar Lorong',
-                        'unit' => 'Unit Sekarang',
-                        'operator' => 'Posisi Operator',
-                        default => $state,
-                    }),
-                TextColumn::make('code')->label('Kode')->searchable()->sortable(),
-                TextColumn::make('name')->label('Nama')->searchable()->sortable(),
-                IconColumn::make('is_active')->label('Aktif')->boolean(),
-                TextColumn::make('sort_order')->label('Urutan')->numeric(),
+                TextColumn::make('code')
+                    ->label('Kode Kriteria')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('name')
+                    ->label('Nama Industri')
+                    ->searchable()
+                    ->sortable(),
+
+                IconColumn::make('is_active')
+                    ->label('Aktif')
+                    ->boolean(),
+
+                TextColumn::make('sort_order')
+                    ->label('Urutan')
+                    ->numeric()
+                    ->sortable(),
             ])
             ->filters([
                 //

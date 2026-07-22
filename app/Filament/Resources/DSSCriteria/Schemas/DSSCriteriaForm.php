@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\DSSCriteria\Schemas;
 
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -12,41 +11,25 @@ class DSSCriteriaForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            Select::make('field_type')
-                ->label('Tipe Field')
-                ->options([
-                    'industry' => 'Industri',
-                    'product_type' => 'Jenis Unit (Product Type)',
-                    'energy' => 'Energi (Drive Type)',
-                    'weight' => 'Berat (Load Capacity)',
-                    'height' => 'Ketinggian (Lift Height)',
-                ])
+            TextInput::make('field_type')
+                ->default('industry')
+                ->hidden()
                 ->required(),
 
             TextInput::make('code')
-                ->label('Kode')
+                ->label('Kode Kriteria')
+                ->placeholder('Contoh: retail, logistics, factory')
                 ->required(),
 
             TextInput::make('name')
-                ->label('Nama (Indonesia)')
+                ->label('Nama Industri (Indonesia)')
+                ->placeholder('Contoh: Ritel / Grosir, Transportasi / Logistik')
                 ->required(),
 
             TextInput::make('sort_order')
-                ->label('Urutan')
+                ->label('Urutan Tampil')
                 ->numeric()
                 ->default(0),
-
-            Select::make('equipment_map')
-                ->label('Tipe Unit yang Diizinkan')
-                ->helperText('Tentukan unit mana saja yang boleh memilih kriteria ini di form SPK/DSS (kosongkan jika bisa dipilih semua unit).')
-                ->multiple()
-                ->options([
-                    'forklift' => 'Forklift (Counterbalance)',
-                    'reach_truck' => 'Reach Truck',
-                    'electric_stacker' => 'Electric Stacker',
-                    'pallet_truck' => 'Electric Pallet Truck',
-                ])
-                ->columnSpanFull(),
 
             Toggle::make('is_active')
                 ->label('Aktif')

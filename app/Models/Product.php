@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -29,6 +30,9 @@ class Product extends Model
         'sale_price',
         'images',
         'specifications',
+        'min_capacity_kg',
+        'max_capacity_kg',
+        'max_lift_height_mm',
     ];
 
     /**
@@ -40,6 +44,9 @@ class Product extends Model
         'sale_price' => 'decimal:2',
         'images' => 'array',
         'specifications' => 'array',
+        'min_capacity_kg' => 'integer',
+        'max_capacity_kg' => 'integer',
+        'max_lift_height_mm' => 'integer',
     ];
 
     /**
@@ -106,5 +113,13 @@ class Product extends Model
     public function setDescriptionAttribute(?string $value): void
     {
         $this->attributes['description_id'] = $value;
+    }
+
+    /**
+     * Relationship to DSSCriteria (many-to-many)
+     */
+    public function dssCriteria(): BelongsToMany
+    {
+        return $this->belongsToMany(DSSCriteria::class, 'dss_criteria_product', 'product_id', 'dss_criteria_id');
     }
 }

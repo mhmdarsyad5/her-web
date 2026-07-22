@@ -16,13 +16,13 @@ class DSSCriteriaResource extends Resource
 {
     protected static ?string $model = DSSCriteria::class;
 
-    protected static ?string $label = 'DSS Criteria';
+    protected static ?string $label = 'Industri';
 
-    protected static ?string $pluralLabel = 'DSS Criteria';
+    protected static ?string $pluralLabel = 'Industri';
 
-    protected static UnitEnum|string|null $navigationGroup = 'System Settings';
+    protected static UnitEnum|string|null $navigationGroup = 'Website Content';
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-list-bullet';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-building-office';
 
     public static function form(Schema $schema): Schema
     {
