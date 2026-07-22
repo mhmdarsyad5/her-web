@@ -503,7 +503,7 @@
                 </div>
                 <div class="field-group">
                     <div class="field">
-                        <label>Sektor Industri Anda</label>
+                        <label for="industri">Sektor Industri Anda</label>
                         <select id="industri">
                             <option value="">-- Pilih Industri --</option>
                             @foreach($industries as $ind)
@@ -512,7 +512,7 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label>Jenis Unit yang Dibutuhkan</label>
+                        <label for="product_type">Jenis Unit yang Dibutuhkan</label>
                         <select id="product_type">
                             <option value="">-- Pilih Jenis Unit --</option>
                             @foreach($productTypes as $pt)
@@ -533,7 +533,7 @@
                     angkat unit.</div>
                 <div class="field-group">
                     <div class="field">
-                        <label>Energi Penggerak (Drive Type)</label>
+                        <label for="energi">Energi Penggerak (Drive Type)</label>
                         <select id="energi">
                             <option value="">-- Pilih Tipe Energi --</option>
                             @foreach($energies as $energy)
@@ -542,7 +542,7 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label class="flex items-center gap-1.5">
+                        <label for="berat" class="flex items-center gap-1.5">
                             <span>Kapasitas Beban (Load Capacity)</span>
                             <span class="group/tip relative cursor-help">
                                 <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
@@ -559,7 +559,7 @@
                         </select>
                     </div>
                     <div class="field full">
-                        <label class="flex items-center gap-1.5">
+                        <label for="tinggi" class="flex items-center gap-1.5">
                             <span>Tinggi Angkat yang Dibutuhkan (Lifting Height)</span>
                             <span class="group/tip relative cursor-help">
                                 <span class="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-100 border border-zinc-200 text-[10px] text-zinc-500 font-extrabold hover:bg-primary-50 hover:text-primary-900 hover:border-primary-200 transition-all">?</span>
