@@ -63,6 +63,7 @@ class FilamentImagePicker
                     ->imageEditor()
                     ->helperText($helperText)
                     ->dehydrated(false)
+                    ->reactive()
                     ->afterStateHydrated(function ($component, $get, $set) use ($fieldName) {
                         $val = $get($fieldName);
                         if ($val) {
