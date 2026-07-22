@@ -15,28 +15,64 @@
         $siteName    = strip_tags(setting('site_name', config('app.name')));
         $globalDesc  = strip_tags(setting('tagline', $siteName));
 
-        // Title: @yield('title') → seo.meta_title → site name
-        $seoTitle = trim(strip_tags($__env->yieldContent('title')));
-        if (empty($seoTitle) && !empty($pageSeo?->meta_title)) {
-            $seoTitle = $pageSeo->meta_title;
+        // Title: Prioritize dynamic Seo model for index pages, and yield for specific detail pages
+        $seoTitle = '';
+        if (!empty($pageSeo?->meta_title)) {
+            $currentRoute = request()->route()?->getName() ?? '';
+            $isDetailPage = in_array($currentRoute, ['products.show', 'pages.show', 'galleries.show']);
+            
+            if ($isDetailPage) {
+                $seoTitle = trim(strip_tags($__env->yieldContent('title')));
+            }
+            
+            if (empty($seoTitle)) {
+                $seoTitle = $pageSeo->meta_title;
+            }
+        }
+        if (empty($seoTitle)) {
+            $seoTitle = trim(strip_tags($__env->yieldContent('title')));
         }
         if (empty($seoTitle)) {
             $seoTitle = $siteName;
         }
 
-        // Description: @yield('description') → seo.meta_description → tagline
-        $seoDesc = trim(strip_tags($__env->yieldContent('description')));
-        if (empty($seoDesc) && !empty($pageSeo?->meta_description)) {
-            $seoDesc = $pageSeo->meta_description;
+        // Description: Prioritize dynamic Seo model description for index pages
+        $seoDesc = '';
+        if (!empty($pageSeo?->meta_description)) {
+            $currentRoute = request()->route()?->getName() ?? '';
+            $isDetailPage = in_array($currentRoute, ['products.show', 'pages.show', 'galleries.show']);
+            
+            if ($isDetailPage) {
+                $seoDesc = trim(strip_tags($__env->yieldContent('description')));
+            }
+            
+            if (empty($seoDesc)) {
+                $seoDesc = $pageSeo->meta_description;
+            }
+        }
+        if (empty($seoDesc)) {
+            $seoDesc = trim(strip_tags($__env->yieldContent('description')));
         }
         if (empty($seoDesc)) {
             $seoDesc = $globalDesc;
         }
 
-        // Keywords: @yield('keywords') → seo.meta_keywords
-        $seoKeywords = trim(strip_tags($__env->yieldContent('keywords')));
-        if (empty($seoKeywords) && !empty($pageSeo?->meta_keywords)) {
-            $seoKeywords = $pageSeo->meta_keywords;
+        // Keywords: Prioritize dynamic Seo model keywords for index pages
+        $seoKeywords = '';
+        if (!empty($pageSeo?->meta_keywords)) {
+            $currentRoute = request()->route()?->getName() ?? '';
+            $isDetailPage = in_array($currentRoute, ['products.show', 'pages.show', 'galleries.show']);
+            
+            if ($isDetailPage) {
+                $seoKeywords = trim(strip_tags($__env->yieldContent('keywords')));
+            }
+            
+            if (empty($seoKeywords)) {
+                $seoKeywords = $pageSeo->meta_keywords;
+            }
+        }
+        if (empty($seoKeywords)) {
+            $seoKeywords = trim(strip_tags($__env->yieldContent('keywords')));
         }
 
         // OG Image: @yield('og_image') → seo.og_image → site logo

@@ -38,7 +38,23 @@ class SeoComposer
         $seo = null;
         if ($pageKey) {
             $seo = Cache::remember("seo_{$pageKey}", 60 * 10, function () use ($pageKey) {
-                return Seo::where('page', $pageKey)->first();
+                // Tentukan daftar alias pencarian agar admin bebas mengetik bahasa Inggris maupun Indonesia
+                $aliases = [$pageKey];
+                if ($pageKey === 'about') {
+                    $aliases = ['about', 'about-us', 'about_us', 'tentang-kami', 'tentang_kami'];
+                } elseif ($pageKey === 'contact') {
+                    $aliases = ['contact', 'contact-us', 'contact_us', 'kontak', 'hubungi-kami'];
+                } elseif ($pageKey === 'products') {
+                    $aliases = ['products', 'produk'];
+                } elseif ($pageKey === 'services') {
+                    $aliases = ['services', 'layanan'];
+                } elseif ($pageKey === 'gallery') {
+                    $aliases = ['gallery', 'galeri'];
+                } elseif ($pageKey === 'blog') {
+                    $aliases = ['blog', 'artikel', 'berita'];
+                }
+
+                return Seo::whereIn('page', $aliases)->first();
             });
         }
 
