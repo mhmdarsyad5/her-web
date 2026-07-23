@@ -16,3 +16,11 @@ Artisan::command('inspire', function () {
 
 // Tandai rental overdue setiap hari pukul 00:05
 Schedule::command('rentals:mark-overdue')->dailyAt('00:05');
+
+// Bersihkan log kunjungan lama (> 90 hari) dan log aktivitas lama (> 90 hari) setiap hari pukul 00:10 WIB (Jam Sepi)
+Schedule::command('model:prune', [
+    '--model' => [
+        \App\Models\VisitorLog::class,
+        \App\Models\ActivityLog::class,
+    ],
+])->dailyAt('00:10');

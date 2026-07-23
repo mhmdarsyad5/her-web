@@ -35,7 +35,7 @@ class VisitorChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Pengunjung Unik (IP Address)',
+                    'label' => 'Pengunjung (IP Address)',
                     'data' => $data['unique'],
                     'borderColor' => '#3b82f6', // Blue color
                     'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
