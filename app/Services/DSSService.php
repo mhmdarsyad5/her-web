@@ -136,10 +136,10 @@ class DSSService
         $errors = [];
         $input = $userInput ?? $this->userInput;
 
-        if (empty($input['weight'])) {
+        if ($input['weight'] === null || $input['weight'] === '') {
             $errors[] = 'Silakan isi kapasitas beban yang dibutuhkan';
         }
-        if (empty($input['height'])) {
+        if ($input['height'] === null || $input['height'] === '') {
             $errors[] = 'Silakan isi tinggi angkat yang dibutuhkan';
         }
 
