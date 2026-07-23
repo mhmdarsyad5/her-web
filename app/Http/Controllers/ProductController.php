@@ -15,7 +15,7 @@ class ProductController extends Controller
         $products = Product::where('is_active', true)
             ->orderBy('sort_order')
             ->latest()
-            ->paginate(9);
+            ->paginate(10);
 
         $title = setting('nav_product', 'Produk');
 
@@ -44,7 +44,7 @@ class ProductController extends Controller
                 });
             })
             ->orderBy('sort_order')
-            ->paginate(9);
+            ->paginate(10);
 
         return response()->json([
             'html' => view(
