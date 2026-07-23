@@ -501,7 +501,7 @@
                         </button>
 
                         {{-- Delete Selected Button --}}
-                        <button wire:click="deleteSelected" onclick="confirm('Apakah Anda yakin ingin menghapus ' + {{ count($selectedItems) }} + ' item terpilih?') || event.stopImmediatePropagation()" class="media-btn media-btn-danger">
+                        <button wire:click="startDeleteConfirmation" class="media-btn media-btn-danger">
                             <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                             Hapus ({{ count($selectedItems) }})
                         </button>
@@ -708,6 +708,35 @@
                     </button>
                     <button wire:click="moveSelectedItems" class="media-btn media-btn-primary" style="flex: 1;">
                         Pindahkan Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- DELETE CONFIRMATION MODAL OVERLAY --}}
+    @if($isConfirmingDelete)
+        <div style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(9, 9, 11, 0.45); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 16px;">
+            <div class="media-detail-card" style="width: 420px; min-height: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); border: 1px solid #e4e4e7; border-radius: 12px; background: white; padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; align-items: center; gap: 12px; color: #dc2626;">
+                    <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h3 style="border: none; padding: 0; margin: 0; font-size: 15px; font-weight: 700; color: #18181b;">
+                        Konfirmasi Hapus Media
+                    </h3>
+                </div>
+                
+                <p style="font-size: 12.5px; color: #71717a; margin: 0; line-height: 1.5; text-align: left;">
+                    Apakah Anda yakin ingin menghapus <strong>{{ count($selectedItems) }}</strong> item media terpilih? Tindakan ini tidak dapat dibatalkan dan semua data/file tersebut akan terhapus permanen dari server.
+                </p>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; width: 100%;">
+                    <button wire:click="cancelDeleteConfirmation" class="media-btn media-btn-secondary" style="flex: 1; height: 36px;">
+                        Batal
+                    </button>
+                    <button wire:click="deleteSelected" class="media-btn" style="flex: 1; height: 36px; background-color: #dc2626; color: white !important; border-color: #dc2626; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;">
+                        Ya, Hapus Permanen
                     </button>
                 </div>
             </div>

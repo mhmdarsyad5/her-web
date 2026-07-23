@@ -47,6 +47,9 @@ class Media extends Page
 
     public $targetFolder = '';
 
+    // Delete confirmation state
+    public $isConfirmingDelete = false;
+
     // Pagination state
     public $perPage = 24;
 
@@ -370,6 +373,20 @@ class Media extends Page
 
         $this->selectedItems = [];
         $this->selectedItem = null;
+        $this->isConfirmingDelete = false;
+    }
+
+    public function startDeleteConfirmation()
+    {
+        if (empty($this->selectedItems)) {
+            return;
+        }
+        $this->isConfirmingDelete = true;
+    }
+
+    public function cancelDeleteConfirmation()
+    {
+        $this->isConfirmingDelete = false;
     }
 
     // Move feature methods
