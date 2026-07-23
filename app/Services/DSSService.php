@@ -91,12 +91,14 @@ class DSSService
         $products = $query->get();
 
         return $products->filter(function ($product) use ($weightKg, $heightMm) {
-            // 1. Capacity Match (Product must be able to lift the requested weight)
+            // 1. Capacity Range Match (Product must fit within the capacity range)
             if ($weightKg !== null) {
+                // Use new numeric columns if available, otherwise fallback to parsing
                 if ($product->max_capacity_kg !== null) {
+                    $minCap = $product->min_capacity_kg ?? 0;
                     $maxCap = $product->max_capacity_kg;
                 } else {
-                    [, $maxCap] = self::parseRange($product->load_capacity, 'kg');
+                    [$minCap, $maxCap] = self::parseRange($product->load_capacity, 'kg');
                 }
 
                 // If user requests a positive weight, but product max capacity is 0 or less, exclude it
@@ -104,8 +106,11 @@ class DSSService
                     return false;
                 }
 
-                // Exclude if the requested weight is greater than the product's max capacity
-                if ($maxCap > 0) {
+                if ($minCap > 0 && $maxCap > 0) {
+                    if ($weightKg < $minCap || $weightKg > $maxCap) {
+                        return false;
+                    }
+                } elseif ($maxCap > 0) {
                     if ($weightKg > $maxCap) {
                         return false;
                     }
