@@ -2,7 +2,7 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\VisitorLog;
+use App\Models\VisitorLocation;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -18,12 +18,9 @@ class VisitorLocationsTable extends BaseWidget
 
     public function table(Table $table): Table
     {
-        $query = VisitorLog::query();
-        $query->getModel()->setKeyName('city');
-
         return $table
             ->query(
-                $query
+                VisitorLocation::query()
                     ->select('city', 'region', 'country', DB::raw('count(distinct ip_address) as unique_visitors'))
                     ->whereNotNull('city')
                     ->where('city', '!=', 'Unknown')
