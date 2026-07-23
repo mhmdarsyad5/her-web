@@ -625,14 +625,35 @@
         html += '<div class="result-header">Ditemukan rekomendasi unit yang sesuai</div>';
         html += '<div class="result-sub" style="margin-bottom:2rem">Berikut adalah unit terbaik yang memenuhi spesifikasi kebutuhan Anda:</div>';
 
-        // Grid Container
-        html += '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">';
-
-        products.forEach((prod) => {
-            html += renderUnitCard(prod);
+        // Group products by product_type_name
+        const grouped = {};
+        products.forEach(prod => {
+            const typeName = prod.product_type_name || 'Lainnya';
+            if (!grouped[typeName]) {
+                grouped[typeName] = [];
+            }
+            grouped[typeName].push(prod);
         });
 
-        html += '</div>'; // End Grid
+        // Loop through each group and render them
+        for (const [typeName, items] of Object.entries(grouped)) {
+            html += '<div class="group-section mb-10">';
+            
+            // Group Header (Elegant and premium styling)
+            html += '  <div class="flex items-center gap-2.5 mb-5 border-b border-zinc-150 pb-3">';
+            html += '    <span class="w-1.5 h-6 rounded-full" style="background-color: var(--primary-color);"></span>';
+            html += '    <h3 class="text-base sm:text-lg font-extrabold text-zinc-900 tracking-tight">' + typeName + '</h3>';
+            html += '    <span class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-semibold rounded-full" style="color: var(--primary-color); background-color: rgba(255, 127, 0, 0.08);">' + items.length + ' Unit</span>';
+            html += '  </div>';
+
+            // Grid Container for this group
+            html += '  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">';
+            items.forEach((prod) => {
+                html += renderUnitCard(prod);
+            });
+            html += '  </div>'; // End Grid for this group
+            html += '</div>'; // End Group Section
+        }
 
         sec.innerHTML = html;
     }

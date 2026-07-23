@@ -112,6 +112,11 @@ class DSSService
                     [, $maxHeight] = self::parseRange($product->lift_height, 'mm');
                 }
 
+                // If user requests a positive lifting height, but product cannot lift (maxHeight is 0), exclude it!
+                if ($heightMm > 0 && $maxHeight <= 0) {
+                    return false;
+                }
+
                 if ($maxHeight > 0) {
                     if ($heightMm > $maxHeight) {
                         return false;
@@ -169,6 +174,8 @@ class DSSService
      */
     protected function formatProductResponse(Product $product): array
     {
+        $productTypeName = $product->typeRelation?->name ?? '-';
+
         return [
             'id' => $product->id,
             'name' => $product->name,
@@ -176,6 +183,7 @@ class DSSService
             'image' => $product->thumbnail ? asset('storage/'.$product->thumbnail) : null,
             'type' => $product->energy_type ?? '-',
             'product_type' => $product->product_type,
+            'product_type_name' => $productTypeName,
             'capacity' => $product->load_capacity ?? '-',
             'lift_height' => $product->lift_height ?? '-',
             'operator_type' => $product->operator_type ?? '-',

@@ -123,4 +123,12 @@ class Product extends Model
     {
         return $this->belongsToMany(DSSCriteria::class, 'dss_criteria_product', 'product_id', 'dss_criteria_id');
     }
+
+    /**
+     * Relationship to ProductType (belongsTo)
+     */
+    public function typeRelation(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(ProductType::class, 'product_type', 'slug');
+    }
 }
