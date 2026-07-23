@@ -14,7 +14,7 @@ strip_tags(setting('gallery_title', 'Galeri'))
 {{-- ================= BREADCRUMB ================= --}}
 @include('frontend.components.breadcrumb')
 
-<section class="pt-6 pb-12 sm:pt-8 sm:pb-16 bg-white">
+<section id="gallerySection" class="pt-6 pb-12 sm:pt-8 sm:pb-16 bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}
@@ -179,6 +179,12 @@ strip_tags(setting('gallery_title', 'Galeri'))
                         .catch(() => {
                             galleryGrid.innerHTML = '<p class="col-span-full text-center text-zinc-500">Gagal memuat galeri.</p>';
                         });
+
+                    // Scroll smoothly to top of the catalog section
+                    const section = document.getElementById('gallerySection');
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
             });
         }

@@ -167,6 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const url = new URL(link.href);
                 const page = url.searchParams.get('page') || 1;
                 triggerAjaxSearch(page);
+
+                // Scroll smoothly to top of the catalog section
+                const section = document.getElementById('productsSection') || document.getElementById('blogSection') || document.querySelector('section');
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }
         });
     }

@@ -49,11 +49,11 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 
 @include('frontend.components.breadcrumb')
 
-<section class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
+<section id="productsSection" class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}
-        <div class="mb-6 text-center max-w-2xl mx-auto fade-slide opacity-0 translate-y-4">
+        <div class="mb-4 text-center max-w-2xl mx-auto fade-slide opacity-0 translate-y-4">
 
             @if(setting('product_badge_active', true) && setting('product_badge'))
                 <span class="inline-flex items-center rounded-full
@@ -82,7 +82,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         </div>
 
         {{-- ================= SEARCH ================= --}}
-        <div class="mb-8 flex justify-center fade-slide opacity-0 translate-y-4">
+        <div class="mb-5 flex justify-center fade-slide opacity-0 translate-y-4">
             <div class="relative w-full max-w-md">
                 <input
                     type="text"
@@ -115,8 +115,8 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                 ->pluck('total', 'product_type')
                 ->toArray();
         @endphp
-        <div class="mb-10 flex justify-center fade-slide opacity-0 translate-y-4">
-            <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 pb-4 pt-1 w-full max-w-6xl px-1">
+        <div class="mb-6 flex justify-center fade-slide opacity-0 translate-y-4">
+            <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 pb-2 pt-1 w-full max-w-6xl px-1">
                  <button type="button" data-segment="all" class="segment-btn active px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-zinc-200 text-[10px] sm:text-xs font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
                     Semua Produk <span class="segment-count">{{ $allCount }}</span>
                 </button>

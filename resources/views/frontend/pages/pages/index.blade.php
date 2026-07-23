@@ -12,7 +12,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 {{-- Breadcrumb --}}
 @include('frontend.components.breadcrumb')
 
-<section class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
+<section id="blogSection" class="pt-1 pb-12 sm:pt-2 sm:pb-16 bg-zinc-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {{-- ================= HEADER ================= --}}
