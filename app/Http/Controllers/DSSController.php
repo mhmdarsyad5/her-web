@@ -23,8 +23,8 @@ class DSSController extends Controller
     {
         // Validate inputs
         $validated = $request->validate([
-            'industri' => 'nullable|string',
-            'kota' => 'nullable|string',
+            'industri' => 'required|string',
+            'kota' => 'required|string',
             'berat' => 'required|numeric|min:1',
             'tinggi' => 'required|numeric|min:0',
         ]);

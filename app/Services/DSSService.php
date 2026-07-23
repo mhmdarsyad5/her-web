@@ -157,6 +157,12 @@ class DSSService
         $errors = [];
         $input = $userInput ?? $this->userInput;
 
+        if (empty($input['industry'])) {
+            $errors[] = 'Silakan pilih sektor industri Anda';
+        }
+        if (empty($input['city'])) {
+            $errors[] = 'Silakan isi lokasi kota Anda';
+        }
         if ($input['weight'] === null || $input['weight'] === '') {
             $errors[] = 'Silakan isi kapasitas beban yang dibutuhkan';
         }

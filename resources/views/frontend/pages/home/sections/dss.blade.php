@@ -8,6 +8,10 @@
         --font-sans: inherit;
     }
 
+    #dssAlertModal {
+        z-index: 999999 !important;
+    }
+
     * {
         box-sizing: border-box;
         margin: 0;
@@ -328,6 +332,16 @@
             width: 100%;
         }
     }
+
+    /* Hide HTML5 number spinners to prevent overlapping with units text */
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 
 @php
@@ -465,6 +479,22 @@
             </div>
         </div>
 
+        <!-- Custom Premium Alert Modal -->
+        <div id="dssAlertModal" class="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-zinc-950/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-zinc-150 transform scale-95 transition-transform duration-300" id="dssAlertContent">
+                <div class="flex items-center gap-3 text-amber-500 mb-3">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h4 class="text-base font-extrabold text-zinc-900">Validasi Input</h4>
+                </div>
+                <p class="text-xs sm:text-sm text-zinc-650 mb-5 leading-relaxed" id="dssAlertMessage">Pesan alert di sini</p>
+                <div class="flex justify-end">
+                    <button onclick="closeDssAlert()" class="px-5 py-2 text-xs font-bold text-white rounded-xl shadow-lg transition duration-200" style="background-color: var(--primary-color);">OK</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </section>
 
@@ -472,8 +502,14 @@
     let currentStep = 1;
     let cities = [];
 
-    // Fetch Indonesia cities list dynamically
+    // Fetch Indonesia cities list dynamically and setup modal placement
     document.addEventListener("DOMContentLoaded", () => {
+        // Move alert modal to body to break out of CSS stacking context restriction
+        const modal = document.getElementById('dssAlertModal');
+        if (modal) {
+            document.body.appendChild(modal);
+        }
+
         fetch('/js/indonesia-cities.json')
             .then(response => response.json())
             .then(data => {
@@ -545,11 +581,11 @@
         const kota = document.getElementById('kota').value.trim();
 
         if (!industri) {
-            alert('Silakan pilih sektor industri Anda.');
+            showDssAlert('Silakan pilih sektor industri Anda.');
             return;
         }
         if (!kota) {
-            alert('Silakan masukkan lokasi kota Anda.');
+            showDssAlert('Silakan masukkan lokasi kota Anda.');
             return;
         }
 
@@ -562,11 +598,11 @@
         const tinggiVal = document.getElementById('tinggi').value;
 
         if (!beratVal || parseFloat(beratVal) <= 0) {
-            alert('Silakan masukkan berat beban yang valid (min. 1 kg).');
+            showDssAlert('Silakan masukkan berat beban yang valid (min. 1 kg).');
             return;
         }
         if (tinggiVal === '' || parseFloat(tinggiVal) < 0) {
-            alert('Silakan masukkan tinggi angkat yang valid (min. 0 meter).');
+            showDssAlert('Silakan masukkan tinggi angkat yang valid (min. 0 meter).');
             return;
         }
 
@@ -769,5 +805,29 @@
         if (dssSec) {
             dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+    }
+
+    function showDssAlert(message) {
+        const modal = document.getElementById('dssAlertModal');
+        const msgEl = document.getElementById('dssAlertMessage');
+        const content = document.getElementById('dssAlertContent');
+        if (!modal || !msgEl || !content) return;
+
+        msgEl.textContent = message;
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100');
+        content.classList.remove('scale-95');
+        content.classList.add('scale-100');
+    }
+
+    function closeDssAlert() {
+        const modal = document.getElementById('dssAlertModal');
+        const content = document.getElementById('dssAlertContent');
+        if (!modal || !content) return;
+
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.remove('opacity-100');
+        content.classList.add('scale-95');
+        content.classList.remove('scale-100');
     }
 </script>
