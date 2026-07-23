@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::where('is_active', true)
-            ->orderBy('sort_order')
+            ->orderByRaw('CASE WHEN sort_order = 0 THEN 999999 ELSE sort_order END ASC')
             ->latest()
             ->paginate(10);
 
@@ -43,7 +43,7 @@ class ProductController extends Controller
                         ->orWhere('description_id', 'LIKE', "%{$keyword}%");
                 });
             })
-            ->orderBy('sort_order')
+            ->orderByRaw('CASE WHEN sort_order = 0 THEN 999999 ELSE sort_order END ASC')
             ->paginate(10);
 
         return response()->json([

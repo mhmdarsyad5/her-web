@@ -24,7 +24,7 @@ class HomeController extends Controller
 
         $services = Service::where('is_active', true)->get();
         $products = Product::where('is_active', true)
-            ->orderBy('sort_order', 'asc')
+            ->orderByRaw('CASE WHEN sort_order = 0 THEN 999999 ELSE sort_order END ASC')
             ->orderBy('id', 'asc')
             ->take(10)
             ->get();
