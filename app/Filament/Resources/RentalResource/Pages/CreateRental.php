@@ -4,12 +4,15 @@ namespace App\Filament\Resources\RentalResource\Pages;
 
 use App\Filament\Resources\RentalResource;
 use App\Models\Rental;
+use App\Traits\RedirectsToIndex;
 use Carbon\Carbon;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Auth;
 
 class CreateRental extends CreateRecord
 {
+    use RedirectsToIndex;
+
     protected static string $resource = RentalResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
