@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         // Jalankan SettingsSeeder
         $this->call(SettingsSeeder::class);
         $this->call(HeroSectionSeeder::class);
+        $this->call(ProductTypeSeeder::class);
     }
 }

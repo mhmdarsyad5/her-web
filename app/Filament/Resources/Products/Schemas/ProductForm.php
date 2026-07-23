@@ -49,13 +49,7 @@ class ProductForm
 
                             Select::make('product_type')
                                 ->label('Tipe / Segmen Produk')
-                                ->options([
-                                    'electric' => 'Forklift Elektrik',
-                                    'diesel' => 'Forklift Diesel',
-                                    'pallet-truck' => 'Pallet Truck',
-                                    'pallet-stacker' => 'Pallet Stacker',
-                                    'warehouse' => 'Warehouse Equipment & AGV',
-                                ])
+                                ->options(fn () => \App\Models\ProductType::where('is_active', true)->orderBy('sort_order')->pluck('name', 'slug'))
                                 ->placeholder('Pilih tipe segmen produk...')
                                 ->required(),
 
@@ -124,7 +118,7 @@ class ProductForm
                     ->description('Teks ini hanya digunakan untuk tampilan visual di halaman produk.')
                     ->collapsible()
                     ->schema([
-                        Grid::make(2)->schema([
+                        Grid::make(3)->schema([
                             TextInput::make('lift_height')
                                 ->label('Tinggi Angkat (Teks Tampilan)')
                                 ->placeholder('Contoh: 3.0 - 6.0 m atau 3.0 m')
@@ -133,6 +127,11 @@ class ProductForm
                             TextInput::make('load_capacity')
                                 ->label('Kapasitas Beban (Teks Tampilan)')
                                 ->placeholder('Contoh: 1.5 - 3.8 ton atau 3 ton')
+                                ->maxLength(100),
+
+                            TextInput::make('operator_type')
+                                ->label('Tipe Operator (Teks Tampilan)')
+                                ->placeholder('Contoh: Seated / Stand-on')
                                 ->maxLength(100),
                         ]),
                     ]),

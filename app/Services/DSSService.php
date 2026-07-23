@@ -178,6 +178,7 @@ class DSSService
             'product_type' => $product->product_type,
             'capacity' => $product->load_capacity ?? '-',
             'lift_height' => $product->lift_height ?? '-',
+            'operator_type' => $product->operator_type ?? '-',
             'tagline' => $product->tagline,
             'description' => str($product->description)->stripTags()->limit(120)->toString(),
         ];

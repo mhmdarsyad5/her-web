@@ -178,6 +178,11 @@
                         {{ strip_tags(setting('nav_services', 'Layanan')) }}
                     </a>
 
+                    <a href="{{ route('products.index') }}"
+                        class="mobile-card-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                        {{ strip_tags(setting('nav_product', 'Produk')) }}
+                    </a>
+
                     <a href="{{ route('pages.index') }}"
                         class="mobile-card-link {{ request()->routeIs('pages.*', 'faq.index', 'terms-conditions.index', 'privacy-policy.index') ? 'active' : '' }}">
                         {{ strip_tags(setting('nav_blog', 'Blog')) }}

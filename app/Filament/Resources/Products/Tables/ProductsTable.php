@@ -42,18 +42,46 @@ class ProductsTable
                     ->toggleable(),
 
                 /* =====================
-                 * PRICING
+                 * TIPE / SEGMEN PRODUK
                  * ===================== */
-                TextColumn::make('price')
-                    ->label('Harga')
-                    ->money('IDR')
-                    ->sortable(),
-
-                TextColumn::make('sale_price')
-                    ->label('Harga Promo')
-                    ->money('IDR')
+                TextColumn::make('product_type')
+                    ->label('Tipe / Segmen')
+                    ->formatStateUsing(function ($state) {
+                        return \App\Models\ProductType::where('slug', $state)->value('name') ?? $state;
+                    })
+                    ->badge()
+                    ->color('primary')
                     ->sortable()
-                    ->placeholder('-'),
+                    ->searchable(),
+
+                /* =====================
+                 * KRITERIA REKOMENDASI (DSS)
+                 * ===================== */
+                TextColumn::make('dssCriteria.name')
+                    ->label('Sektor Industri')
+                    ->badge()
+                    ->color('success')
+                    ->separator(', ')
+                    ->toggleable(),
+
+                TextColumn::make('max_lift_height_mm')
+                    ->label('Tinggi Maks (mm)')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
+
+                TextColumn::make('capacity_range')
+                    ->label('Kapasitas Rekomendasi')
+                    ->getStateUsing(function ($record) {
+                        if ($record->min_capacity_kg === null && $record->max_capacity_kg === null) {
+                            return '-';
+                        }
+                        $min = $record->min_capacity_kg ?? 0;
+                        $max = $record->max_capacity_kg ?? 0;
+
+                        return number_format($min, 0, ',', '.').' - '.number_format($max, 0, ',', '.').' kg';
+                    })
+                    ->toggleable(),
 
                 /* =====================
                  * STATUS & ORDER

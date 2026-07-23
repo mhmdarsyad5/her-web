@@ -83,9 +83,9 @@
 
                                     {{-- INFO --}}
                                     <div class="flex-1 min-w-0">
-                                        <h4 class="text-sm sm:text-base font-semibold text-zinc-900 mb-1">
+                                        <h3 class="text-sm sm:text-base font-semibold text-zinc-900 mb-1">
                                             {{ strip_tags(setting('branch_' . $branch . '_name')) }}
-                                        </h4>
+                                        </h3>
                                         @if(setting('branch_' . $branch . '_address'))
                                         <p class="text-xs sm:text-sm text-zinc-600 mb-2">
                                             {{ strip_tags(setting('branch_' . $branch . '_address')) }}

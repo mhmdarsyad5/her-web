@@ -10,6 +10,10 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 @section('content')
 
 <style>
+    .segment-btn {
+        display: inline-flex;
+        align-items: center;
+    }
     .segment-btn.active {
         background-color: var(--primary-color, #F5A21C) !important;
         color: #ffffff !important;
@@ -17,6 +21,27 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         box-shadow: 0 4px 14px 0 rgba(245, 162, 28, 0.3) !important;
         transform: scale(1.05);
         font-weight: 700;
+    }
+    .segment-count {
+        background-color: #f4f4f5;
+        color: #71717a;
+        border-radius: 9999px;
+        padding: 0.125rem 0.375rem;
+        font-size: 10px;
+        font-weight: 700;
+        margin-left: 0.375rem;
+        transition: all 0.2s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .segment-btn:hover .segment-count {
+        background-color: #e4e4e7;
+        color: #18181b;
+    }
+    .segment-btn.active .segment-count {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
     }
 </style>
 
@@ -79,26 +104,28 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         </div>
 
         {{-- ================= SEGMENT FILTER BAR ================= --}}
+        @php
+            $productTypes = \App\Models\ProductType::where('is_active', true)->orderBy('sort_order')->get();
+            $allCount = \App\Models\Product::where('is_active', true)->count();
+            $counts = \App\Models\Product::where('is_active', true)
+                ->select('product_type', \DB::raw('count(*) as total'))
+                ->groupBy('product_type')
+                ->pluck('total', 'product_type')
+                ->toArray();
+        @endphp
         <div class="mb-10 flex justify-center fade-slide opacity-0 translate-y-4">
-            <div class="flex items-center gap-3 overflow-x-auto pb-4 pt-1 w-full max-w-6xl scrollbar-none justify-start lg:justify-center px-1">
-                 <button type="button" data-segment="all" class="segment-btn active flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Semua Produk
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-4 pt-1 w-full max-w-6xl px-1">
+                 <button type="button" data-segment="all" class="segment-btn active px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
+                    Semua Produk <span class="segment-count">{{ $allCount }}</span>
                 </button>
-                <button type="button" data-segment="electric" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Forklift Elektrik
-                </button>
-                <button type="button" data-segment="diesel" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Forklift Diesel
-                </button>
-                <button type="button" data-segment="pallet-truck" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Pallet Truck
-                </button>
-                <button type="button" data-segment="pallet-stacker" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Pallet Stacker
-                </button>
-                <button type="button" data-segment="warehouse" class="segment-btn flex-shrink-0 px-5 py-3 rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
-                    Warehouse & AGV
-                </button>
+                @foreach($productTypes as $type)
+                    @php
+                        $count = $counts[$type->slug] ?? 0;
+                    @endphp
+                    <button type="button" data-segment="{{ $type->slug }}" class="segment-btn px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
+                        {{ $type->name }} <span class="segment-count">{{ $count }}</span>
+                    </button>
+                @endforeach
             </div>
         </div>
 

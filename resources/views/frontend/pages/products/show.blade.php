@@ -50,8 +50,8 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                             </div>
                             
                             {{-- Swiper Navigation Buttons --}}
-                            <div class="swiper-button-next !text-white !h-9 !w-9 after:!text-[10px] bg-zinc-950/40 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div class="swiper-button-prev !text-white !h-9 !w-9 after:!text-[10px] bg-zinc-950/40 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div role="button" aria-label="Berikutnya" class="swiper-button-next !text-white !h-9 !w-9 after:!text-[10px] bg-zinc-950/40 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div role="button" aria-label="Sebelumnya" class="swiper-button-prev !text-white !h-9 !w-9 after:!text-[10px] bg-zinc-950/40 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             
                             {{-- Swiper Pagination --}}
                             <div class="swiper-pagination !bottom-4"></div>
@@ -95,7 +95,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                 {{-- SPECIFICATIONS GRID --}}
                 <div class="mt-5 pt-4 border-t border-zinc-100">
                     <h3 class="text-xs font-bold tracking-wider text-zinc-400 uppercase">Spesifikasi Unit</h3>
-                    <div class="mt-3.5 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="mt-3.5 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                         
                         {{-- Energy Type --}}
                         <div class="flex items-center gap-3 bg-zinc-50 border border-zinc-200/60 rounded-2xl p-4 transition-all duration-300 hover:border-primary-400/50 hover:shadow-md hover:shadow-primary-900/5">
@@ -130,6 +130,17 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                             </div>
                         </div>
 
+                        {{-- Operator Type --}}
+                        <div class="flex items-center gap-3 bg-zinc-50 border border-zinc-200/60 rounded-2xl p-4 transition-all duration-300 hover:border-primary-400/50 hover:shadow-md hover:shadow-primary-900/5">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary-100/65 text-primary-900">
+                                <x-heroicon-o-user class="h-5 w-5" />
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-[10px] font-semibold text-zinc-400 uppercase tracking-wider">Tipe Operator</p>
+                                <p class="text-xs sm:text-sm font-bold text-zinc-800 mt-0.5 leading-tight">{{ $product->operator_type ?: '-' }}</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -161,17 +172,17 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 
         {{-- ================= FULL SPECIFICATIONS TABLE ================= --}}
         @if(!empty($product->specifications) && count($product->specifications) > 0)
-        <div class="mt-12 bg-white rounded-3xl border border-zinc-200/80 p-6 sm:p-8 shadow-sm fade-slide opacity-0 translate-y-4">
+        <div class="mt-8 sm:mt-12 bg-white rounded-3xl border border-zinc-200/80 p-5 sm:p-8 shadow-sm fade-slide opacity-0 translate-y-4">
             <h3 class="text-lg font-bold text-zinc-955 mb-6">Spesifikasi Lengkap</h3>
-            <div class="overflow-hidden rounded-2xl border border-zinc-100">
-                <table class="w-full text-sm text-left text-zinc-600">
+            <div class="overflow-x-auto rounded-2xl border border-zinc-150">
+                <table class="w-full text-xs sm:text-sm text-left text-zinc-660 table-fixed sm:table-auto">
                     <tbody class="divide-y divide-zinc-100">
                         @foreach($product->specifications as $spec)
                         <tr class="hover:bg-zinc-50/50 transition-colors">
-                            <td class="py-3.5 px-5 font-semibold text-zinc-900 bg-zinc-50/50 w-1/3 border-r border-zinc-100">
+                            <td class="py-2.5 px-3.5 sm:py-3.5 sm:px-5 font-semibold text-zinc-900 bg-zinc-50/50 w-[110px] sm:w-1/3 border-r border-zinc-100 break-words">
                                 {{ $spec['key'] }}
                             </td>
-                            <td class="py-3.5 px-5 text-zinc-700 font-medium">
+                            <td class="py-2.5 px-3.5 sm:py-3.5 sm:px-5 text-zinc-700 font-medium break-all sm:break-words">
                                 {{ $spec['value'] }}
                             </td>
                         </tr>
@@ -243,7 +254,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 
         {{-- ================= RELATED PRODUCTS ================= --}}
         @if($relatedProducts->count())
-        <section class="mt-20 pt-16 border-t border-zinc-200/80">
+        <section class="mt-10 pt-8 sm:mt-20 sm:pt-16 border-t border-zinc-200/80">
 
             <div class="mb-8 flex items-end justify-between fade-slide opacity-0 translate-y-4">
                 <div>
@@ -443,7 +454,7 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
 {{-- ================= STYLE ================= --}}
 <style>
     .share-flex-container {
-        margin-top: 3rem;
+        margin-top: 1.75rem;
         display: flex;
         flex-wrap: wrap;
         align-items: center;

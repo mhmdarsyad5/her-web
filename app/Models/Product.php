@@ -26,6 +26,7 @@ class Product extends Model
         'energy_type',
         'lift_height',
         'load_capacity',
+        'operator_type',
         'price',
         'sale_price',
         'images',
