@@ -146,6 +146,43 @@ strip_tags(setting('gallery_title', 'Galeri'))
             }, 400);
         });
 
+        // Intercept pagination clicks for AJAX results
+        if (paginationWrapper) {
+            paginationWrapper.addEventListener('click', function(e) {
+                const link = e.target.closest('a');
+                if (link) {
+                    e.preventDefault();
+                    const url = new URL(link.href);
+                    const page = url.searchParams.get('page') || 1;
+                    const keyword = searchInput.value.trim();
+
+                    // Skeleton loading
+                    fetch('{{ route('galleries.search.skeleton') }}')
+                        .then(res => res.text())
+                        .then(html => {
+                            galleryGrid.innerHTML = html;
+                            paginationWrapper.innerHTML = '';
+                        });
+
+                    // Actual search
+                    fetch(`{{ route('galleries.search') }}?keyword=${encodeURIComponent(keyword)}&page=${page}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.html?.trim()) {
+                                galleryGrid.innerHTML = data.html;
+                                paginationWrapper.innerHTML = data.pagination ?? '';
+                            } else {
+                                galleryGrid.innerHTML = data.empty || '<p class="col-span-full text-center text-zinc-500">Tidak ada hasil ditemukan.</p>';
+                                paginationWrapper.innerHTML = '';
+                            }
+                        })
+                        .catch(() => {
+                            galleryGrid.innerHTML = '<p class="col-span-full text-center text-zinc-500">Gagal memuat galeri.</p>';
+                        });
+                }
+            });
+        }
+
     });
 </script>
 

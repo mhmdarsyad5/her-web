@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     `;
 
-    function triggerAjaxSearch() {
+    function triggerAjaxSearch(page = 1) {
         const keyword = searchInput ? searchInput.value.trim() : '';
 
         /**
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pagesGrid.innerHTML = loaderHtml;
             if (paginationWrapper) paginationWrapper.innerHTML = '';
 
-            fetch(`/cari/artikel?keyword=${encodeURIComponent(keyword)}&category=${encodeURIComponent(activeCategorySlug)}`)
+            fetch(`/cari/artikel?keyword=${encodeURIComponent(keyword)}&category=${encodeURIComponent(activeCategorySlug)}&page=${page}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.html?.trim()) {
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.innerHTML = loaderHtml;
             if (paginationWrapper) paginationWrapper.innerHTML = '';
 
-            fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}&segment=${encodeURIComponent(activeSegment)}`)
+            fetch(`/cari/produk?keyword=${encodeURIComponent(keyword)}&segment=${encodeURIComponent(activeSegment)}&page=${page}`)
                 .then(res => res.json())
                 .then(data => {
                     if (data.html?.trim()) {
@@ -156,5 +156,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(err => console.error('Products search error:', err));
         }
+    }
+
+    // Intercept pagination clicks for AJAX results
+    if (paginationWrapper) {
+        paginationWrapper.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link) {
+                e.preventDefault();
+                const url = new URL(link.href);
+                const page = url.searchParams.get('page') || 1;
+                triggerAjaxSearch(page);
+            }
+        });
     }
 });
