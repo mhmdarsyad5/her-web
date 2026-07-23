@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class VisitorLocationsTable extends BaseWidget
 {
-    protected ?string $heading = '📍 Lokasi Pengunjung Terbanyak (90 Hari Terakhir)';
+    protected static ?string $heading = '📍 Lokasi Pengunjung Terbanyak (90 Hari Terakhir)';
 
     protected static ?int $sort = 3;
 
@@ -18,9 +18,12 @@ class VisitorLocationsTable extends BaseWidget
 
     public function table(Table $table): Table
     {
+        $query = VisitorLog::query();
+        $query->getModel()->setKeyName('city');
+
         return $table
             ->query(
-                VisitorLog::query()
+                $query
                     ->select('city', 'region', 'country', DB::raw('count(distinct ip_address) as unique_visitors'))
                     ->whereNotNull('city')
                     ->where('city', '!=', 'Unknown')
