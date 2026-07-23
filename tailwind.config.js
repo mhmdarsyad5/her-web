@@ -17,6 +17,10 @@ module.exports = {
         display: ['Poppins', ...defaultTheme.fontFamily.sans],
       },
 
+      maxWidth: {
+        '7xl': '75rem', // 1200px (Default is 80rem / 1280px)
+      },
+
       // WARNA PRIMARY (sumber utama warna UI & glow)
       colors: {
         primary: {

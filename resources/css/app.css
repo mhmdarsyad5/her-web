@@ -411,7 +411,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
    ========================== */
 @media (min-width: 1536px) {
     .max-w-7xl {
-        max-width: 1440px !important;
+        max-width: 1320px !important;
     }
     
     /* Hero scaling on 2K */
@@ -448,7 +448,7 @@ h1, h2, h3, h4, h5, h6, .font-display {
 }
 @media (min-width: 1920px) {
     .max-w-7xl {
-        max-width: 1680px !important;
+        max-width: 1480px !important;
     }
     
     /* Hero scaling on 4K */
