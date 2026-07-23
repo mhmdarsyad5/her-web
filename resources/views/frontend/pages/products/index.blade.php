@@ -18,22 +18,24 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
         background-color: var(--primary-color, #F5A21C) !important;
         color: #ffffff !important;
         border-color: var(--primary-color, #F5A21C) !important;
-        box-shadow: 0 4px 14px 0 rgba(245, 162, 28, 0.3) !important;
-        transform: scale(1.05);
+        box-shadow: 0 3px 10px 0 rgba(245, 162, 28, 0.2) !important;
+        transform: scale(1.03);
         font-weight: 700;
     }
     .segment-count {
         background-color: #f4f4f5;
         color: #71717a;
         border-radius: 9999px;
-        padding: 0.125rem 0.375rem;
-        font-size: 10px;
-        font-weight: 700;
-        margin-left: 0.375rem;
+        padding: 0.05rem 0.25rem;
+        font-size: 9px;
+        font-weight: 750;
+        margin-left: 0.25rem;
         transition: all 0.2s ease-in-out;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        min-width: 1.15rem;
+        height: 1.15rem;
     }
     .segment-btn:hover .segment-count {
         background-color: #e4e4e7;
@@ -114,15 +116,15 @@ strip_tags($title) . ' - ' . strip_tags(setting('site_name', 'Herro Equipment Re
                 ->toArray();
         @endphp
         <div class="mb-10 flex justify-center fade-slide opacity-0 translate-y-4">
-            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pb-4 pt-1 w-full max-w-6xl px-1">
-                 <button type="button" data-segment="all" class="segment-btn active px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
+            <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 pb-4 pt-1 w-full max-w-6xl px-1">
+                 <button type="button" data-segment="all" class="segment-btn active px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-zinc-200 text-[10px] sm:text-xs font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
                     Semua Produk <span class="segment-count">{{ $allCount }}</span>
                 </button>
                 @foreach($productTypes as $type)
                     @php
                         $count = $counts[$type->slug] ?? 0;
                     @endphp
-                    <button type="button" data-segment="{{ $type->slug }}" class="segment-btn px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-2xl border border-zinc-200 text-xs sm:text-sm font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
+                    <button type="button" data-segment="{{ $type->slug }}" class="segment-btn px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-lg sm:rounded-xl border border-zinc-200 text-[10px] sm:text-xs font-semibold text-zinc-700 bg-white shadow-sm hover:border-zinc-300 hover:text-zinc-900 active:scale-95 transition-all duration-200 cursor-pointer">
                         {{ $type->name }} <span class="segment-count">{{ $count }}</span>
                     </button>
                 @endforeach
