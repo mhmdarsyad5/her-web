@@ -26,7 +26,7 @@ class DSSController extends Controller
             'industri' => 'nullable|string',
             'kota' => 'nullable|string',
             'berat' => 'required|numeric|min:1',
-            'tinggi' => 'required|numeric|min:0.1',
+            'tinggi' => 'required|numeric|min:0',
         ]);
 
         // Map form input to DSS field names

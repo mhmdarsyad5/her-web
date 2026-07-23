@@ -439,7 +439,7 @@
                             <span>Tinggi Angkat (Lifting Height)</span>
                         </label>
                         <div class="relative">
-                            <input type="number" id="tinggi" placeholder="Contoh: 4.5 atau 6" min="0.1" step="0.1" required
+                            <input type="number" id="tinggi" placeholder="Contoh: 4.5 atau 6" min="0" step="0.1" required
                                 class="w-full px-4 py-3 pr-12 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm">
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400 font-medium">meter</span>
                         </div>
@@ -565,8 +565,8 @@
             alert('Silakan masukkan berat beban yang valid (min. 1 kg).');
             return;
         }
-        if (!tinggiVal || parseFloat(tinggiVal) <= 0) {
-            alert('Silakan masukkan tinggi angkat yang valid (min. 0.1 meter).');
+        if (tinggiVal === '' || parseFloat(tinggiVal) < 0) {
+            alert('Silakan masukkan tinggi angkat yang valid (min. 0 meter).');
             return;
         }
 
