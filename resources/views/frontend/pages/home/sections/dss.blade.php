@@ -763,5 +763,11 @@
         document.getElementById('tinggi').value = '';
         document.getElementById('step3').style.display = 'none';
         goStep(1);
+
+        // Scroll smoothly to top of dssSection
+        const dssSec = document.getElementById('dssSection');
+        if (dssSec) {
+            dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     }
 </script>
