@@ -22,8 +22,11 @@ class DSSService
         $string = strtolower(trim($string));
 
         // Determine units
-        $isTon = str_contains($string, 'ton') || str_contains($string, 't');
-        $isMeter = str_contains($string, 'm') && ! str_contains($string, 'mm');
+        $isKg = str_contains($string, 'kg');
+        $isTon = (str_contains($string, 'ton') || str_contains($string, 't')) && ! $isKg;
+
+        $isMm = str_contains($string, 'mm');
+        $isMeter = str_contains($string, 'm') && ! $isMm;
 
         // Extract all numbers (integers or decimals)
         preg_match_all('/[0-9]+(?:\.[0-9]+)?/', $string, $matches);
@@ -38,14 +41,20 @@ class DSSService
 
         // Normalize units
         if ($defaultUnit === 'kg') {
-            if ($isTon || $min < 100) {
-                $min *= 1000;
-                $max *= 1000;
+            if (! $isKg && ($isTon || $min < 100)) {
+                $min = (int) round($min * 1000);
+                $max = (int) round($max * 1000);
+            } else {
+                $min = (int) round($min);
+                $max = (int) round($max);
             }
         } elseif ($defaultUnit === 'mm') {
-            if ($isMeter || $min < 50) {
-                $min *= 1000;
-                $max *= 1000;
+            if (! $isMm && ($isMeter || $min < 50)) {
+                $min = (int) round($min * 1000);
+                $max = (int) round($max * 1000);
+            } else {
+                $min = (int) round($min);
+                $max = (int) round($max);
             }
         }
 
@@ -64,9 +73,9 @@ class DSSService
     {
         $this->userInput = $userInput;
 
-        $weightKg = isset($userInput['weight']) ? floatval($userInput['weight']) : null;
+        $weightKg = isset($userInput['weight']) ? (int) round(floatval($userInput['weight'])) : null;
         $heightM = isset($userInput['height']) ? floatval($userInput['height']) : null;
-        $heightMm = $heightM !== null ? $heightM * 1000 : null;
+        $heightMm = $heightM !== null ? (int) round($heightM * 1000) : null;
         $userIndustry = isset($userInput['industry']) ? $userInput['industry'] : null;
 
         // Query active products
@@ -82,21 +91,21 @@ class DSSService
         $products = $query->get();
 
         return $products->filter(function ($product) use ($weightKg, $heightMm) {
-            // 1. Capacity Range Match
+            // 1. Capacity Match (Product must be able to lift the requested weight)
             if ($weightKg !== null) {
-                // Use new numeric columns if available, otherwise fallback to parsing
                 if ($product->max_capacity_kg !== null) {
-                    $minCap = $product->min_capacity_kg ?? 0;
                     $maxCap = $product->max_capacity_kg;
                 } else {
-                    [$minCap, $maxCap] = self::parseRange($product->load_capacity, 'kg');
+                    [, $maxCap] = self::parseRange($product->load_capacity, 'kg');
                 }
 
-                if ($minCap > 0 && $maxCap > 0) {
-                    if ($weightKg < $minCap || $weightKg > $maxCap) {
-                        return false;
-                    }
-                } elseif ($maxCap > 0) {
+                // If user requests a positive weight, but product max capacity is 0 or less, exclude it
+                if ($weightKg > 0 && $maxCap <= 0) {
+                    return false;
+                }
+
+                // Exclude if the requested weight is greater than the product's max capacity
+                if ($maxCap > 0) {
                     if ($weightKg > $maxCap) {
                         return false;
                     }
@@ -112,12 +121,19 @@ class DSSService
                     [, $maxHeight] = self::parseRange($product->lift_height, 'mm');
                 }
 
-                // If user requests a positive lifting height, but product cannot lift (maxHeight is 0), exclude it!
-                if ($heightMm > 0 && $maxHeight <= 0) {
-                    return false;
-                }
-
-                if ($maxHeight > 0) {
+                // If user requests 0 height (no lifting capability needed)
+                if ($heightMm === 0) {
+                    // Exclude any unit that can lift (maxHeight > 0)
+                    if ($maxHeight > 0) {
+                        return false;
+                    }
+                } else {
+                    // User requests positive height (> 0)
+                    // Exclude any unit that cannot lift (maxHeight <= 0)
+                    if ($maxHeight <= 0) {
+                        return false;
+                    }
+                    // Exclude if the requested height is greater than the product's max lift height
                     if ($heightMm > $maxHeight) {
                         return false;
                     }
