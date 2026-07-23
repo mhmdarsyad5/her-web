@@ -581,6 +581,12 @@
         const resultSection = document.getElementById('resultSection');
         resultSection.innerHTML = '<div class="dss-loading active"><p>Mencari rekomendasi unit terbaik untuk Anda...</p></div>';
 
+        // Scroll smoothly to top of dssSection immediately
+        const dssSec = document.getElementById('dssSection');
+        if (dssSec) {
+            dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
         const token = document.querySelector('meta[name="csrf-token"]')?.content || '';
 
         fetch('/dss/process', {
@@ -606,10 +612,20 @@
                 } else {
                     renderEmptyState();
                 }
+
+                // Scroll smoothly to top of dssSection again to align with the loaded content height
+                if (dssSec) {
+                    dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
                 resultSection.innerHTML = '<div class="no-result text-red-500 font-semibold">Terjadi kesalahan: ' + error.message + '</div>';
+
+                // Scroll smoothly to top of dssSection on error
+                if (dssSec) {
+                    dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
     }
 
