@@ -342,6 +342,66 @@
     input[type=number] {
         -moz-appearance: textfield;
     }
+
+    /* Premium Success Checkmark Animation */
+    .checkmark-wrapper {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .checkmark-svg {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: block;
+        stroke-width: 3;
+        stroke: #22c55e;
+        stroke-miterlimit: 10;
+        box-shadow: inset 0px 0px 0px #22c55e;
+        animation: fill-checkmark .4s ease-in-out .4s forwards, scale-checkmark .3s ease-in-out .9s forwards;
+    }
+
+    .checkmark-circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 3;
+        stroke-miterlimit: 10;
+        stroke: #22c55e;
+        fill: none;
+        animation: stroke-checkmark 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .checkmark-check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        stroke: #ffffff;
+        animation: stroke-checkmark 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+    }
+
+    @keyframes stroke-checkmark {
+        100% {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes scale-checkmark {
+        0%, 100% {
+            transform: none;
+        }
+        50% {
+            transform: scale3d(1.1, 1.1, 1);
+        }
+    }
+
+    @keyframes fill-checkmark {
+        100% {
+            box-shadow: inset 0px 0px 0px 40px #22c55e;
+        }
+    }
 </style>
 
 @php
@@ -524,16 +584,17 @@
 
                 <!-- Thank You Area (Hidden by default) -->
                 <div id="thankYouArea" style="display:none" class="flex flex-col items-center justify-center p-4 text-center">
-                    <!-- Premium checkmark success animation -->
-                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 border border-green-100 mx-auto">
-                        <svg class="w-10 h-10 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    <!-- Premium checkmark success drawing animation -->
+                    <div class="checkmark-wrapper mb-6 mx-auto">
+                        <svg class="checkmark-svg" viewBox="0 0 52 52">
+                            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
                         </svg>
                     </div>
 
                     <h3 class="text-xl sm:text-2xl font-extrabold text-zinc-900 mb-3 tracking-tight">Permintaan Penawaran Terkirim!</h3>
                     <p class="text-sm sm:text-base text-zinc-650 mb-8 max-w-lg leading-relaxed">
-                        Terima kasih <strong id="thanks_name" class="text-zinc-900"></strong>! Permintaan penawaran harga Anda telah sukses direkam oleh sistem kami. Tim kami akan segera menghubungi Anda melalui email (<span id="thanks_email" class="font-semibold text-zinc-900"></span>) atau telepon dalam waktu 1x24 jam.
+                        Terima kasih <strong id="thanks_name" class="text-zinc-900"></strong>! Permintaan penawaran harga Anda telah sukses direkam oleh sistem kami. Tim kami akan segera menghubungi Anda melalui email (<span id="thanks_email" class="font-semibold text-zinc-900"></span>) atau WhatsApp secepatnya.
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
