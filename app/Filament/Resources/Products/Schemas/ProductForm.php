@@ -184,11 +184,16 @@ class ProductForm
                             ->itemLabel(fn (array $state): ?string => $state['key'] ?? null)
                             ->createItemButtonLabel('Tambah Baris Spesifikasi Baru'),
 
-                        Grid::make(2)->schema([
+                        Grid::make(3)->schema([
                             Toggle::make('is_active')
                                 ->label('Status Aktif')
                                 ->default(true)
                                 ->helperText('Nonaktifkan jika produk sedang tidak disewakan/ditampilkan.'),
+
+                            Toggle::make('is_featured')
+                                ->label('Rekomendasi Utama')
+                                ->default(false)
+                                ->helperText('Tampilkan badge Rekomendasi Utama pada hasil pencarian DSS.'),
 
                             TextInput::make('sort_order')
                                 ->label('Urutan Tampil')

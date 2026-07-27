@@ -882,7 +882,11 @@
         const productMessage = encodeURIComponent(`Halo Herro Equipment Rentals, saya tertarik untuk menyewa unit rekomendasi: ${prod.name} untuk operasional di kota ${kotaVal}.`);
         const waUrl = "https://wa.me/" + waNumber + "?text=" + productMessage;
 
-        let cardHtml = '<div class="flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl border border-zinc-150 bg-white transition-all duration-300 hover:shadow-2xl hover:border-primary-300">';
+        let cardHtml = '<div class="relative flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl border ' + (prod.is_featured ? 'border-orange-400 ring-2 ring-orange-400/20' : 'border-zinc-150') + ' bg-white transition-all duration-300 hover:shadow-2xl hover:border-primary-300">';
+
+        if (prod.is_featured) {
+            cardHtml += '<div class="absolute -top-3 right-4 text-white text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-md z-10 select-none" style="background-color: var(--primary-color);">rekomendasi utama</div>';
+        }
 
         // Image representation
         if (prod.image) {

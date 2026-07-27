@@ -91,6 +91,12 @@ class ProductsTable
                     ->boolean()
                     ->sortable(),
 
+                IconColumn::make('is_featured')
+                    ->label('Unggulan')
+                    ->boolean()
+                    ->sortable()
+                    ->toggleable(),
+
                 TextColumn::make('sort_order')
                     ->label('Urutan')
                     ->numeric()

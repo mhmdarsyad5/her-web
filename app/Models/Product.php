@@ -18,6 +18,7 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'is_active',
+        'is_featured',
         'sort_order',
         'name_id',
         'description_id',
@@ -41,6 +42,7 @@ class Product extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
         'price' => 'decimal:2',
         'sale_price' => 'decimal:2',
         'images' => 'array',
