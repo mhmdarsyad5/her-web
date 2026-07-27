@@ -487,7 +487,7 @@
                 <!-- Form Area -->
                 <div id="leadFormArea">
                     <div class="form-title">Minta Penawaran Resmi</div>
-                    <div class="form-sub">Lengkapi formulir di bawah ini untuk menerima surat penawaran harga resmi dari tim sales Herindo.</div>
+                    <div class="form-sub">Lengkapi formulir di bawah ini untuk menerima surat penawaran harga resmi dari tim kami.</div>
                     
                     <div class="field-group">
                         <div class="field">
@@ -533,7 +533,7 @@
 
                     <h3 class="text-xl sm:text-2xl font-extrabold text-zinc-900 mb-3 tracking-tight">Permintaan Penawaran Terkirim!</h3>
                     <p class="text-sm sm:text-base text-zinc-650 mb-8 max-w-lg leading-relaxed">
-                        Terima kasih <strong id="thanks_name" class="text-zinc-900"></strong>! Permintaan penawaran harga Anda telah sukses direkam oleh sistem kami. Tim sales Herindo akan segera menghubungi Anda melalui email (<span id="thanks_email" class="font-semibold text-zinc-900"></span>) atau telepon dalam waktu 1x24 jam.
+                        Terima kasih <strong id="thanks_name" class="text-zinc-900"></strong>! Permintaan penawaran harga Anda telah sukses direkam oleh sistem kami. Tim kami akan segera menghubungi Anda melalui email (<span id="thanks_email" class="font-semibold text-zinc-900"></span>) atau telepon dalam waktu 1x24 jam.
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">

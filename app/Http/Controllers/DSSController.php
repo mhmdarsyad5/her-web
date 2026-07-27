@@ -110,7 +110,7 @@ class DSSController extends Controller
             }
         }
 
-        $waMessage = "Halo Herindo, saya tertarik dengan penawaran forklift dari website. Berikut data kebutuhan saya:\n\n"
+        $waMessage = "Halo, saya tertarik dengan penawaran forklift dari website. Berikut data kebutuhan saya:\n\n"
             ."*PROFIL PELANGGAN*\n"
             ."- Nama: {$lead->name}\n"
             .'- Perusahaan: '.($lead->company_name ?? '-')."\n"
