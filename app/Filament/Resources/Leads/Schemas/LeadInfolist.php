@@ -47,12 +47,25 @@ class LeadInfolist
                     TextEntry::make('recommended_products')
                         ->label('Unit Rekomendasi')
                         ->columnSpanFull()
-                        ->formatStateUsing(function ($state) {
-                            if (is_array($state)) {
-                                return implode("\n", array_map(fn ($p) => '- '.($p['name'] ?? ''), $state));
+                        ->html()
+                        ->state(function (\App\Models\Lead $record) {
+                            $products = $record->recommended_products;
+                            if (is_array($products)) {
+                                $listItems = array_map(function ($p) {
+                                    $name = e($p['name'] ?? '');
+                                    if (! empty($p['slug'])) {
+                                        $url = url('/produk/'.$p['slug']);
+
+                                        return "<li><a href='{$url}' target='_blank' style='color: #ff7f00; font-weight: bold; text-decoration: underline;'>{$name}</a></li>";
+                                    }
+
+                                    return "<li>{$name}</li>";
+                                }, $products);
+
+                                return "<ul style='list-style-type: disc; padding-left: 1.5rem;'>".implode('', $listItems).'</ul>';
                             }
 
-                            return $state;
+                            return '-';
                         }),
                 ]),
         ]);

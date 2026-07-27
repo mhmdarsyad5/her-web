@@ -525,7 +525,7 @@
                 <!-- Thank You Area (Hidden by default) -->
                 <div id="thankYouArea" style="display:none" class="flex flex-col items-center justify-center p-4 text-center">
                     <!-- Premium checkmark success animation -->
-                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 border border-green-100">
+                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 border border-green-100 mx-auto">
                         <svg class="w-10 h-10 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
@@ -970,7 +970,7 @@
 
                     // Hide form and show thank you screen
                     document.getElementById('leadFormArea').style.display = 'none';
-                    document.getElementById('thankYouArea').style.display = 'block';
+                    document.getElementById('thankYouArea').style.display = 'flex';
 
                     // Scroll to top
                     const dssSec = document.getElementById('dssSection');
