@@ -885,7 +885,10 @@
         let cardHtml = '<div class="relative flex flex-col h-full rounded-[1.5rem] p-6 shadow-xl border ' + (prod.is_featured ? 'border-orange-400 ring-2 ring-orange-400/20' : 'border-zinc-150') + ' bg-white transition-all duration-300 hover:shadow-2xl hover:border-primary-300">';
 
         if (prod.is_featured) {
-            cardHtml += '<div class="absolute -top-3 right-4 text-white text-[10px] font-extrabold px-3 py-1 rounded-full tracking-wider shadow-md z-10 select-none" style="background-color: var(--primary-color);">rekomendasi utama</div>';
+            cardHtml += '<div class="absolute -top-3.5 left-6 flex items-center gap-1.5 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-xl tracking-wider shadow-md z-10 select-none uppercase" style="background: linear-gradient(135deg, #ff9f00 0%, #ff6f00 100%); border: 1px solid rgba(255,255,255,0.15);">';
+            cardHtml += '  <svg class="w-3.5 h-3.5 fill-current text-white" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+            cardHtml += '  rekomendasi utama';
+            cardHtml += '</div>';
         }
 
         // Image representation

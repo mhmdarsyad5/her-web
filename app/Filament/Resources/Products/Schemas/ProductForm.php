@@ -49,7 +49,7 @@ class ProductForm
 
                             Select::make('product_type')
                                 ->label('Tipe / Segmen Produk')
-                                ->options(fn () => \App\Models\ProductType::where('is_active', true)->orderBy('sort_order')->pluck('name', 'slug'))
+                                ->options(fn() => \App\Models\ProductType::where('is_active', true)->orderBy('sort_order')->pluck('name', 'slug'))
                                 ->placeholder('Pilih tipe segmen produk...')
                                 ->required(),
 
@@ -86,7 +86,7 @@ class ProductForm
                                 ->relationship(
                                     name: 'dssCriteria',
                                     titleAttribute: 'name',
-                                    modifyQueryUsing: fn ($query) => $query->where('field_type', 'industry')->where('code', '!=', 'others')
+                                    modifyQueryUsing: fn($query) => $query->where('field_type', 'industry')->where('code', '!=', 'others')
                                 )
                                 ->label('Kesesuaian Sektor Industri')
                                 ->placeholder('Pilih satu atau beberapa industri...')
@@ -181,7 +181,7 @@ class ProductForm
                             ->columnSpanFull()
                             ->collapsible()
                             ->collapsed()
-                            ->itemLabel(fn (array $state): ?string => $state['key'] ?? null)
+                            ->itemLabel(fn(array $state): ?string => $state['key'] ?? null)
                             ->createItemButtonLabel('Tambah Baris Spesifikasi Baru'),
 
                         Grid::make(3)->schema([
@@ -193,7 +193,7 @@ class ProductForm
                             Toggle::make('is_featured')
                                 ->label('Rekomendasi Utama')
                                 ->default(false)
-                                ->helperText('Tampilkan badge Rekomendasi Utama pada hasil pencarian DSS.'),
+                                ->helperText('Tampilkan badge Rekomendasi Utama pada hasil pencarian rekomendasi'),
 
                             TextInput::make('sort_order')
                                 ->label('Urutan Tampil')
