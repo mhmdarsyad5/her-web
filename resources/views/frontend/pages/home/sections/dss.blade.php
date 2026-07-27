@@ -389,7 +389,7 @@
         </div>
 
         <div class="dss-wrap">
-            {{-- Step bar simplified to 3 steps --}}
+            {{-- Step bar - 4 steps --}}
             <div class="step-bar fade-slide opacity-0 translate-y-4" id="stepBar">
                 <div class="step-item">
                     <div class="step-circle active" id="sc1">1</div>
@@ -402,6 +402,10 @@
                 <div class="step-item">
                     <div class="step-circle" id="sc3">3</div>
                     <div class="step-label" id="sl3">Hasil Rekomendasi</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-circle" id="sc4">4</div>
+                    <div class="step-label" id="sl4">Minta Penawaran</div>
                 </div>
             </div>
 
@@ -477,6 +481,72 @@
                     <button class="btn btn-secondary" onclick="reset()">Mulai Ulang Pencarian</button>
                 </div>
             </div>
+
+            {{-- Step 4 --}}
+            <div id="step4" class="form-card" style="display:none">
+                <!-- Form Area -->
+                <div id="leadFormArea">
+                    <div class="form-title">Minta Penawaran Resmi</div>
+                    <div class="form-sub">Lengkapi formulir di bawah ini untuk menerima surat penawaran harga resmi dari tim sales Herindo.</div>
+                    
+                    <div class="field-group">
+                        <div class="field">
+                            <label for="lead_name">Nama Lengkap *</label>
+                            <input type="text" id="lead_name" placeholder="Masukkan nama lengkap Anda..." required>
+                        </div>
+                        <div class="field">
+                            <label for="lead_company">Nama Perusahaan *</label>
+                            <input type="text" id="lead_company" placeholder="Masukkan nama perusahaan..." required>
+                        </div>
+                        <div class="field">
+                            <label for="lead_email">Alamat Email *</label>
+                            <input type="email" id="lead_email" placeholder="Contoh: nama@perusahaan.com..." required>
+                        </div>
+                        <div class="field">
+                            <label for="lead_whatsapp">Nomor WhatsApp *</label>
+                            <input type="tel" id="lead_whatsapp" placeholder="Contoh: 0812XXXXXXXX..." required>
+                        </div>
+                        <div class="field">
+                            <label for="lead_industry">Industri (Dari Step 1)</label>
+                            <input type="text" id="lead_industry" readonly disabled class="bg-zinc-100 cursor-not-allowed">
+                        </div>
+                        <div class="field">
+                            <label for="lead_location">Lokasi Kota (Dari Step 1)</label>
+                            <input type="text" id="lead_location" readonly disabled class="bg-zinc-100 cursor-not-allowed">
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" onclick="goStep(3)">&larr; Kembali</button>
+                        <button class="btn btn-primary" onclick="submitLeadForm()" id="btnSubmitLead">Kirim & Dapatkan Penawaran &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Thank You Area (Hidden by default) -->
+                <div id="thankYouArea" style="display:none" class="flex flex-col items-center justify-center p-4 text-center">
+                    <!-- Premium checkmark success animation -->
+                    <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6 border border-green-100">
+                        <svg class="w-10 h-10 text-green-500 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+
+                    <h3 class="text-xl sm:text-2xl font-extrabold text-zinc-900 mb-3 tracking-tight">Permintaan Penawaran Terkirim!</h3>
+                    <p class="text-sm sm:text-base text-zinc-650 mb-8 max-w-lg leading-relaxed">
+                        Terima kasih <strong id="thanks_name" class="text-zinc-900"></strong>! Permintaan penawaran harga Anda telah sukses direkam oleh sistem kami. Tim sales Herindo akan segera menghubungi Anda melalui email (<span id="thanks_email" class="font-semibold text-zinc-900"></span>) atau telepon dalam waktu 1x24 jam.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
+                        <a href="#" id="wa_direct_btn" target="_blank" class="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white px-6 py-3.5 text-sm font-bold shadow-lg transition duration-200">
+                            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.456h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Hubungi via WhatsApp (Respon Cepat)
+                        </a>
+                        <button onclick="reset()" class="inline-flex items-center justify-center gap-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 px-6 py-3.5 text-sm font-bold transition duration-200">
+                            Mulai Ulang Pencarian
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Custom Premium Alert Modal -->
@@ -501,6 +571,7 @@
 <script>
     let currentStep = 1;
     let cities = [];
+    let currentRecommendedProducts = [];
 
     // Fetch Indonesia cities list dynamically and setup modal placement
     document.addEventListener("DOMContentLoaded", () => {
@@ -564,8 +635,8 @@
         const el = document.getElementById('step' + n);
         if (el) el.style.display = 'block';
 
-        // Update Step Bar UI (3 steps total)
-        [1, 2, 3].forEach(i => {
+        // Update Step Bar UI (4 steps total)
+        [1, 2, 3, 4].forEach(i => {
             const c = document.getElementById('sc' + i), l = document.getElementById('sl' + i);
             if (c) {
                 c.className = 'step-circle' + (i < n ? ' done' : i === n ? ' active' : '');
@@ -670,9 +741,12 @@
         let html = '';
 
         if (!products || products.length === 0) {
+            currentRecommendedProducts = [];
             renderEmptyState();
             return;
         }
+
+        currentRecommendedProducts = products;
 
         html += '<div class="result-header">Ditemukan rekomendasi unit yang sesuai</div>';
         html += '<div class="result-sub" style="margin-bottom:2rem">Berikut adalah unit terbaik yang memenuhi spesifikasi kebutuhan Anda:</div>';
@@ -706,6 +780,13 @@
             html += '  </div>'; // End Grid for this group
             html += '</div>'; // End Group Section
         }
+
+        // Add the CTA banner to request official quote (Stage 4)
+        html += '<div class="mt-12 p-6 sm:p-8 rounded-2xl bg-zinc-50 border border-zinc-200/60 text-center flex flex-col items-center justify-center shadow-sm">';
+        html += '  <h4 class="text-base sm:text-lg font-extrabold text-zinc-900 mb-1.5 tracking-tight">Tertarik dengan unit rekomendasi di atas?</h4>';
+        html += '  <p class="text-xs sm:text-sm text-zinc-500 mb-5 max-w-md leading-relaxed">Lengkapi data kontak Anda untuk meminta dokumen penawaran harga resmi secara gratis dari tim sales kami.</p>';
+        html += '  <button onclick="goToQuoteForm()" class="btn btn-primary w-full sm:w-auto px-8 py-3.5 text-xs sm:text-sm">Minta Penawaran Resmi &rarr;</button>';
+        html += '</div>';
 
         sec.innerHTML = html;
     }
@@ -792,12 +873,131 @@
         return cardHtml;
     }
 
+    function goToQuoteForm() {
+        const indSelect = document.getElementById('industri');
+        const indName = indSelect.options[indSelect.selectedIndex]?.text || '';
+        const kotaVal = document.getElementById('kota').value.trim();
+
+        document.getElementById('lead_industry').value = indName;
+        document.getElementById('lead_location').value = kotaVal;
+
+        // Reset form area and hide thank you area
+        document.getElementById('leadFormArea').style.display = 'block';
+        document.getElementById('thankYouArea').style.display = 'none';
+
+        // Clear values
+        document.getElementById('lead_name').value = '';
+        document.getElementById('lead_company').value = '';
+        document.getElementById('lead_email').value = '';
+        document.getElementById('lead_whatsapp').value = '';
+
+        goStep(4);
+
+        // Scroll smoothly to top of dssSection
+        const dssSec = document.getElementById('dssSection');
+        if (dssSec) {
+            dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    function submitLeadForm() {
+        const name = document.getElementById('lead_name').value.trim();
+        const company = document.getElementById('lead_company').value.trim();
+        const email = document.getElementById('lead_email').value.trim();
+        const whatsapp = document.getElementById('lead_whatsapp').value.trim();
+
+        if (!name) {
+            showDssAlert('Silakan masukkan nama lengkap Anda.');
+            return;
+        }
+        if (!company) {
+            showDssAlert('Silakan masukkan nama perusahaan Anda.');
+            return;
+        }
+        if (!email || !email.includes('@')) {
+            showDssAlert('Silakan masukkan alamat email yang valid.');
+            return;
+        }
+        if (!whatsapp) {
+            showDssAlert('Silakan masukkan nomor WhatsApp Anda.');
+            return;
+        }
+
+        const btn = document.getElementById('btnSubmitLead');
+        btn.disabled = true;
+        btn.innerText = 'Mengirim...';
+
+        const payload = {
+            name: name,
+            company_name: company,
+            email: email,
+            whatsapp_number: whatsapp,
+            industri: document.getElementById('industri').value || '',
+            kota: document.getElementById('kota').value || '',
+            berat: document.getElementById('berat').value || 0,
+            tinggi: document.getElementById('tinggi').value || 0,
+            recommended_products: currentRecommendedProducts.map(p => ({ name: p.name, slug: p.slug }))
+        };
+
+        const token = document.querySelector('meta[name="csrf-token"]')?.content || '';
+
+        fetch('/dss/submit-lead', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Pre-fill thanks message placeholders
+                    document.getElementById('thanks_name').textContent = name;
+                    document.getElementById('thanks_email').textContent = email;
+
+                    // Set WA direct link
+                    const waBtn = document.getElementById('wa_direct_btn');
+                    if (waBtn) {
+                        waBtn.href = data.whatsapp_url;
+                    }
+
+                    // Hide form and show thank you screen
+                    document.getElementById('leadFormArea').style.display = 'none';
+                    document.getElementById('thankYouArea').style.display = 'block';
+
+                    // Scroll to top
+                    const dssSec = document.getElementById('dssSection');
+                    if (dssSec) {
+                        dssSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                } else {
+                    showDssAlert('Gagal mengirim data prospek.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showDssAlert('Terjadi kesalahan koneksi server: ' + error.message);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = 'Kirim & Dapatkan Penawaran \u2192';
+            });
+    }
+
     function reset() {
         document.getElementById('industri').value = '';
         document.getElementById('kota').value = '';
         document.getElementById('berat').value = '';
         document.getElementById('tinggi').value = '';
         document.getElementById('step3').style.display = 'none';
+        document.getElementById('step4').style.display = 'none';
         goStep(1);
 
         // Scroll smoothly to top of dssSection

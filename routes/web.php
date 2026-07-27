@@ -84,6 +84,7 @@ Route::post('/dss/process', [DSSController::class, 'processForm'])
     ->middleware('throttle.dss')
     ->name('dss.process');
 Route::get('/dss/criteria/{fieldType}', [DSSController::class, 'getCriteria'])->name('dss.criteria');
+Route::post('/dss/submit-lead', [DSSController::class, 'submitLead'])->name('dss.submit-lead');
 
 // Dynamic XML Sitemap for Google SEO
 Route::get('/sitemap.xml', function () {
