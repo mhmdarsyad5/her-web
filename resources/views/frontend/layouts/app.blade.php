@@ -156,7 +156,7 @@
         "streetAddress": "{{ strip_tags(setting('address', 'Jakarta, Indonesia')) }}",
         "addressLocality": "Jakarta",
         "addressRegion": "DKI Jakarta",
-        "postalCode": "10000",
+        "postalCode": "14470",
         "addressCountry": "ID"
       },
       "areaServed": {
