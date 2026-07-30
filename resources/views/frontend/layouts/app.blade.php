@@ -139,7 +139,12 @@
       "@@context": "https://schema.org",
       "@@type": "WebSite",
       "name": "{{ $siteName }}",
-      "url": "{{ url('/') }}"
+      "alternateName": [
+        "Herro Equipment Rentals",
+        "PT Herro Equipment Rentals",
+        "Herro Rentals"
+      ],
+      "url": "{{ url('/') }}/"
     }
     </script>
     <script type="application/ld+json">
