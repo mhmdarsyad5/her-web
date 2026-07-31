@@ -127,10 +127,10 @@
                         <label class="mb-2 block
                                        text-xs sm:text-sm
                                        font-semibold
-                                       text-zinc-800">
+                                       text-zinc-800" for="contact_name">
                             {{ strip_tags(setting('contact_label_name', 'Nama')) }}
                         </label>
-                        <input type="text" name="name" required
+                        <input type="text" id="contact_name" name="name" autocomplete="name" required
                             placeholder="{{ strip_tags(setting('contact_placeholder_name', 'Nama lengkap Anda')) }}"
                             class="w-full rounded-xl border border-zinc-200
                                    bg-zinc-50/50
@@ -148,10 +148,10 @@
                         <label class="mb-2 block
                                        text-xs sm:text-sm
                                        font-semibold
-                                       text-zinc-800">
+                                       text-zinc-800" for="contact_email">
                             {{ strip_tags(setting('contact_label_email_form', 'Email')) }}
                         </label>
-                        <input type="email" name="email" required
+                        <input type="email" id="contact_email" name="email" autocomplete="email" required
                             placeholder="{{ strip_tags(setting('contact_placeholder_email', 'contoh@mail.com')) }}"
                             class="w-full rounded-xl border border-zinc-200
                                    bg-zinc-50/50
@@ -169,10 +169,10 @@
                         <label class="mb-2 block
                                        text-xs sm:text-sm
                                        font-semibold
-                                       text-zinc-800">
+                                       text-zinc-800" for="contact_whatsapp">
                             {{ strip_tags(setting('contact_label_whatsapp_form', 'Nomor WhatsApp')) }}
                         </label>
-                        <input type="tel" name="whatsapp_number" required
+                        <input type="tel" id="contact_whatsapp" name="whatsapp_number" autocomplete="tel" required
                             placeholder="{{ strip_tags(setting('contact_placeholder_whatsapp', '+6281234567890')) }}"
                             class="w-full rounded-xl border border-zinc-200
                                    bg-zinc-50/50
@@ -190,10 +190,10 @@
                         <label class="mb-2 block
                                        text-xs sm:text-sm
                                        font-semibold
-                                       text-zinc-800">
+                                       text-zinc-800" for="contact_subject">
                             {{ strip_tags(setting('contact_label_subject', 'Subjek')) }}
                         </label>
-                        <input type="text" name="subject"
+                        <input type="text" id="contact_subject" name="subject" autocomplete="off"
                             placeholder="{{ strip_tags(setting('contact_placeholder_subject', 'Contoh: Kerja sama, Konsultasi')) }}"
                             class="w-full rounded-xl border border-zinc-200
                                    bg-zinc-50/50
@@ -211,10 +211,10 @@
                         <label class="mb-2 block
                                        text-xs sm:text-sm
                                        font-semibold
-                                       text-zinc-800">
+                                       text-zinc-800" for="contact_message">
                             {{ strip_tags(setting('contact_label_message', 'Pesan')) }}
                         </label>
-                        <textarea name="message" rows="5" required
+                        <textarea id="contact_message" name="message" rows="5" required
                             placeholder="{{ strip_tags(setting('contact_placeholder_message', 'Tulis pesan Anda di sini...')) }}"
                             class="w-full resize-none rounded-xl border border-zinc-200
                                    bg-zinc-50/50

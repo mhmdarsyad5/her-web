@@ -552,19 +552,19 @@
                     <div class="field-group">
                         <div class="field">
                             <label for="lead_name">Nama Lengkap *</label>
-                            <input type="text" id="lead_name" placeholder="Masukkan nama lengkap Anda..." required>
+                            <input type="text" id="lead_name" autocomplete="name" placeholder="Masukkan nama lengkap Anda..." required>
                         </div>
                         <div class="field">
                             <label for="lead_company">Nama Perusahaan *</label>
-                            <input type="text" id="lead_company" placeholder="Masukkan nama perusahaan..." required>
+                            <input type="text" id="lead_company" autocomplete="organization" placeholder="Masukkan nama perusahaan..." required>
                         </div>
                         <div class="field">
                             <label for="lead_email">Alamat Email *</label>
-                            <input type="email" id="lead_email" placeholder="Contoh: nama@perusahaan.com..." required>
+                            <input type="email" id="lead_email" autocomplete="email" placeholder="Contoh: nama@perusahaan.com..." required>
                         </div>
                         <div class="field">
                             <label for="lead_whatsapp">Nomor WhatsApp *</label>
-                            <input type="tel" id="lead_whatsapp" placeholder="Contoh: 0812XXXXXXXX..." required>
+                            <input type="tel" id="lead_whatsapp" autocomplete="tel" placeholder="Contoh: 0812XXXXXXXX..." required>
                         </div>
                         <div class="field">
                             <label for="lead_industry">Industri (Dari Step 1)</label>
