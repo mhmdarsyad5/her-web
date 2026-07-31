@@ -233,7 +233,8 @@
     <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
-      "@@type": "Product",
+      "@@type": "Service",
+      "serviceType": "Rental Forklift HANGCHA",
       "name": "{{ $product->name }}",
       "image": [
         @if(is_array($product->images) && count($product->images))
@@ -245,11 +246,19 @@
         @endif
       ],
       "description": "{{ Str::limit(strip_tags($product->description), 150) }}",
-      "sku": "FORKLIFT-{{ $product->id }}",
-      "mpn": "FORKLIFT-{{ $product->id }}",
-      "brand": {
-        "@@type": "Brand",
-        "name": "HANGCHA"
+      "provider": {
+        "@@type": "LocalBusiness",
+        "name": "{{ $siteName }}",
+        "image": "{{ setting_url('logo', setting_url('favicon', 'favicon.svg')) }}",
+        "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
+        "address": {
+          "@@type": "PostalAddress",
+          "streetAddress": "{{ strip_tags(setting('address', 'Jakarta, Indonesia')) }}",
+          "addressLocality": "Jakarta",
+          "addressRegion": "DKI Jakarta",
+          "postalCode": "14470",
+          "addressCountry": "ID"
+        }
       }
     }
     </script>
