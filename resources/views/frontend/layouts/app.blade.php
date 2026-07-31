@@ -175,9 +175,10 @@
           "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
           "address": {
             "@@type": "PostalAddress",
-            "streetAddress": "Semarang, Jawa Tengah, Indonesia",
+            "streetAddress": "Jl. Citarum No.31, Bugangan, Kec. Semarang Timur",
             "addressLocality": "Semarang",
             "addressRegion": "Jawa Tengah",
+            "postalCode": "50126",
             "addressCountry": "ID"
           }
         },
@@ -187,9 +188,10 @@
           "telephone": "{{ strip_tags(setting('whatsapp_number', '')) }}",
           "address": {
             "@@type": "PostalAddress",
-            "streetAddress": "Surabaya, Jawa Timur, Indonesia",
-            "addressLocality": "Surabaya",
+            "streetAddress": "Ruko Palem Square, Jl. Palem Indah TF 19, Pondok Candra, Wadungasri, Waru",
+            "addressLocality": "Sidoarjo",
             "addressRegion": "Jawa Timur",
+            "postalCode": "60400",
             "addressCountry": "ID"
           }
         }
