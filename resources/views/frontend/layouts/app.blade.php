@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preload" as="image" href="{{ setting_url('logo_light') }}">
+    <link rel="preload" as="image" href="{{ parse_url(setting_url('logo_light'), PHP_URL_PATH) }}">
 
     {{-- ====================================================
          SEO: Compute final values with smart fallback chain
@@ -105,8 +105,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     {{-- Icons --}}
-    <link rel="icon"             href="{{ setting_url('favicon', 'favicon.svg') }}" />
-    <link rel="apple-touch-icon" href="{{ setting_url('logo', setting_url('favicon', 'favicon.svg')) }}" />
+    <link rel="icon"             href="{{ parse_url(setting_url('favicon', 'favicon.svg'), PHP_URL_PATH) }}" />
+    <link rel="apple-touch-icon" href="{{ parse_url(setting_url('logo', setting_url('favicon', 'favicon.svg')), PHP_URL_PATH) }}" />
 
 
 
